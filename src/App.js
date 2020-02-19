@@ -1,7 +1,21 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import { Switch, Route } from 'react-router-dom';
 
 import NavBar from './NavBar.js';
+import Profile from './Profile.js';
+
+
+function ContentShift(props) {
+  const styling = css`
+    margin-top: 70px;
+  `;
+  return (
+    <div css={styling}>
+      {props.children}
+    </div>
+  );
+}
 
 function App() {
   const styling = css`
@@ -9,6 +23,19 @@ function App() {
   return (
     <div css={styling}>
       <NavBar />
+      <Switch>
+        <Route exact path='/'>
+
+        </Route>
+        <Route exact path='/profile'>
+          <ContentShift>
+            <Profile />
+          </ContentShift>
+        </Route>
+        <Route exact path='/about'>
+          {/* <About /> */}
+        </Route>
+      </Switch>
     </div>
   );
 }
