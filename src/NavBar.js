@@ -31,11 +31,9 @@ function NavBar(props) {
     }
 
     & .title {
-      border: 1px solid red;
-
       margin: 0;
 
-      width: 360px;
+      width: 250px;
       font-size: 40px;
       text-align: left;
       font-weight: 500;
@@ -89,7 +87,7 @@ function NavBar(props) {
 
     @media (max-width: 1300px) {
       & .title {
-        width: 400px;
+        width: 200px;
       }
 
       .navlist {
@@ -177,7 +175,7 @@ function NavBar(props) {
 
     @media (max-width: 768px) {
       & .title {
-        width: 220px;
+        width: 160px;
         font-size: 32px;
       }
 
