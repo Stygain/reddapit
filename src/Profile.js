@@ -5,8 +5,14 @@ import fetch from 'isomorphic-unfetch';
 async function fetchData() {
   const response = await fetch(
     `https://oauth.reddit.com/api/v1/me`,
-    { method: "GET",
-    headers: { 'Content-Type': 'application/json', "Authorization": ("bearer " + "23328459-Ol1l09HnycMCR5vXmV6GgN_B9XA"), "User-Agent": ("reddapit" + "/" + "0.1" + " by " + "seekvengeance")} }
+    {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": ("bearer " + ACCESS_TOKEN),
+        "User-Agent": ("reddapit" + "/" + "0.1" + " by " + USERNAME)
+      }
+    }
   );
   let responseBody = await response.json();
   console.log(responseBody);
