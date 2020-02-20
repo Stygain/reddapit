@@ -25,8 +25,8 @@ function Trophy(props) {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": ("bearer " + "23328459-WEHVw3IgR995vLqmcp9_uISNars"),
-            "User-Agent": ("reddapit" + "/" + "0.1" + " by " + "seekvengeance")
+            "Authorization": ("bearer " + ACCESS_TOKEN),
+            "User-Agent": (APP_NAME + "/" + APP_VERSION + " by " + USERNAME)
           }
         }
       );
