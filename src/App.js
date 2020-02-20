@@ -3,7 +3,7 @@ import { jsx, css } from '@emotion/core';
 import { Switch, Route } from 'react-router-dom';
 
 import NavBar from './NavBar.js';
-import Profile from './Profile.js';
+import ProfilePage from './ProfilePage.js';
 
 
 function ContentShift(props) {
@@ -29,7 +29,7 @@ function App() {
         </Route>
         <Route exact path='/profile'>
           <ContentShift>
-            <Profile />
+            <ProfilePage />
           </ContentShift>
         </Route>
         <Route exact path='/about'>
