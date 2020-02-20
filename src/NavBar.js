@@ -9,13 +9,15 @@ function NavBar(props) {
   const [ open, setOpen ] = useState(false);
   const styling = css`
     & {
+      @import url('https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap');
+
       margin: 0px;
       padding: 0px;
       width: 100%;
       z-index: 1;
       position: fixed;
       top: 0px;
-      font-family: 'Kaushan Script', cursive;
+      font-family: 'Odibee Sans', cursive;
       box-shadow: 0px 10px 15px rgba(33, 33, 33, 0.66);
       background-color: rgb(255, 255, 255);
 
@@ -32,6 +34,7 @@ function NavBar(props) {
 
     & .title {
       margin: 0;
+      padding-left: 10px;
 
       width: 250px;
       font-size: 40px;
@@ -93,7 +96,7 @@ function NavBar(props) {
       .navlist {
         width: 100%;
         position: absolute;
-        top: 59px;
+        top: 47px;
         box-shadow: 0px 10px 15px rgba(33, 33, 33, 0.66);
         overflow: hidden;
 

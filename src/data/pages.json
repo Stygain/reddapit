@@ -1,6 +1,10 @@
 {
   "pages": [
     {
+      "name": "Profile",
+      "url": "/profile"
+    },
+    {
       "name": "About",
       "url": "/about"
     }
