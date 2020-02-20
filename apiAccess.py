@@ -1,9 +1,10 @@
 import requests
 import requests.auth
+import getpass
 
 username = input("Enter your Reddit username: ")
-password = input("Enter your Reddit password: ")
-reddit_secret = input("Enter your Reddit Secret: ")
+password = getpass.getpass(prompt='Enter your Reddit password: ')
+reddit_secret = getpass.getpass(prompt='Enter your Reddit Secret: ')
 app_client_id = input("Enter your Reddit App Client ID: ")
 app_name = input("Enter your Reddit App Name: ")
 app_version = input("Enter your Reddit App Version: ")
