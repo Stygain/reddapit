@@ -18,6 +18,7 @@ function App() {
           <ContentMargin>
             <Center>
               {/* Render home */}
+              <p>Should be the front page</p>
             </Center>
           </ContentMargin>
         </Route>
@@ -29,11 +30,9 @@ function App() {
           </ContentMargin>
         </Route>
         <Route path='/login'>
-          <ContentMargin>
-            <Center>
-              <LoginPage />
-            </Center>
-          </ContentMargin>
+          <Center>
+            <LoginPage />
+          </Center>
         </Route>
         <Route path='/'>
           <ContentMargin>
