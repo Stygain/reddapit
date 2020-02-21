@@ -7,6 +7,9 @@ import { jsx, css } from '@emotion/core';
 // import PulseBubble from './PulseBubble.js';
 // import ProfileHeader from './ProfileHeader.js';
 // import Trophy from './Trophy.js';
+import { addUsername } from './redux/actions.js';
+import { addRedditApp } from './redux/actions.js';
+import { addRedditVersion } from './redux/actions.js';
 import { addAccessToken } from './redux/actions.js';
 
 
