@@ -1,9 +1,6 @@
 /** @jsx jsx */
-import { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/core';
-import fetch from 'isomorphic-unfetch';
 
-import PulseBubble from './PulseBubble.js';
 import ProfileHeader from './ProfileHeader.js';
 import Trophy from './Trophy.js';
 

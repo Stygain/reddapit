@@ -211,7 +211,7 @@ function NavBar(props) {
           </li>
           {pages["pages"].map(({name, url}) => {
             return (<li className="navlink" key={url}>
-              <NavLink exact to={"/" + url} onClick={() => {
+              <NavLink exact to={url} onClick={() => {
                 setOpen(!open);
               }}>
                 {name}

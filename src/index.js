@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import { Global, css } from '@emotion/core';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { Global, css } from '@emotion/core';
+
+import App from './App.js';
+import store from './redux/store.js';
 
 const globalStyles = css`
   body {
@@ -13,9 +16,9 @@ const globalStyles = css`
 `;
 
 ReactDOM.render(
-  <div>
+  <Provider store={store}>
     <Global styles={globalStyles} />
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </div>, document.getElementById('root'));
+  </Provider>, document.getElementById('root'));
