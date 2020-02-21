@@ -133,7 +133,7 @@ function ProfilePage(props) {
 
       async function fetchAccessToken() {
         let responseBody = {};
-        // setLoadingProfile(true);
+        setSubmitLoading(true);
         const response = await fetch(
           `https://www.reddit.com/api/v1/access_token`,
           {
@@ -146,11 +146,9 @@ function ProfilePage(props) {
             body: ("grant_type=password&username=" + username + "&password=" + password)
           }
         );
+        // TODO add error handling
         responseBody = await response.json();
         console.log(responseBody);
-
-        console.log("ACCESSTOKEN")
-        console.log(responseBody.access_token)
 
         // Update redux store
         dispatch(addUsername(username));
@@ -158,8 +156,7 @@ function ProfilePage(props) {
         dispatch(addRedditVersion(appVersion));
         dispatch(addAccessToken(responseBody.access_token));
 
-        // setProfileData(responseBody)
-        // setLoadingProfile(false)
+        setSubmitLoading(false)
       }
       fetchAccessToken()
     }
@@ -213,9 +210,10 @@ function ProfilePage(props) {
             onChange={(event) => handleInputChange(event, setAppVersion)} />
 
           {submitLoading ?
-            <p>loading</p>
+            // TODO add some fancier loading thing here
+            <button type="action" className="action">...</button>
           :
-            <button type="action" class="action">Enter</button>
+            <button type="action" className="action">Enter</button>
           }
         </form>
       </div>

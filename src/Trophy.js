@@ -1,8 +1,15 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { jsx, css } from '@emotion/core';
 import fetch from 'isomorphic-unfetch';
 
+import {
+  getAccessToken,
+  getUsername,
+  getRedditApp,
+  getRedditVersion
+} from './redux/selectors.js';
 import PulseBubble from './PulseBubble.js';
 
 
@@ -11,11 +18,21 @@ function Trophy(props) {
   const [ trophyData, setTrophyData ] = useState({data:{trophies:[]}});
   // const [ loadingProfile, setLoadingProfile ] = useState(false);
   const [ loadingTrophies, setLoadingTrophies ] = useState(false);
+
+  const accessToken = useSelector(getAccessToken);
+  const username = useSelector(getUsername);
+  const redditApp = useSelector(getRedditApp);
+  const redditVersion = useSelector(getRedditVersion);
+
   const styling = css`
     border: 1px solid green;
 
   `;
   useEffect(() => {
+    console.log("username: " + username)
+    console.log("redditApp: " + redditApp)
+    console.log("redditVersion: " + redditVersion)
+    console.log("accessToken: " + accessToken)
     async function fetchTrophyData() {
       let responseBody = {};
       setLoadingTrophies(true);
@@ -25,8 +42,8 @@ function Trophy(props) {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": ("bearer " + ACCESS_TOKEN),
-            "User-Agent": (APP_NAME + "/" + APP_VERSION + " by " + USERNAME)
+            "Authorization": ("bearer " + accessToken),
+            "User-Agent": (redditApp + "/" + redditVersion + " by " + username)
           }
         }
       );
@@ -37,7 +54,7 @@ function Trophy(props) {
       setLoadingTrophies(false)
     }
     fetchTrophyData()
-  }, []);
+  }, [accessToken, username, redditApp, redditVersion]);
   return (
     <div css={styling}>
       {loadingTrophies ? (
