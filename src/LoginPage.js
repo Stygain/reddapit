@@ -1,5 +1,5 @@
 /** @jsx jsx */
-// import { useState } from 'react';
+import { useState } from 'react';
 import { jsx, css } from '@emotion/core';
 // import fetch from 'isomorphic-unfetch';
 
@@ -7,7 +7,62 @@ import { jsx, css } from '@emotion/core';
 // import ProfileHeader from './ProfileHeader.js';
 // import Trophy from './Trophy.js';
 
+function handleSub(event) {
+  event.preventDefault();
+}
+
+function handleSubmit(event,
+                      username,
+                      password,
+                      secret,
+                      clientId,
+                      appName,
+                      appVersion,
+                      setUsername,
+                      setPassword,
+                      setSecret,
+                      setClientId,
+                      setAppName,
+                      setAppVersion) {
+  // console.log("Handling accept on values: " + this.state);
+  event.preventDefault();
+  if (username === '' ||
+      password === '' ||
+      secret === '' ||
+      clientId === '' ||
+      appName === '' ||
+      appVersion === '') {
+    alert("An argument is empty!")
+  } else {
+    // setUsername('')
+    // setPassword('')
+    // setSecret('')
+    // setClientId('')
+    // setAppName('')
+    // setAppVersion('')
+    // Update redux store
+    // this.props.submitHandler(this.state.urlValue, this.state.captionValue);
+    // this.setState({
+    //   warningOpen: false,
+    //   urlValue: '',
+    //   captionValue: ''
+    // });
+  }
+}
+
+function handleInputChange(event, setter) {
+  console.log("URL change: " + event.target.value)
+  setter(event.target.value)
+}
+
 function ProfilePage(props) {
+  const [ username, setUsername ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ secret, setSecret ] = useState("");
+  const [ clientId, setClientId ] = useState("");
+  const [ appName, setAppName ] = useState("");
+  const [ appVersion, setAppVersion ] = useState("");
+
   const styling = css`
     ${'' /* border: 1px solid red; */}
 
@@ -100,32 +155,45 @@ function ProfilePage(props) {
     <div css={styling}>
       <div className="login-win">
         <h1>Login</h1>
-        <form>
+        {/* <form onSubmit={handleSub}> */}
+        <form onSubmit={(event) => {event.preventDefault(); handleSubmit(event, username, password, secret, clientId, appName, appVersion, setUsername, setPassword, setSecret, setClientId, setAppName, setAppVersion)}}>
           {/* <input type="text" value={this.state.captionValue} onChange={this.handleCaptionChange} placeholder="Enter Caption" /> */}
           <input
             type="text"
             name="redditUsername"
-            placeholder="Reddit Username" />
+            placeholder="Reddit Username"
+            value={username}
+            onChange={(event) => handleInputChange(event, setUsername)} />
           <input
             type="password"
             name="redditPassword"
-            placeholder="Reddit Password" />
+            placeholder="Reddit Password"
+            value={password}
+            onChange={(event) => handleInputChange(event, setPassword)} />
           <input
             type="password"
             name="redditSecret"
-            placeholder="Reddit Secret" />
+            placeholder="Reddit Secret"
+            value={secret}
+            onChange={(event) => handleInputChange(event, setSecret)} />
           <input
             type="text"
             name="redditClientId"
-            placeholder="Reddit Client ID" />
+            placeholder="Reddit Client ID"
+            value={clientId}
+            onChange={(event) => handleInputChange(event, setClientId)} />
           <input
             type="text"
             name="redditAppName"
-            placeholder="App Name" />
+            placeholder="App Name"
+            value={appName}
+            onChange={(event) => handleInputChange(event, setAppName)} />
           <input
             type="text"
             name="redditAppVersion"
-            placeholder="App Version" />
+            placeholder="App Version"
+            value={appVersion}
+            onChange={(event) => handleInputChange(event, setAppVersion)} />
 
           <button type="action" class="action">Enter</button>
         </form>
