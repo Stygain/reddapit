@@ -23,6 +23,8 @@ function ProfilePage(props) {
 
   const [ submitLoading, setSubmitLoading ] = useState(false);
 
+  const dispatch = useDispatch();
+
   const styling = css`
     ${'' /* border: 1px solid red; */}
 
@@ -45,7 +47,7 @@ function ProfilePage(props) {
       min-width: 420px;
       min-height: 550px;
       border-radius: 20px;
-      background-color: rgb(232, 232, 232);
+      background-color: rgb(240, 240, 240);
       box-shadow: 0px 0px 40px rgba(40, 40, 40, 0.5);
     }
 
@@ -147,12 +149,19 @@ function ProfilePage(props) {
         responseBody = await response.json();
         console.log(responseBody);
 
+        console.log("ACCESSTOKEN")
+        console.log(responseBody.access_token)
+
+        // Update redux store
+        dispatch(addUsername(username));
+        dispatch(addRedditApp(appName));
+        dispatch(addRedditVersion(appVersion));
+        dispatch(addAccessToken(responseBody.access_token));
+
         // setProfileData(responseBody)
         // setLoadingProfile(false)
       }
       fetchAccessToken()
-
-      // Update redux store
     }
   }
 
