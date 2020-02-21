@@ -2,20 +2,10 @@
 import { jsx, css } from '@emotion/core';
 import { Switch, Route } from 'react-router-dom';
 
-import NavBar from './NavBar.js';
 import ProfilePage from './ProfilePage.js';
-
-
-function ContentShift(props) {
-  const styling = css`
-    margin-top: 70px;
-  `;
-  return (
-    <div css={styling}>
-      {props.children}
-    </div>
-  );
-}
+import LoginPage from './LoginPage.js';
+import NavBar from './NavBar.js';
+import { ContentMargin, Center } from './Utils.js';
 
 function App() {
   const styling = css`
@@ -25,15 +15,33 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path='/'>
-
+          <ContentMargin>
+            <Center>
+              {/* Render home */}
+            </Center>
+          </ContentMargin>
         </Route>
-        <Route exact path='/profile'>
-          <ContentShift>
-            <ProfilePage />
-          </ContentShift>
+        <Route path='/profile'>
+          <ContentMargin>
+            <Center>
+              <ProfilePage />
+            </Center>
+          </ContentMargin>
         </Route>
-        <Route exact path='/about'>
-          {/* <About /> */}
+        <Route path='/login'>
+          <ContentMargin>
+            <Center>
+              <LoginPage />
+            </Center>
+          </ContentMargin>
+        </Route>
+        <Route path='/'>
+          <ContentMargin>
+            <Center>
+              {/* <Redirect to="/404" /> */}
+              <p>404!!!</p>
+            </Center>
+          </ContentMargin>
         </Route>
       </Switch>
     </div>
