@@ -1,59 +1,14 @@
 /** @jsx jsx */
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { jsx, css } from '@emotion/core';
 // import fetch from 'isomorphic-unfetch';
 
 // import PulseBubble from './PulseBubble.js';
 // import ProfileHeader from './ProfileHeader.js';
 // import Trophy from './Trophy.js';
+import { addAccessToken } from './redux/actions.js';
 
-function handleSub(event) {
-  event.preventDefault();
-}
-
-function handleSubmit(event,
-                      username,
-                      password,
-                      secret,
-                      clientId,
-                      appName,
-                      appVersion,
-                      setUsername,
-                      setPassword,
-                      setSecret,
-                      setClientId,
-                      setAppName,
-                      setAppVersion) {
-  // console.log("Handling accept on values: " + this.state);
-  event.preventDefault();
-  if (username === '' ||
-      password === '' ||
-      secret === '' ||
-      clientId === '' ||
-      appName === '' ||
-      appVersion === '') {
-    alert("An argument is empty!")
-  } else {
-    // setUsername('')
-    // setPassword('')
-    // setSecret('')
-    // setClientId('')
-    // setAppName('')
-    // setAppVersion('')
-    // Update redux store
-    // this.props.submitHandler(this.state.urlValue, this.state.captionValue);
-    // this.setState({
-    //   warningOpen: false,
-    //   urlValue: '',
-    //   captionValue: ''
-    // });
-  }
-}
-
-function handleInputChange(event, setter) {
-  console.log("URL change: " + event.target.value)
-  setter(event.target.value)
-}
 
 function ProfilePage(props) {
   const [ username, setUsername ] = useState("");
@@ -62,6 +17,8 @@ function ProfilePage(props) {
   const [ clientId, setClientId ] = useState("");
   const [ appName, setAppName ] = useState("");
   const [ appVersion, setAppVersion ] = useState("");
+
+  const [ submitLoading, setSubmitLoading ] = useState(false);
 
   const styling = css`
     ${'' /* border: 1px solid red; */}
@@ -151,13 +108,61 @@ function ProfilePage(props) {
       box-shadow: 0px 2px 15px rgba(10, 10, 10, 0.5);
     }
   `;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (username === '' ||
+        password === '' ||
+        secret === '' ||
+        clientId === '' ||
+        appName === '' ||
+        appVersion === '') {
+      alert("An argument is empty!")
+    } else {
+      setUsername('')
+      setPassword('')
+      setSecret('')
+      setClientId('')
+      setAppName('')
+      setAppVersion('')
+
+      async function fetchAccessToken() {
+        let responseBody = {};
+        // setLoadingProfile(true);
+        const response = await fetch(
+          `https://www.reddit.com/api/v1/access_token`,
+          {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              "Authorization": "Basic " + btoa(clientId + ":" + secret),
+              "User-Agent": (appName + "/" + appVersion + " by " + username)
+            },
+            body: ("grant_type=password&username=" + username + "&password=" + password)
+          }
+        );
+        responseBody = await response.json();
+        console.log(responseBody);
+
+        // setProfileData(responseBody)
+        // setLoadingProfile(false)
+      }
+      fetchAccessToken()
+
+      // Update redux store
+    }
+  }
+
+  function handleInputChange(event, setter) {
+    // console.log("Input change: " + event.target.value)
+    setter(event.target.value)
+  }
+
   return (
     <div css={styling}>
       <div className="login-win">
         <h1>Login</h1>
-        {/* <form onSubmit={handleSub}> */}
-        <form onSubmit={(event) => {event.preventDefault(); handleSubmit(event, username, password, secret, clientId, appName, appVersion, setUsername, setPassword, setSecret, setClientId, setAppName, setAppVersion)}}>
-          {/* <input type="text" value={this.state.captionValue} onChange={this.handleCaptionChange} placeholder="Enter Caption" /> */}
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             name="redditUsername"
@@ -195,7 +200,11 @@ function ProfilePage(props) {
             value={appVersion}
             onChange={(event) => handleInputChange(event, setAppVersion)} />
 
-          <button type="action" class="action">Enter</button>
+          {submitLoading ?
+            <p>loading</p>
+          :
+            <button type="action" class="action">Enter</button>
+          }
         </form>
       </div>
     </div>
