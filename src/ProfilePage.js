@@ -3,6 +3,7 @@ import { jsx, css } from '@emotion/core';
 
 import ProfileHeader from './ProfileHeader.js';
 import Trophy from './Trophy.js';
+import ProfileOverview from './ProfileOverview.js';
 
 function epochToYear(epochTime) {
   var myDate = new Date(epochTime *1000);
@@ -34,6 +35,7 @@ function ProfilePage(props) {
     <div css={styling}>
       <ProfileHeader />
       <Trophy />
+      <ProfileOverview />
     </div>
   );
 }
