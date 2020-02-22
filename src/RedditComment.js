@@ -177,6 +177,7 @@ function RedditComment(props) {
       align-self: flex-end;
 
       display: flex;
+      align-items: flex-end;
       flex-direction: row;
       justify-content: flex-start;
     }
@@ -246,7 +247,7 @@ function RedditComment(props) {
   return (
     <div css={styling}>
       <div className="comment-box">
-        {console.log(props.data)}
+        {/* {console.log(props.data)} */}
         <div className="title">
           <h3><a href={props.data.data.link_url}>{props.data.data.link_title}</a></h3>
           <div className="post-info">

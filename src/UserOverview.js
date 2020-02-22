@@ -60,7 +60,7 @@ function UserOverview(props) {
           <div className="overview">
             {
               userOverviewData["data"]["children"].map((item) => {
-                console.log(item)
+                // console.log(item)
                 if (item["kind"] === "t1") {
                   return(<RedditComment data={item} key={item.data.name} />);
                 } else if (item["kind"] === "t3") {
