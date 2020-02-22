@@ -3,16 +3,10 @@ import { jsx, css } from '@emotion/core';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
+import VoteContainer from './VoteContainer.js';
+
 
 function RedditLink(props) {
-  const [ score, setScore ] = useState(props.data.data.score);
-  var origScore = props.data.data.score;
-  if (props.data.data.likes) {
-    origScore = props.data.data.score - 1;
-  } else {
-    origScore = props.data.data.score;
-  }
-
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
 
@@ -119,51 +113,6 @@ function RedditLink(props) {
       align-items: center;
     }
 
-    .post-box .score-box {
-      ${'' /* border: 1px solid black; */}
-
-      align-self: flex-start;
-
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-    }
-
-    .post-box .score-box div {
-      ${'' /* border: 1px solid black; */}
-
-      padding: 0px;
-      margin: 0;
-      font-size: 30px;
-      cursor: pointer;
-    }
-
-    .post-box .score-box p {
-      user-select: none;
-      font-weight: 600;
-    }
-
-    .post-box .score-box .upvote {
-      color: rgb(235, 103, 29);
-      transition: text-shadow 0.3s ease;
-      user-select: none;
-    }
-
-    .post-box .score-box .upvote.active {
-      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.77);
-    }
-
-    .post-box .score-box .downvote {
-      color: rgb(17, 121, 166);
-      transition: text-shadow 0.3s ease;
-      user-select: none;
-    }
-
-    .post-box .score-box .downvote.active {
-      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.77);
-    }
-
     .post-box .body p {
       text-align: left;
     }
@@ -202,61 +151,6 @@ function RedditLink(props) {
     }
   `;
 
-
-  function vote(direction) {
-    async function makeVotePost() {
-      let responseBody = {};
-      var payloadStr = ("?dir=" + direction + "&id=" + props.data.data.name)
-      const response = await fetch(
-        `https://oauth.reddit.com/api/vote${payloadStr}`,
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            "Authorization": ("bearer " + cookies.accessToken),
-            "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
-          }
-        }
-      );
-      responseBody = await response.json();
-      // console.log(responseBody);
-    }
-    makeVotePost()
-  }
-
-  function upvote() {
-    var direction;
-    if (score === origScore) {
-      setScore(score + 1);
-      direction = 1;
-    } else if (score < origScore) {
-      setScore(score + 2);
-      direction = 1;
-    } else {
-      setScore(origScore);
-      direction = 0;
-    }
-
-    // Make POST
-    vote(direction);
-  }
-
-  function downvote() {
-    var direction;
-    if (score === origScore) {
-      setScore(score - 1);
-      direction = -1;
-    } else if (score > origScore) {
-      setScore(score - 2);
-      direction = -1;
-    } else {
-      setScore(origScore);
-      direction = 0;
-    }
-
-    // Make POST
-    vote(direction);
-  }
 // archived
 // visited
 // is_self
@@ -333,19 +227,7 @@ function RedditLink(props) {
         }
 
         <div className="actions">
-          <div className="score-box">
-            <div
-              className={score > origScore ? "upvote active" : "upvote"}
-              onClick={() => upvote()}>
-              ⬆
-            </div>
-            <p>{score}</p>
-            <div
-              className={score < origScore ? "downvote active" : "downvote"}
-              onClick={() => downvote()}>
-              ⬇
-            </div>
-          </div>
+          <VoteContainer data={props.data} />
           <div className="stretch"></div>
           {/* <p>Up: {props.data.data.ups}</p>
           <p>Down: {props.data.data.downs}</p> */}
