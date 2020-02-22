@@ -17,8 +17,14 @@ function UserOverview(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    border: 1px solid orange;
+    ${'' /* border: 1px solid orange; */}
 
+    .bubble-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   `;
   useEffect(() => {
     async function fetchUserData() {
@@ -46,7 +52,9 @@ function UserOverview(props) {
   return (
     <div css={styling}>
       {loadingUser ? (
-        <PulseBubble />
+        <div className="bubble-container">
+          <PulseBubble />
+        </div>
       ) :
         <div>
           <div className="overview">

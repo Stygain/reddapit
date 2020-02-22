@@ -15,18 +15,21 @@ function UserPage(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    border: 1px solid red;
+    ${'' /* border: 1px solid red; */}
 
   `;
   return (
     <div css={styling}>
-      {userAccount === cookies.username ?
+      {
+        userAccount === cookies.username
+        ?
         <div>
-          <UserHeader />
+          <UserHeader username={userAccount} />
           <Trophy />
         </div>
         :
-        <div></div>}
+        <UserHeader username={userAccount} />
+      }
 
       <UserOverview username={userAccount} />
     </div>

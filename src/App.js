@@ -28,9 +28,9 @@ function App(props) {
         </Route>
         <Route path='/user/:userAccount'>
           <ContentMargin>
-            <Center>
+            {/* <Center> */}
               <UserPage />
-            </Center>
+            {/* </Center> */}
           </ContentMargin>
         </Route>
         <Route path='/user'>
