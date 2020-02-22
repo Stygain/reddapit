@@ -25,7 +25,7 @@ function ProfileOverview(props) {
       let responseBody = {};
       setLoadingProfile(true);
       const response = await fetch(
-        `https://oauth.reddit.com/user/${cookies.username}/overview`,
+        `https://oauth.reddit.com/user/${cookies.username}/overview/?raw_json=1`,
         {
           method: "GET",
           headers: {

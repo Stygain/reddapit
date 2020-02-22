@@ -25,7 +25,7 @@ function Trophy(props) {
       let responseBody = {};
       setLoadingTrophies(true);
       const response = await fetch(
-        `https://oauth.reddit.com/api/v1/me/trophies`,
+        `https://oauth.reddit.com/api/v1/me/trophies?raw_json=1`,
         {
           method: "GET",
           headers: {

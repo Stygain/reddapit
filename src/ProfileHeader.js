@@ -23,7 +23,7 @@ function ProfileHeader(props) {
       let responseBody = {};
       setLoadingProfile(true);
       const response = await fetch(
-        `https://oauth.reddit.com/api/v1/me`,
+        `https://oauth.reddit.com/api/v1/me?raw_json=1`,
         {
           method: "GET",
           headers: {
