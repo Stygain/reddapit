@@ -1,13 +1,16 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { Switch, Route } from 'react-router-dom';
+import { useCookies, withCookies } from 'react-cookie';
 
 import ProfilePage from './ProfilePage.js';
 import LoginPage from './LoginPage.js';
 import NavBar from './NavBar.js';
 import { ContentMargin, Center } from './Utils.js';
 
-function App() {
+function App(props) {
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
   const styling = css`
   `;
   return (
@@ -19,6 +22,12 @@ function App() {
             <Center>
               {/* Render home */}
               <p>Should be the front page</p>
+              {/* {setCookie('accessToken', "value")}
+              {setCookie('username', "value")}
+              {setCookie('appName', "value")}
+              {setCookie('appVersion', "value")}
+              {console.log(cookies)} */}
+              {console.log(cookies)}
             </Center>
           </ContentMargin>
         </Route>
@@ -47,4 +56,6 @@ function App() {
   );
 }
 
-export default App;
+const AppCookies = withCookies(App);
+
+export default AppCookies;

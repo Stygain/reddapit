@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import AppCookies from './App';
 import { Global, css } from '@emotion/core';
+import { BrowserRouter } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 
-import App from './App.js';
 import store from './redux/store.js';
 
 const globalStyles = css`
@@ -16,9 +17,13 @@ const globalStyles = css`
 `;
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Global styles={globalStyles} />
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>, document.getElementById('root'));
+  <div>
+    <CookiesProvider>
+      <Provider store={store}>
+        <Global styles={globalStyles} />
+        <BrowserRouter>
+          <AppCookies />
+        </BrowserRouter>
+      </Provider>
+    </CookiesProvider>
+  </div>, document.getElementById('root'));

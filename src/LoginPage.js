@@ -1,16 +1,12 @@
 /** @jsx jsx */
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { jsx, css } from '@emotion/core';
+import { useCookies } from 'react-cookie';
 // import fetch from 'isomorphic-unfetch';
 
 // import PulseBubble from './PulseBubble.js';
 // import ProfileHeader from './ProfileHeader.js';
 // import Trophy from './Trophy.js';
-import { addUsername } from './redux/actions.js';
-import { addRedditApp } from './redux/actions.js';
-import { addRedditVersion } from './redux/actions.js';
-import { addAccessToken } from './redux/actions.js';
 
 
 function ProfilePage(props) {
@@ -23,7 +19,8 @@ function ProfilePage(props) {
 
   const [ submitLoading, setSubmitLoading ] = useState(false);
 
-  const dispatch = useDispatch();
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
     ${'' /* border: 1px solid red; */}
@@ -150,11 +147,12 @@ function ProfilePage(props) {
         responseBody = await response.json();
         console.log(responseBody);
 
-        // Update redux store
-        dispatch(addUsername(username));
-        dispatch(addRedditApp(appName));
-        dispatch(addRedditVersion(appVersion));
-        dispatch(addAccessToken(responseBody.access_token));
+        // Set cookies for our login information
+        setCookie('accessToken', responseBody.access_token)
+        setCookie('username', username)
+        setCookie('appName', appName)
+        setCookie('appVersion', appVersion)
+        console.log(cookies)
 
         setSubmitLoading(false)
       }

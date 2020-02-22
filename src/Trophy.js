@@ -1,15 +1,9 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
 import { jsx, css } from '@emotion/core';
 import fetch from 'isomorphic-unfetch';
 
-import {
-  getAccessToken,
-  getUsername,
-  getRedditApp,
-  getRedditVersion
-} from './redux/selectors.js';
 import PulseBubble from './PulseBubble.js';
 
 
@@ -19,20 +13,14 @@ function Trophy(props) {
   // const [ loadingProfile, setLoadingProfile ] = useState(false);
   const [ loadingTrophies, setLoadingTrophies ] = useState(false);
 
-  const accessToken = useSelector(getAccessToken);
-  const username = useSelector(getUsername);
-  const redditApp = useSelector(getRedditApp);
-  const redditVersion = useSelector(getRedditVersion);
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
     border: 1px solid green;
 
   `;
   useEffect(() => {
-    console.log("username: " + username)
-    console.log("redditApp: " + redditApp)
-    console.log("redditVersion: " + redditVersion)
-    console.log("accessToken: " + accessToken)
     async function fetchTrophyData() {
       let responseBody = {};
       setLoadingTrophies(true);
@@ -42,8 +30,8 @@ function Trophy(props) {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": ("bearer " + accessToken),
-            "User-Agent": (redditApp + "/" + redditVersion + " by " + username)
+            "Authorization": ("bearer " + cookies.accessToken),
+            "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
           }
         }
       );
@@ -54,7 +42,7 @@ function Trophy(props) {
       setLoadingTrophies(false)
     }
     fetchTrophyData()
-  }, [accessToken, username, redditApp, redditVersion]);
+  }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
   return (
     <div css={styling}>
       {loadingTrophies ? (
