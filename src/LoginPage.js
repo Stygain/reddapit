@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { jsx, css } from '@emotion/core';
 import { useCookies } from 'react-cookie';
 
+import CircleRotate from './CircleRotate.js';
+
 
 function LoginPage(props) {
   const [ username, setUsername ] = useState("");
@@ -13,6 +15,7 @@ function LoginPage(props) {
   const [ appVersion, setAppVersion ] = useState("");
 
   const [ submitLoading, setSubmitLoading ] = useState(false);
+  const [ disableInputs, setDisableInputs ] = useState(false);
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -76,8 +79,30 @@ function LoginPage(props) {
       box-shadow: 0px 2px 15px rgba(10, 10, 10, 0.5);
     }
 
+    form input:disabled {
+      color: rgb(122, 122, 122);
+    }
+
     form input:nth-child(1) {
       margin-top: 40px;
+    }
+
+    .loader-wrapper {
+      margin-top: 20px;
+      padding: 6px;
+    	border: none;
+    	border-radius: 4px;
+      width: 83px;
+      height: 39px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+    	background: rgb(119, 171, 255);
+    	background: linear-gradient(to bottom left, rgb(119, 171, 255), rgb(40, 122, 255));
+    	box-shadow: 0px 2px 20px rgba(50, 50, 50, 0.5);
     }
 
     button {
@@ -113,16 +138,11 @@ function LoginPage(props) {
         appVersion === '') {
       alert("An argument is empty!")
     } else {
-      setUsername('')
-      setPassword('')
-      setSecret('')
-      setClientId('')
-      setAppName('')
-      setAppVersion('')
 
       async function fetchAccessToken() {
         let responseBody = {};
         setSubmitLoading(true);
+        setDisableInputs(true);
         const response = await fetch(
           `https://www.reddit.com/api/v1/access_token`,
           {
@@ -147,6 +167,13 @@ function LoginPage(props) {
         console.log(cookies)
 
         setSubmitLoading(false)
+        setDisableInputs(false);
+        setUsername('')
+        setPassword('')
+        setSecret('')
+        setClientId('')
+        setAppName('')
+        setAppVersion('')
       }
       fetchAccessToken()
     }
@@ -167,41 +194,49 @@ function LoginPage(props) {
             name="redditUsername"
             placeholder="Reddit Username"
             value={username}
-            onChange={(event) => handleInputChange(event, setUsername)} />
+            onChange={(event) => handleInputChange(event, setUsername)} disabled={disableInputs}
+            />
           <input
             type="password"
             name="redditPassword"
             placeholder="Reddit Password"
             value={password}
-            onChange={(event) => handleInputChange(event, setPassword)} />
+            onChange={(event) => handleInputChange(event, setPassword)} disabled={disableInputs}
+            />
           <input
             type="password"
             name="redditSecret"
             placeholder="Reddit Secret"
             value={secret}
-            onChange={(event) => handleInputChange(event, setSecret)} />
+            onChange={(event) => handleInputChange(event, setSecret)} disabled={disableInputs}
+            />
           <input
             type="text"
             name="redditClientId"
             placeholder="Reddit Client ID"
             value={clientId}
-            onChange={(event) => handleInputChange(event, setClientId)} />
+            onChange={(event) => handleInputChange(event, setClientId)} disabled={disableInputs}
+            />
           <input
             type="text"
             name="redditAppName"
             placeholder="App Name"
             value={appName}
-            onChange={(event) => handleInputChange(event, setAppName)} />
+            onChange={(event) => handleInputChange(event, setAppName)} disabled={disableInputs}
+            />
           <input
             type="text"
             name="redditAppVersion"
             placeholder="App Version"
             value={appVersion}
-            onChange={(event) => handleInputChange(event, setAppVersion)} />
+            onChange={(event) => handleInputChange(event, setAppVersion)} disabled={disableInputs}
+            />
 
           {submitLoading ?
             // TODO add some fancier loading thing here
-            <button type="action" className="action">...</button>
+            <div className="loader-wrapper">
+              <CircleRotate />
+            </div>
           :
             <button type="action" className="action">Enter</button>
           }
