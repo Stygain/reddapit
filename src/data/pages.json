@@ -2,7 +2,7 @@
   "pages": [
     {
       "name": "Profile",
-      "url": "/profile"
+      "url": "/user"
     },
     {
       "name": "About",

@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/core';
 import { useCookies } from 'react-cookie';
 
 
-function ProfilePage(props) {
+function LoginPage(props) {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ secret, setSecret ] = useState("");
@@ -212,4 +212,4 @@ function ProfilePage(props) {
 }
 
 
-export default ProfilePage;
+export default LoginPage;

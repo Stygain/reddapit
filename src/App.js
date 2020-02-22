@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { useCookies, withCookies } from 'react-cookie';
 
-import ProfilePage from './ProfilePage.js';
+import UserPage from './UserPage.js';
 import LoginPage from './LoginPage.js';
 import NavBar from './NavBar.js';
 import { ContentMargin, Center } from './Utils.js';
@@ -26,12 +26,15 @@ function App(props) {
             </Center>
           </ContentMargin>
         </Route>
-        <Route path='/profile'>
+        <Route path='/user/:userAccount'>
           <ContentMargin>
             <Center>
-              <ProfilePage />
+              <UserPage />
             </Center>
           </ContentMargin>
+        </Route>
+        <Route path='/user'>
+          <Redirect to={"/user/" + cookies.username} />
         </Route>
         <Route path='/login'>
           <Center>

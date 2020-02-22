@@ -7,9 +7,9 @@ import fetch from 'isomorphic-unfetch';
 import PulseBubble from './PulseBubble.js';
 
 
-function ProfileHeader(props) {
-  const [ profileData, setProfileData ] = useState({});
-  const [ loadingProfile, setLoadingProfile ] = useState(false);
+function UserHeader(props) {
+  const [ userData, setUserData ] = useState({});
+  const [ loadingUser, setLoadingUser ] = useState(false);
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -19,9 +19,9 @@ function ProfileHeader(props) {
 
   `;
   useEffect(() => {
-    async function fetchProfileData() {
+    async function fetchUserData() {
       let responseBody = {};
-      setLoadingProfile(true);
+      setLoadingUser(true);
       const response = await fetch(
         `https://oauth.reddit.com/api/v1/me?raw_json=1`,
         {
@@ -36,21 +36,21 @@ function ProfileHeader(props) {
       responseBody = await response.json();
       console.log(responseBody);
 
-      setProfileData(responseBody)
-      setLoadingProfile(false)
+      setUserData(responseBody)
+      setLoadingUser(false)
     }
-    fetchProfileData()
+    fetchUserData()
   }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
   return (
     <div css={styling}>
-      {loadingProfile ? (
+      {loadingUser ? (
         <PulseBubble />
       ) :
         <div>
           <div className="username-karma">
-            <h1>{profileData["name"]}</h1>
-            <h3>{profileData["comment_karma"]} Comment Karma</h3>
-            <h3>{profileData["link_karma"]} Link Karma</h3>
+            <h1>{userData["name"]}</h1>
+            <h3>{userData["comment_karma"]} Comment Karma</h3>
+            <h3>{userData["link_karma"]} Link Karma</h3>
           </div>
         </div>
       }
@@ -59,4 +59,4 @@ function ProfileHeader(props) {
 }
 
 
-export default ProfileHeader;
+export default UserHeader;

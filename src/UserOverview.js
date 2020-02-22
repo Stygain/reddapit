@@ -9,9 +9,9 @@ import RedditComment from './RedditComment.js';
 import RedditLink from './RedditLink.js';
 
 
-function ProfileOverview(props) {
-  const [ profileOverviewData, setProfileOverviewData ] = useState({data:{children:[]}});
-  const [ loadingProfile, setLoadingProfile ] = useState(false);
+function UserOverview(props) {
+  const [ userOverviewData, setUserOverviewData ] = useState({data:{children:[]}});
+  const [ loadingUser, setLoadingUser ] = useState(false);
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -21,11 +21,11 @@ function ProfileOverview(props) {
 
   `;
   useEffect(() => {
-    async function fetchProfileData() {
+    async function fetchUserData() {
       let responseBody = {};
-      setLoadingProfile(true);
+      setLoadingUser(true);
       const response = await fetch(
-        `https://oauth.reddit.com/user/${cookies.username}/overview/?raw_json=1`,
+        `https://oauth.reddit.com/user/${props.username}/overview/?raw_json=1`,
         {
           method: "GET",
           headers: {
@@ -38,20 +38,20 @@ function ProfileOverview(props) {
       responseBody = await response.json();
       console.log(responseBody);
 
-      setProfileOverviewData(responseBody)
-      setLoadingProfile(false)
+      setUserOverviewData(responseBody)
+      setLoadingUser(false)
     }
-    fetchProfileData()
+    fetchUserData()
   }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
   return (
     <div css={styling}>
-      {loadingProfile ? (
+      {loadingUser ? (
         <PulseBubble />
       ) :
         <div>
           <div className="overview">
             {
-              profileOverviewData["data"]["children"].map((item) => {
+              userOverviewData["data"]["children"].map((item) => {
                 console.log(item)
                 if (item["kind"] === "t1") {
                   return(<RedditComment data={item} key={item.data.name} />);
@@ -68,4 +68,4 @@ function ProfileOverview(props) {
 }
 
 
-export default ProfileOverview;
+export default UserOverview;
