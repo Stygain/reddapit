@@ -8,9 +8,7 @@ import PulseBubble from './PulseBubble.js';
 
 
 function Trophy(props) {
-  // const [ profileData, setProfileData ] = useState({});
   const [ trophyData, setTrophyData ] = useState({data:{trophies:[]}});
-  // const [ loadingProfile, setLoadingProfile ] = useState(false);
   const [ loadingTrophies, setLoadingTrophies ] = useState(false);
 
   // eslint-disable-next-line

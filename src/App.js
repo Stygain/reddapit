@@ -22,11 +22,6 @@ function App(props) {
             <Center>
               {/* Render home */}
               <p>Should be the front page</p>
-              {/* {setCookie('accessToken', "value")}
-              {setCookie('username', "value")}
-              {setCookie('appName', "value")}
-              {setCookie('appVersion', "value")}
-              {console.log(cookies)} */}
               {console.log(cookies)}
             </Center>
           </ContentMargin>

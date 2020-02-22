@@ -221,7 +221,8 @@ function RedditComment(props) {
       setScore(origScore);
       direction = 0;
     }
-    //
+
+    // Make POST
     vote(direction);
   }
 
@@ -237,7 +238,8 @@ function RedditComment(props) {
       setScore(origScore);
       direction = 0;
     }
-    //
+
+    // Make POST
     vote(direction);
   }
 

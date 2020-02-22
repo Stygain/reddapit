@@ -2,11 +2,6 @@
 import { useState } from 'react';
 import { jsx, css } from '@emotion/core';
 import { useCookies } from 'react-cookie';
-// import fetch from 'isomorphic-unfetch';
-
-// import PulseBubble from './PulseBubble.js';
-// import ProfileHeader from './ProfileHeader.js';
-// import Trophy from './Trophy.js';
 
 
 function ProfilePage(props) {
@@ -37,9 +32,6 @@ function ProfilePage(props) {
 
     .login-win {
       ${'' /* border: 1px solid blue; */}
-
-      ${'' /* position: relative; */}
-      ${'' /* overflow: scroll; */}
 
       min-width: 420px;
       min-height: 550px;
