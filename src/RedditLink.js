@@ -154,6 +154,7 @@ function RedditLink(props) {
 // archived
 // visited
 // is_self
+// edited
 
 // media_embed
 // secure_media_embed
@@ -180,60 +181,41 @@ function RedditLink(props) {
             <p>in <a href={"https://www.reddit.com/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
           </div>
         </div>
-        {/* <p>{props.data.data.author}</p> */}
         {
           props.data.data.selftext === ""
           ?
             props.data.data.post_hint === "link"
             ?
-            <div className="body">
-              {/* TODO action this */}
-              {/* <p>LINK</p> */}
-              <img src={props.data.data.thumbnail} />
-              {/* <p>{props.data.data.edited}</p> */}
-            </div>
+              <div className="body">
+                <img src={props.data.data.thumbnail} />
+              </div>
             :
               props.data.data.post_hint === "image"
               ?
-              <div className="body">
-                {/* TODO action this */}
-                {/* <p>IMAGE</p> */}
-                <img src={props.data.data.url} />
-                {/* <p>{props.data.data.edited}</p> */}
-              </div>
+                <div className="body">
+                  <img src={props.data.data.url} />
+                </div>
               :
                 props.data.data.post_hint === "rich:video"
                 ?
-                <div className="body">
-                  {/* TODO action this */}
-                  {/* <p className="embed-content"></p> */}
-                  {/* <p>MEDIA EMBED</p> */}
-                  {/* {console.log(props.data.data.media_embed)}
-                  {console.log(props.data.data.secure_media_embed)} */}
-                  <div
-                    dangerouslySetInnerHTML={{__html: props.data.data.media_embed.content}}>
+                  <div className="body">
+                    <div
+                      dangerouslySetInnerHTML={{__html: props.data.data.media_embed.content}}>
+                    </div>
                   </div>
-                  {/* <p>{props.data.data.secure_media_embed}</p> */}
-                  {/* <p>{props.data.data.edited}</p> */}
-                </div>
                 :
-                <div></div>
+                  <div></div>
           :
           <div className="body">
-            {/* TODO action this */}
             <p className="text-content">{props.data.data.selftext}</p>
-            {/* <p>{props.data.data.edited}</p> */}
           </div>
         }
 
         <div className="actions">
-          <VoteContainer data={props.data} />
+          <VoteContainer data={props.data} dir="horizontal" />
           <div className="stretch"></div>
-          {/* <p>Up: {props.data.data.ups}</p>
-          <p>Down: {props.data.data.downs}</p> */}
           <p><a href={props.data.data.url}>Comments ({props.data.data.num_comments})</a></p>
           <p><a href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p>
-          {/* <p><a href={props.data.data.link_url}>Full Post</a></p> */}
         </div>
       </div>
     </div>

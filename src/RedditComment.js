@@ -151,19 +151,13 @@ function RedditComment(props) {
             <p>in <a href={"https://www.reddit.com/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
           </div>
         </div>
-        {/* <p>{props.data.data.author}</p> */}
         <div className="body">
-          {/* TODO action this */}
           <VoteContainer data={props.data} dir="vertical" />
           <p className="content">{props.data.data.body}</p>
-          {/* <p>{props.data.data.edited}</p> */}
         </div>
         <div className="actions">
-          {/* <p>Up: {props.data.data.ups}</p>
-          <p>Down: {props.data.data.downs}</p> */}
           <p><a href={props.data.data.link_url}>Comments ({props.data.data.num_comments})</a></p>
           <p><a href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p>
-          {/* <p><a href={props.data.data.link_url}>Full Post</a></p> */}
         </div>
       </div>
     </div>
