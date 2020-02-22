@@ -5,10 +5,6 @@
       "url": "/user"
     },
     {
-      "name": "About",
-      "url": "/about"
-    },
-    {
       "name": "Login",
       "url": "/login"
     }
