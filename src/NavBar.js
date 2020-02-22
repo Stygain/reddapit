@@ -14,7 +14,7 @@ function NavBar(props) {
       margin: 0px;
       padding: 0px;
       width: 100%;
-      z-index: 1;
+      z-index: 3;
       position: fixed;
       top: 0px;
       font-family: 'Odibee Sans', cursive;
