@@ -1,16 +1,10 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { useState } from 'react';
-import { useCookies } from 'react-cookie';
 
 import VoteContainer from './VoteContainer.js';
 
 
 function RedditComment(props) {
-  // eslint-disable-next-line
-  const [cookies, setCookie, removeCookie] = useCookies();
-
-
   const styling = css`
     ${'' /* border: 1px solid pink; */}
 

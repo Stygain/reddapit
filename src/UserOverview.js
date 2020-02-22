@@ -48,7 +48,7 @@ function UserOverview(props) {
       setLoadingUser(false)
     }
     fetchUserData()
-  }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+  }, [cookies.accessToken, props.username, cookies.username, cookies.redditApp, cookies.redditVersion]);
   return (
     <div css={styling}>
       {loadingUser ? (

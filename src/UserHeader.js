@@ -108,7 +108,6 @@ function UserHeader(props) {
 
       padding: 5px 20px;
       padding-top: 20px;
-      ${'' /* margin: 20px; */}
 
       display: flex;
       flex-direction: column;
@@ -119,7 +118,6 @@ function UserHeader(props) {
     .karma-box .count {
       ${'' /* border: 1px solid green; */}
 
-      ${'' /* padding: 10px; */}
       border-radius: 100%;
       text-align: center;
       display: flex;
@@ -127,15 +125,6 @@ function UserHeader(props) {
       justify-content: center;
     }
 
-
-    ${'' /* @keyframes slide-in {
-      from {
-        margin-left: -100%;
-      }
-      to {
-        margin-left: 0%;
-      }
-    } */}
 
     @keyframes fade-in {
       from {
@@ -168,7 +157,7 @@ function UserHeader(props) {
       setLoadingUser(false)
     }
     fetchUserData()
-  }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+  }, [cookies.accessToken, props.username, cookies.username, cookies.redditApp, cookies.redditVersion]);
   return (
     <div css={styling}>
       {loadingUser ? (
