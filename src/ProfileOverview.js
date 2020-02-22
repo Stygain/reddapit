@@ -39,9 +39,9 @@ function ProfileOverview(props) {
       console.log(responseBody);
 
       setProfileOverviewData(responseBody)
-      console.log(responseBody["data"]["children"])
-      console.log("PROFILE OVERVIEW DATA")
-      console.log(profileOverviewData);
+      // console.log(responseBody["data"]["children"])
+      // console.log("PROFILE OVERVIEW DATA")
+      // console.log(profileOverviewData);
       setLoadingProfile(false)
     }
     fetchProfileData()
@@ -54,7 +54,6 @@ function ProfileOverview(props) {
         <div>
           <div className="overview">
             {
-              // console.log(profileOverviewData)
               profileOverviewData["data"]["children"].map((item) => {
                 console.log(item)
                 if (item["kind"] === "t1") {
@@ -64,7 +63,6 @@ function ProfileOverview(props) {
                   console.log("T3");
                   return(<RedditLink data={item} />);
                 }
-                // return(<img src={item["data"]["icon_70"]} />)
               })
             }
           </div>

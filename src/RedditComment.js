@@ -4,44 +4,70 @@ import { jsx, css } from '@emotion/core';
 
 function RedditComment(props) {
   const styling = css`
-    border: 1px solid pink;
+    ${'' /* border: 1px solid pink; */}
 
     width: 100%;
     height: 100%;
     margin: 0px;
     margin: 20px 0px;
-    background-color: rgb(170, 170, 170);
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .comment-box {
-      border: 1px solid red;
+    a {
+      color: rgb(37, 37, 37);
+      text-decoration: none;
+      background: linear-gradient(to bottom, rgb(255, 152, 0) 0%, rgb(255, 152, 0) 100%);
+    	background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+      transition: color 0.2s ease-in-out;
+    }
 
+    a:hover {
+      color: rgb(0, 0, 0);
+      background: linear-gradient(to bottom, rgb(204, 122, 0) 0%, rgb(204, 122, 0) 100%);
+    	background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    .comment-box {
+      ${'' /* border: 1px solid white; */}
+
+      border-radius: 10px;
+      padding: 5px;
       margin: 0px;
       width: 80%;
       ${'' /* height: 100px; */}
+      background-color: rgb(242, 242, 242);
+      box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
+      transition: box-shadow 0.5s ease;
 
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
     }
 
+    .comment-box:hover {
+      box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.5);
+    }
+
     .comment-box h3 {
-      border: 1px solid blue;
+      ${'' /* border: 1px solid blue; */}
 
       margin: 0px;
     }
 
     .comment-box p {
-      border: 1px solid green;
+      ${'' /* border: 1px solid green; */}
 
       margin: 0px;
     }
 
     .comment-box .title {
-      border: 1px solid black;
+      ${'' /* border: 1px solid black; */}
 
       display: flex;
       flex-direction: row;
@@ -55,7 +81,7 @@ function RedditComment(props) {
     }
 
     .comment-box .post-info {
-      border: 1px solid white;
+      ${'' /* border: 1px solid white; */}
 
       flex-basis: 40%;
       flex-grow: 2;
@@ -72,21 +98,63 @@ function RedditComment(props) {
     }
 
     .comment-box .body {
-      border: 1px solid black;
+      ${'' /* border: 1px solid black; */}
+
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .comment-box .score-box {
+      ${'' /* border: 1px solid black; */}
+
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .comment-box .score-box div {
+      ${'' /* border: 1px solid black; */}
+
+      padding: 0px;
+      margin: 0;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .comment-box .score-box .upvote {
+      color: rgb(235, 103, 29);
+    }
+
+    .comment-box .score-box .downvote {
+      color: rgb(17, 121, 166);
     }
 
     .comment-box .body p {
       text-align: left;
     }
 
+    .comment-box .body .content {
+      flex-grow: 2;
+    }
+
     .comment-box .actions {
-      border: 1px solid black;
+      ${'' /* border: 1px solid black; */}
+
+      align-self: flex-end;
 
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
     }
 
+    .comment-box .actions p {
+      ${'' /* border: 1px solid black; */}
+
+      margin: 0px 5px;
+    }
   `;
   return (
     <div css={styling}>
@@ -101,12 +169,16 @@ function RedditComment(props) {
         </div>
         {/* <p>{props.data.data.author}</p> */}
         <div className="body">
-          <p>{props.data.data.body}</p>
+          {/* TODO action this */}
+          <div className="score-box">
+            <div className="upvote">⬆</div>
+            <p>{props.data.data.score}</p>
+            <div className="downvote">⬇</div>
+          </div>
+          <p className="content">{props.data.data.body}</p>
           {/* <p>{props.data.data.edited}</p> */}
         </div>
         <div className="actions">
-          {/* TODO action this */}
-          <p>{props.data.data.score}</p>
           {/* <p>Up: {props.data.data.ups}</p>
           <p>Down: {props.data.data.downs}</p> */}
           <p><a href={props.data.data.link_url}>Comments ({props.data.data.num_comments})</a></p>
