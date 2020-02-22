@@ -27,10 +27,19 @@ function VoteContainer(props) {
     .score-box {
       ${'' /* border: 1px solid black; */}
 
+      ${'' /* background-color: rgb(255, 255, 255); */}
+
       display: flex;
-      flex-direction: row;
       justify-content: flex-start;
       align-items: center;
+    }
+
+    .score-box.vertical {
+      flex-direction: column;
+    }
+
+    .score-box.horizontal {
+      flex-direction: row;
     }
 
     .score-box div {
@@ -90,6 +99,10 @@ function VoteContainer(props) {
   }
 
   function upvote() {
+    if (props.data.data.archived) {
+      // TODO turn this into a modal
+      alert('archived');
+    }
     var direction;
     if (score === origScore) {
       setScore(score + 1);
@@ -107,6 +120,10 @@ function VoteContainer(props) {
   }
 
   function downvote() {
+    if (props.data.data.archived) {
+      // TODO turn this into a modal
+      alert('archived');
+    }
     var direction;
     if (score === origScore) {
       setScore(score - 1);
@@ -125,7 +142,7 @@ function VoteContainer(props) {
 
   return (
     <div css={styling}>
-      <div className="score-box">
+      <div className={"score-box " + props.dir}>
         <div
           className={score > origScore ? "upvote active" : "upvote"}
           onClick={() => upvote()}>

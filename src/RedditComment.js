@@ -155,19 +155,6 @@ function RedditComment(props) {
         <div className="body">
           {/* TODO action this */}
           <VoteContainer data={props.data} dir="vertical" />
-          {/* <div className="score-box">
-            <div
-              className={score > origScore ? "upvote active" : "upvote"}
-              onClick={() => upvote()}>
-              ⬆
-            </div>
-            <p>{score}</p>
-            <div
-              className={score < origScore ? "downvote active" : "downvote"}
-              onClick={() => downvote()}>
-              ⬇
-            </div>
-          </div> */}
           <p className="content">{props.data.data.body}</p>
           {/* <p>{props.data.data.edited}</p> */}
         </div>
