@@ -1,8 +1,18 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import { useState } from 'react';
 
 
 function RedditComment(props) {
+  const [ score, setScore ] = useState(props.data.data.score);
+  var origScore = props.data.data.score;
+  if (props.data.data.likes) {
+    origScore = props.data.data.score - 1;
+  } else {
+    origScore = props.data.data.score;
+  }
+
+
   const styling = css`
     ${'' /* border: 1px solid pink; */}
 
@@ -124,12 +134,29 @@ function RedditComment(props) {
       cursor: pointer;
     }
 
+    .comment-box .score-box p {
+      user-select: none;
+      font-weight: 600;
+    }
+
     .comment-box .score-box .upvote {
       color: rgb(235, 103, 29);
+      transition: text-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    .comment-box .score-box .upvote.active {
+      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.77);
     }
 
     .comment-box .score-box .downvote {
       color: rgb(17, 121, 166);
+      transition: text-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    .comment-box .score-box .downvote.active {
+      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.77);
     }
 
     .comment-box .body p {
@@ -156,6 +183,27 @@ function RedditComment(props) {
       margin: 0px 5px;
     }
   `;
+
+  function upvote() {
+    if (score === origScore) {
+      setScore(score + 1)
+    } else if (score < origScore) {
+      setScore(score + 2)
+    } else {
+      setScore(origScore)
+    }
+  }
+
+  function downvote() {
+    if (score === origScore) {
+      setScore(score - 1)
+    } else if (score > origScore) {
+      setScore(score - 2)
+    } else {
+      setScore(origScore)
+    }
+  }
+
   return (
     <div css={styling}>
       <div className="comment-box">
@@ -171,9 +219,17 @@ function RedditComment(props) {
         <div className="body">
           {/* TODO action this */}
           <div className="score-box">
-            <div className="upvote">⬆</div>
-            <p>{props.data.data.score}</p>
-            <div className="downvote">⬇</div>
+            <div
+              className={score > origScore ? "upvote active" : "upvote"}
+              onClick={() => upvote()}>
+              ⬆
+            </div>
+            <p>{score}</p>
+            <div
+              className={score < origScore ? "downvote active" : "downvote"}
+              onClick={() => downvote()}>
+              ⬇
+            </div>
           </div>
           <p className="content">{props.data.data.body}</p>
           {/* <p>{props.data.data.edited}</p> */}
