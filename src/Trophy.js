@@ -54,7 +54,7 @@ function Trophy(props) {
             {
               trophyData["data"]["trophies"].map((item) => {
                 // console.log(item)
-                return(<img src={item["data"]["icon_70"]} />)
+                return(<img src={item["data"]["icon_70"]} key={item["data"]["icon_70"]} />)
               })
             }
           </div>

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 
 function RedditComment(props) {
@@ -11,6 +12,9 @@ function RedditComment(props) {
   } else {
     origScore = props.data.data.score;
   }
+
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
 
 
   const styling = css`
@@ -184,24 +188,57 @@ function RedditComment(props) {
     }
   `;
 
-  function upvote() {
-    if (score === origScore) {
-      setScore(score + 1)
-    } else if (score < origScore) {
-      setScore(score + 2)
-    } else {
-      setScore(origScore)
+  function vote(direction) {
+    async function makeVotePost() {
+      let responseBody = {};
+      var payloadStr = ("?dir=" + direction + "&id=" + props.data.data.name)
+      const response = await fetch(
+        `https://oauth.reddit.com/api/vote${payloadStr}`,
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            "Authorization": ("bearer " + cookies.accessToken),
+            "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
+          }
+        }
+      );
+      responseBody = await response.json();
+      // console.log(responseBody);
     }
+    makeVotePost()
+  }
+
+  function upvote() {
+    var direction;
+    if (score === origScore) {
+      setScore(score + 1);
+      direction = 1;
+    } else if (score < origScore) {
+      setScore(score + 2);
+      direction = 1;
+    } else {
+      setScore(origScore);
+      direction = 0;
+    }
+    //
+    vote(direction);
   }
 
   function downvote() {
+    var direction;
     if (score === origScore) {
-      setScore(score - 1)
+      setScore(score - 1);
+      direction = -1;
     } else if (score > origScore) {
-      setScore(score - 2)
+      setScore(score - 2);
+      direction = -1;
     } else {
-      setScore(origScore)
+      setScore(origScore);
+      direction = 0;
     }
+    //
+    vote(direction);
   }
 
   return (
