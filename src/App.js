@@ -5,6 +5,7 @@ import { useCookies, withCookies } from 'react-cookie';
 
 import UserPage from './UserPage.js';
 import LoginPage from './LoginPage.js';
+import FrontPage from './FrontPage.js';
 import NavBar from './NavBar.js';
 import { ContentMargin, Center } from './Utils.js';
 
@@ -20,9 +21,7 @@ function App(props) {
         <Route exact path='/'>
           <ContentMargin>
             <Center>
-              {/* Render home */}
-              <p>Should be the front page</p>
-              {console.log(cookies)}
+              <FrontPage />
             </Center>
           </ContentMargin>
         </Route>
