@@ -4,9 +4,8 @@ import { useCookies } from 'react-cookie';
 import { jsx, css } from '@emotion/core';
 import fetch from 'isomorphic-unfetch';
 
+import ListingParser from './ListingParser.js';
 import PulseBubble from './Loaders/PulseBubble.js';
-import RedditComment from './RedditComment.js';
-import RedditLink from './RedditLink.js';
 
 
 function UserOverview(props) {
@@ -26,6 +25,7 @@ function UserOverview(props) {
       justify-content: center;
     }
   `;
+
   useEffect(() => {
     async function fetchUserData() {
       let responseBody = {};
@@ -49,6 +49,7 @@ function UserOverview(props) {
     }
     fetchUserData()
   }, [cookies.accessToken, props.username, cookies.username, cookies.redditApp, cookies.redditVersion]);
+
   return (
     <div css={styling}>
       {loadingUser ? (
@@ -58,16 +59,7 @@ function UserOverview(props) {
       ) :
         <div>
           <div className="overview">
-            {
-              userOverviewData["data"]["children"].map((item) => {
-                // console.log(item)
-                if (item["kind"] === "t1") {
-                  return(<RedditComment data={item} key={item.data.name} />);
-                } else if (item["kind"] === "t3") {
-                  return(<RedditLink data={item} key={item.data.name} />);
-                }
-              })
-            }
+            <ListingParser listing={userOverviewData} />
           </div>
         </div>
       }

@@ -3,12 +3,11 @@ import { jsx, css } from '@emotion/core';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import RedditComment from './RedditComment.js';
-import RedditLink from './RedditLink.js';
+import ListingParser from './ListingParser.js';
 
 
 function FrontPage(props) {
-  const [ frontPageData, setFrontPageData ] = useState({children:[]});
+  const [ frontPageData, setFrontPageData ] = useState({data:{children:[]}});
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -36,7 +35,7 @@ function FrontPage(props) {
       responseBody = await response.json();
       console.log(responseBody);
 
-      setFrontPageData(responseBody["data"])
+      setFrontPageData(responseBody)
       // setLoadingUser(false)
     }
     fetchFrontPage()
@@ -44,16 +43,7 @@ function FrontPage(props) {
 
   return (
     <div css={styling}>
-      {
-        frontPageData["children"].map((item) => {
-          // console.log(item)
-          if (item["kind"] === "t1") {
-            return(<RedditComment data={item} key={item.data.name} />);
-          } else if (item["kind"] === "t3") {
-            return(<RedditLink data={item} key={item.data.name} />);
-          }
-        })
-      }
+      <ListingParser listing={frontPageData} />
     </div>
   );
 }
