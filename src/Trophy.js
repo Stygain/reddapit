@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 import { jsx, css } from '@emotion/core';
 import fetch from 'isomorphic-unfetch';
 
-import PulseBubble from './PulseBubble.js';
+import PulseBubble from './Loaders/PulseBubble.js';
 
 
 function Trophy(props) {

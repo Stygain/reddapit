@@ -3,17 +3,19 @@ import { jsx, css } from '@emotion/core';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useCookies, withCookies } from 'react-cookie';
 
+import FrontPage from './FrontPage.js';
 import UserPage from './UserPage.js';
 import LoginPage from './LoginPage.js';
-import FrontPage from './FrontPage.js';
 import NavBar from './NavBar.js';
 import { ContentMargin, Center } from './Utils.js';
 
 function App(props) {
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
+
   const styling = css`
   `;
+  
   return (
     <div css={styling}>
       <NavBar />

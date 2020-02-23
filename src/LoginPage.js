@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { jsx, css } from '@emotion/core';
 import { useCookies } from 'react-cookie';
 
-import CircleRotate from './CircleRotate.js';
+import CircleRotate from './Loaders/CircleRotate.js';
 
 
 function LoginPage(props) {
