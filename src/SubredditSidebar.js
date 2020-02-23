@@ -12,16 +12,18 @@ import ListingParser from './ListingParser.js';
 function SubredditSidebar(props) {
   const { subreddit } = useParams();
 
-  const [ open, setOpen ] = useState(true);
   const [ subredditSidebarData, setSubredditSidebarData ] = useState({data:{children:[]}});
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    border: 1px solid red;
+    ${'' /* border: 1px solid red; */}
 
     ${'' /* font changing? */}
+
+    ${'' /* height: 100%; */}
+    ${'' /* border-left: 1px solid rgb(135, 135, 135); */}
 
     padding: 10px;
 
@@ -57,12 +59,33 @@ function SubredditSidebar(props) {
     }
 
     .title-subscribe {
-      border: 1px solid green;
+      ${'' /* border: 1px solid green; */}
+
+      margin-top: 10px;
+      margin-bottom: 5px;
 
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-evenly;
+    }
+
+    .subscription-count {
+      ${'' /* border: 1px solid gold; */}
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .subscription-count p {
+      padding: 0px 3px;
+      color: rgb(73, 73, 73);
+    }
+
+    h4 {
+      margin-top: 10px;
     }
   `;
 
@@ -106,17 +129,20 @@ function SubredditSidebar(props) {
   return (
     <div css={styling}>
       <div className="hamburger-container">
-        <HamburgerButton action={open} setAction={setOpen} dir="right" />
+        <HamburgerButton action={props.open} setAction={props.setOpen} dir="right" />
       </div>
-      <div className={open ? "sidebar-container open" : "sidebar-container"}>
+      <div className={props.open ? "sidebar-container open" : "sidebar-container"}>
         <div className="title-subscribe">
           <h2>{subredditSidebarData["data"]["display_name"]}</h2>
-          {console.log(subredditSidebarData["data"]["user_is_subscriber"])}
           <SubscribeButton subscribed={subredditSidebarData["data"]["user_is_subscriber"]} />
         </div>
+        <div className="subscription-count">
+          <p>{subredditSidebarData["data"]["subscribers"]}</p>
+          <p>readers,</p>
+          <p>{subredditSidebarData["data"]["active_user_count"]}</p>
+          <p>here</p>
+        </div>
         <h4>{subredditSidebarData["data"]["title"]}</h4>
-        <p>{subredditSidebarData["data"]["subscribers"]} subscribers</p>
-        <p>{subredditSidebarData["data"]["active_user_count"]} subscribers present</p>
         {/* <p>{subredditSidebarData["data"]["description"]}</p> */}
         <p>{subredditSidebarData["data"]["public_description"]}</p>
       </div>

@@ -11,13 +11,14 @@ import SubredditSidebar from './SubredditSidebar.js';
 function SubredditPage(props) {
   const { subreddit } = useParams();
 
+  const [ open, setOpen ] = useState(false);
   const [ subredditPageData, setSubredditPageData ] = useState({data:{children:[]}});
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    border: 1px solid gray;
+    ${'' /* border: 1px solid gray; */}
 
     display: flex;
     flex-direction: row;
@@ -25,7 +26,25 @@ function SubredditPage(props) {
     justify-content: space-evenly;
 
     .listing {
-      border: 2px solid red;
+      ${'' /* border: 2px solid red; */}
+
+      ${open
+        ?
+        "border-right: 1px solid rgb(180, 180, 180); \
+        transition: border 0.8s ease-in-out 0.2s;"
+        :
+        "border-right: 1px solid rgba(180, 180, 180, 0); \
+        transition: border 0.6s ease-in-out;"
+      }
+
+      ${'' /* .sidebar-container {
+        border: 5px solid red;
+
+        width: 100%;
+        height: 100%;
+
+        background-color: rgb(189, 189, 189);
+      } */}
     }
   `;
 
@@ -56,7 +75,9 @@ function SubredditPage(props) {
   return (
     <div css={styling}>
       <ListingParser listing={subredditPageData} />
-      <SubredditSidebar />
+      <div className="sidebar-container">
+        <SubredditSidebar open={open} setOpen={setOpen} />
+      </div>
     </div>
   );
 }

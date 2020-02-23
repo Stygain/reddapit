@@ -30,8 +30,8 @@ function SubscribeButton(props) {
     	border: none;
     	cursor: pointer;
     	border-radius: 4px;
-    	box-shadow: 0px 2px 20px rgba(50, 50, 50, 0.5);
-    	transition: 0.3s ease-in-out all;
+    	box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+    	transition: box-shadow 0.6s cubic-bezier(.29,0,.46,1);
     }
 
     button.subscribed {
@@ -45,13 +45,12 @@ function SubscribeButton(props) {
     }
 
     button:hover {
-      box-shadow: 0px 2px 15px rgba(10, 10, 10, 0.5);
+      box-shadow: 0px 2px 7px rgba(10, 10, 10, 0.5);
     }
   `;
 
   return (
     <div css={styling}>
-      {console.log(" INSIDE " + props.subscribed)}
       <button type="action" className={props.subscribed ? "action subscribed" : "action not-subscribed"}>{props.subscribed ? "Unsubscribe" : "Subscribe"}</button>
     </div>
   );
