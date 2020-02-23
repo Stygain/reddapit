@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-import HamburgerButton from './HamburgerButton.js';
+import ArrowButton from './ArrowButton.js';
 import SubscribeButton from './SubscribeButton.js';
 
 
@@ -128,7 +128,7 @@ function SubredditSidebar(props) {
   return (
     <div css={styling}>
       <div className="hamburger-container">
-        <HamburgerButton action={props.open} setAction={props.setOpen} dir="right" />
+        <ArrowButton action={props.open} setAction={props.setOpen} dir="right" />
       </div>
       <div className={props.open ? "sidebar-container open" : "sidebar-container"}>
         <div className="title-subscribe">
