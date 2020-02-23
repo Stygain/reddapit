@@ -34,9 +34,7 @@ function UserHeader(props) {
     h1 {
       overflow: hidden;
       text-align: center;
-      margin-bottom: 30px;
-
-      ${'' /* animation: 0.8s slide-in 0.5s; */}
+      margin: 10px 0px;
     }
 
     .title-container {
@@ -61,13 +59,7 @@ function UserHeader(props) {
 
       opacity: 0%;
 
-      animation: 0.8s fade-in 0.8s forwards;
-    }
-
-    h3 {
-      opacity: 0%;
-
-      animation: 0.8s fade-in 0.8s forwards;
+      animation: 0.8s fade-in 0.5s forwards;
     }
 
     .descriptor {
@@ -93,14 +85,15 @@ function UserHeader(props) {
       background-color: rgb(248, 248, 248);
       box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
 
+      z-index: 1;
+
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
 
       opacity: 0%;
-
-      animation: 0.8s fade-in 0.8s forwards;
+      animation: 0.8s fade-in 1s forwards;
     }
 
     .karma-box {

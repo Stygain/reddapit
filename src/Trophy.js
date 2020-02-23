@@ -15,8 +15,58 @@ function Trophy(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    border: 1px solid green;
+    ${'' /* border: 1px solid green; */}
 
+    margin-top: -10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h2 {
+      margin: 0;
+      margin-top: 10px;
+    }
+
+    .trophy {
+      ${'' /* border: 1px solid black; */}
+
+      padding: 5px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+
+
+      opacity: 0%;
+      animation: 0.8s fade-in 1.5s forwards;
+    }
+
+    .trophy-icon-container {
+      ${'' /* border: 1px solid red; */}
+
+      max-width: 200px;
+
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .trophy-icon {
+      padding: 5px;
+    }
+
+
+    @keyframes fade-in {
+      from {
+        opacity: 0%;
+      }
+      to {
+        opacity: 100%;
+      }
+    }
   `;
   useEffect(() => {
     async function fetchTrophyData() {
@@ -46,13 +96,13 @@ function Trophy(props) {
       {loadingTrophies ? (
         <PulseBubble />
       ) :
-        <div>
-          <div className="trophy">
-            <h2>Trophies:</h2>
+        <div className="trophy">
+          <h2>Trophies</h2>
+          <div className="trophy-icon-container">
             {
               trophyData["data"]["trophies"].map((item) => {
                 // console.log(item)
-                return(<img src={item["data"]["icon_70"]} key={item["data"]["icon_70"]} />)
+                return(<img className="trophy-icon" src={item["data"]["icon_70"]} key={item["data"]["icon_70"]} />)
               })
             }
           </div>
