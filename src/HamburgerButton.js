@@ -1,12 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
-import pages from './data/pages.json'
 
 function HamburgerButton(props) {
-  const [ open, setOpen ] = useState(false);
   const styling = css`
     & .button-container {
       background-color: rgb(244, 244, 244);

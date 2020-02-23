@@ -6,7 +6,6 @@ import { useCookies } from 'react-cookie';
 
 import HamburgerButton from './HamburgerButton.js';
 import SubscribeButton from './SubscribeButton.js';
-import ListingParser from './ListingParser.js';
 
 
 function SubredditSidebar(props) {

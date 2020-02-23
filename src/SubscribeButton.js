@@ -1,12 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 
 function SubscribeButton(props) {
-  // const [ score, setScore ] = useState(props.data.data.score);
-
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
 

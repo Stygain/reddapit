@@ -28,14 +28,8 @@ function SubredditPage(props) {
     .listing {
       ${'' /* border: 2px solid red; */}
 
-      ${open
-        ?
-        "border-right: 1px solid rgb(180, 180, 180); \
-        transition: border 0.8s ease-in-out 0.2s;"
-        :
-        "border-right: 1px solid rgba(180, 180, 180, 0); \
-        transition: border 0.6s ease-in-out;"
-      }
+      border-right: ${open ? "1px solid rgb(180, 180, 180)" : "1px solid rgba(180, 180, 180, 0)"};
+      transition: ${open ? "border 0.8s ease-in-out 0.2s" : "border 0.6s ease-in-out"};
 
       ${'' /* .sidebar-container {
         border: 5px solid red;
@@ -70,7 +64,7 @@ function SubredditPage(props) {
       // setLoadingUser(false)
     }
     fetchSubredditPage()
-  }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+  }, [subreddit, cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
 
   return (
     <div css={styling}>
