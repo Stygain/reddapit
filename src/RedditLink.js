@@ -113,7 +113,7 @@ function RedditLink(props) {
     }
 
     .body img {
-      max-width: 100%;
+      max-width: 97%;
       max-height: 600px;
       padding: 10px;
     }

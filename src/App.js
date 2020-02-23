@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { useCookies, withCookies } from 'react-cookie';
 
 import FrontPage from './FrontPage.js';
+import SubredditPage from './SubredditPage.js';
 import UserPage from './UserPage.js';
 import LoginPage from './LoginPage.js';
 import NavBar from './NavBar.js';
@@ -15,7 +16,7 @@ function App(props) {
 
   const styling = css`
   `;
-  
+
   return (
     <div css={styling}>
       <NavBar />
@@ -36,6 +37,16 @@ function App(props) {
         </Route>
         <Route path='/user'>
           <Redirect to={"/user/" + cookies.username} />
+        </Route>
+        <Route path='/r/:subreddit'>
+          <ContentMargin>
+            {/* <Center> */}
+              <SubredditPage />
+            {/* </Center> */}
+          </ContentMargin>
+        </Route>
+        <Route path='/r'>
+          <Redirect to="/" />
         </Route>
         <Route path='/login'>
           <Center>

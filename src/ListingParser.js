@@ -6,7 +6,7 @@ import RedditLink from './RedditLink.js';
 
 function ListingParser(props) {
   return (
-    <div>
+    <div className="listing">
       {
         props.listing.data.children.map((item) => {
           // console.log(item)
