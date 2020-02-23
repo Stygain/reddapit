@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import HamburgerButton from './HamburgerButton.js';
+import SubscribeButton from './SubscribeButton.js';
 import ListingParser from './ListingParser.js';
 
 
@@ -18,7 +19,11 @@ function SubredditSidebar(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    ${'' /* border: 1px solid red; */}
+    border: 1px solid red;
+
+    ${'' /* font changing? */}
+
+    padding: 10px;
 
     display: flex;
     flex-direction: column;
@@ -29,13 +34,19 @@ function SubredditSidebar(props) {
       ${'' /* border: 1px solid green; */}
 
       width: 0px;
+      opacity: 0%;
       overflow-x: hidden;
 
-      transition: width 0.5s ease;
+      transition: opacity 0.4s cubic-bezier(.65,0,.71,1),
+                  width 0.5s cubic-bezier(.42,.42,.46,1) 0.3s;
     }
 
     .sidebar-container.open {
-      width: 200px;
+      width: 250px;
+      opacity: 100%;
+
+      transition: opacity 0.4s cubic-bezier(.65,0,.71,1) 0.3s,
+                  width 0.5s cubic-bezier(.42,.42,.46,1);
     }
 
     .hamburger-container {
@@ -43,6 +54,15 @@ function SubredditSidebar(props) {
 
       width: 51px;
       align-self: flex-start;
+    }
+
+    .title-subscribe {
+      border: 1px solid green;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
     }
   `;
 
@@ -89,7 +109,16 @@ function SubredditSidebar(props) {
         <HamburgerButton action={open} setAction={setOpen} dir="right" />
       </div>
       <div className={open ? "sidebar-container open" : "sidebar-container"}>
-        <h2>{subredditSidebarData["data"]["display_name"]}</h2>
+        <div className="title-subscribe">
+          <h2>{subredditSidebarData["data"]["display_name"]}</h2>
+          {console.log(subredditSidebarData["data"]["user_is_subscriber"])}
+          <SubscribeButton subscribed={subredditSidebarData["data"]["user_is_subscriber"]} />
+        </div>
+        <h4>{subredditSidebarData["data"]["title"]}</h4>
+        <p>{subredditSidebarData["data"]["subscribers"]} subscribers</p>
+        <p>{subredditSidebarData["data"]["active_user_count"]} subscribers present</p>
+        {/* <p>{subredditSidebarData["data"]["description"]}</p> */}
+        <p>{subredditSidebarData["data"]["public_description"]}</p>
       </div>
     </div>
   );
