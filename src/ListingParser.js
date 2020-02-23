@@ -1,7 +1,4 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
-import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import React from 'react';
 
 import RedditComment from './RedditComment.js';
 import RedditLink from './RedditLink.js';
