@@ -26,6 +26,8 @@ function SubredditSidebar(props) {
 
     padding: 10px;
 
+    max-width: 260px;
+
     display: flex;
     flex-direction: column;
     align-items: center;

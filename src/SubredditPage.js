@@ -18,27 +18,24 @@ function SubredditPage(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    ${'' /* border: 1px solid gray; */}
+    ${'' /* border: 1px solid red; */}
 
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-evenly;
+    justify-content: flex-end;
 
-    .listing {
-      ${'' /* border: 2px solid red; */}
+    .subreddit-stretch {
+      ${'' /* border: 1px solid red; */}
+
+      width: 100%;
+      height: auto;
+      height: 91vh;
+      max-width: 15%;
+      flex-shrink: 10;
 
       border-right: ${open ? "1px solid rgb(180, 180, 180)" : "1px solid rgba(180, 180, 180, 0)"};
       transition: ${open ? "border 0.8s ease-in-out 0.2s" : "border 0.6s ease-in-out"};
-
-      ${'' /* .sidebar-container {
-        border: 5px solid red;
-
-        width: 100%;
-        height: 100%;
-
-        background-color: rgb(189, 189, 189);
-      } */}
     }
   `;
 
@@ -69,9 +66,8 @@ function SubredditPage(props) {
   return (
     <div css={styling}>
       <ListingParser listing={subredditPageData} />
-      <div className="sidebar-container">
-        <SubredditSidebar open={open} setOpen={setOpen} />
-      </div>
+      <div className="subreddit-stretch"></div>
+      <SubredditSidebar open={open} setOpen={setOpen} />
     </div>
   );
 }

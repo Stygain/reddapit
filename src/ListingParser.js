@@ -1,12 +1,16 @@
-import React from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 
 import RedditComment from './RedditComment.js';
 import RedditLink from './RedditLink.js';
 
 
 function ListingParser(props) {
+  const styling = css`
+    ${'' /* border: 1px solid red; */}
+  `;
   return (
-    <div className="listing">
+    <div css={styling} className="listing">
       {
         props.listing.data.children.map((item) => {
           // console.log(item)
