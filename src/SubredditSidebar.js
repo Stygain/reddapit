@@ -18,16 +18,31 @@ function SubredditSidebar(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
-    border: 1px solid red;
+    ${'' /* border: 1px solid red; */}
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
     .sidebar-container {
-      border: 1px solid green;
+      ${'' /* border: 1px solid green; */}
 
+      width: 0px;
+      overflow-x: hidden;
+
+      transition: width 0.5s ease;
+    }
+
+    .sidebar-container.open {
       width: 200px;
+    }
+
+    .hamburger-container {
+      ${'' /* border: 1px solid orange; */}
+
+      width: 51px;
+      align-self: flex-start;
     }
   `;
 
@@ -70,8 +85,10 @@ function SubredditSidebar(props) {
 
   return (
     <div css={styling}>
-      <HamburgerButton action={open} setAction={setOpen} dir="right" />
-      <div className="sidebar-container">
+      <div className="hamburger-container">
+        <HamburgerButton action={open} setAction={setOpen} dir="right" />
+      </div>
+      <div className={open ? "sidebar-container open" : "sidebar-container"}>
         <h2>{subredditSidebarData["data"]["display_name"]}</h2>
       </div>
     </div>
