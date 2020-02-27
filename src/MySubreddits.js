@@ -81,7 +81,7 @@ function MySubreddits(props) {
             let responseBody = {};
             setLoadingUser(true);
             const response = await fetch(
-                ("https://oauth.reddit.com/subreddits/mine/" + "subscriber" + "?raw_json=1"),
+                ("https://oauth.reddit.com/subreddits/mine/" + "subscriber" + "?raw_json=1&limit=100"),
                 {
                     method: "GET",
                     headers: {
