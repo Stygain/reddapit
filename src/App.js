@@ -8,6 +8,7 @@ import SubredditPage from './SubredditPage.js';
 import UserPage from './UserPage.js';
 import LoginPage from './LoginPage.js';
 import NavBar from './NavBar.js';
+import MySubreddits from './MySubreddits.js';
 import { ContentMargin, Center } from './Utils.js';
 
 function App(props) {
@@ -44,6 +45,12 @@ function App(props) {
               <SubredditPage />
             {/* </Center> */}
           </ContentMargin>
+        </Route>
+        <Route path="/subreddits">
+          <ContentMargin>
+            <MySubreddits />
+            </ContentMargin>
+
         </Route>
         <Route path='/r'>
           <Redirect to="/" />
