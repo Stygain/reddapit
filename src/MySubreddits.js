@@ -17,7 +17,6 @@ function MySubreddits(props) {
 
     const styling = css`
     ${'' /* border: 1px solid blue; */}
-
     .bubble-container {
       display: flex;
       flex-direction: column;
@@ -27,7 +26,6 @@ function MySubreddits(props) {
 
     h1, h3 {
       ${'' /* border: 1px solid green; */}
-
       margin: 0;
       padding: 0;
     }
@@ -38,41 +36,33 @@ function MySubreddits(props) {
       margin: 10px 0px;
     }
 
-    .title-container {
-      ${'' /* border 1px solid red; */}
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .title-box {
-      ${'' /* border 1px solid red; */}
-
-      z-index: 2;
-      background: rgb(255, 255, 255);
-      box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
-
+    .subreddit-listing {
+      display: inline-block;
+      margin: 0;
+      margin: 5px 5px 5px 5px;
+      width: 150px;
       border-radius: 10px;
       padding: 5px;
-      width: 45%;
-
-      opacity: 0%;
-
-      animation: 0.8s fade-in 0.5s forwards;
+      height: 150px;
+      background-color: rgb(242, 242, 242);
+      box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
+      transition: box-shadow 0.5s ease;
+      justify-content: center;
+      font-size: 22px;
+      line-height: 150px;
+      text-align: center;
     }
 
+    .flex-container{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+    }
     .descriptor {
       color: rgb(158, 158, 158);
     }
-    @keyframes fade-in {
-      from {
-        opacity: 0%;
-      }
-      to {
-        opacity: 100%;
-      }
+
     }
   `;
 
@@ -103,7 +93,7 @@ function MySubreddits(props) {
     var mineSubreddits;
     if(mySubredditsData.children !== undefined){
         mineSubreddits = mySubredditsData.children.map((child) =>
-            <div key={child.data.display_name}>{child.data.display_name}</div>
+            <div key={child.data.display_name} className="subreddit-listing">{child.data.display_name}</div>
         );
     }
 
@@ -111,7 +101,7 @@ function MySubreddits(props) {
     console.log(mySubredditsData.children);
 
     return (
-        <div css={styling}>
+        <div css={styling} className="flex-container">
           {loadingUser ? (
             <div className="bubble-container">
               <PulseBubble />
