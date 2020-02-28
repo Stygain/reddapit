@@ -42,10 +42,8 @@ function MySubreddits(props) {
       margin: 5px 5px 5px 5px;
       width: 150px;
       border-radius: 10px;
-      padding: 5px;
       height: 150px;
-      background-color: rgb(242, 242, 242);
-      box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
+      box-shadow: 0px 5px 10px 1px rgba(0.1,0,0,0.3);
       transition: box-shadow 0.5s ease;
       justify-content: center;
       font-size: 22px;
@@ -58,11 +56,33 @@ function MySubreddits(props) {
       flex-direction: row;
       flex-wrap: wrap;
       width: 100%;
+      margin-left: 100px;
     }
     .descriptor {
       color: rgb(158, 158, 158);
     }
 
+    .red{
+      background-color: #ff3213;
+      color: white;
+    }
+    .blue{
+      background-color: #0341ae;
+      color: white;
+    }
+    .green{
+      background-color: #72cb3b;
+    }
+    .yellow{
+      background-color: #ffd500;
+    }
+    .orange{
+      background-color: #ff971c;
+    }
+
+    @keyframes fall {
+      from{margin-bottom: 300px;}
+      to{margin-bottom: 10px;}
     }
   `;
 
@@ -90,12 +110,24 @@ function MySubreddits(props) {
         fetchMineData()
     }, [cookies.accessToken, props.username, cookies.username, cookies.redditApp, cookies.redditVersion]);
 
+
+    const colorSet = ["red", "blue", "green", "yellow", "orange"];
+
+
+    function colorPicker(){
+      var index = Math.floor(Math.random() * colorSet.length);
+      console.log(index);
+      return colorSet[index];
+    }
+
     var mineSubreddits;
     if(mySubredditsData.children !== undefined){
         mineSubreddits = mySubredditsData.children.map((child) =>
-            <div key={child.data.display_name} className="subreddit-listing">{child.data.display_name}</div>
-        );
-    }
+          (
+          <div key={child.data.display_name} className={"subreddit-listing " + colorPicker()}>{child.data.display_name}</div>
+          ))
+        }
+  
 
     console.log(mySubredditsData);
     console.log(mySubredditsData.children);
