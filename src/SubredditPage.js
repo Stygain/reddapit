@@ -7,7 +7,6 @@ import { useCookies } from 'react-cookie';
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
 
-
 function SubredditPage(props) {
   const { subreddit } = useParams();
 
