@@ -8,7 +8,6 @@ import PulseBubble from './Loaders/PulseBubble.js';
 
 function MySubreddits(props) {
     
-
     const [mySubredditsData, setMySubredditsData] = useState({ data: { children: [] } });
 
     const [loadingUser, setLoadingUser] = useState(false);
@@ -72,8 +71,9 @@ function MySubreddits(props) {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      width: 100%;
-      margin-left: 100px;
+      margin-left: 50px;
+      margin-right: 40px;
+      margin-bottom: 20px;
     }
     .descriptor {
       color: rgb(158, 158, 158);
@@ -102,10 +102,10 @@ function MySubreddits(props) {
       color: black;
     }
     .long-subreddit{
-      font-size:16px;
+      font-size:18px;
     }
     .average-subreddit{
-      font-size: 22px;
+      font-size: 26px;
     }
 
     @keyframes fall {
@@ -148,7 +148,7 @@ function MySubreddits(props) {
     }
 
     function fontSizeSet(display_name){
-      if(display_name.length > 20){
+      if(display_name.length > 14){
         return "long-subreddit";
       } else{
         return "average-subreddit";
@@ -169,14 +169,14 @@ function MySubreddits(props) {
     console.log(mySubredditsData.children);
 
     return (
-        <div css={styling} className="flex-container">
+        <div css={styling}>
           <div className="my-subreddits-title">My Subreddits</div>
           {loadingUser ? (
             <div className="bubble-container">
               <PulseBubble />
             </div>
           ) :
-            <div>
+            <div className="flex-container">
                 {mineSubreddits}
             </div>
           }
