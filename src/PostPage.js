@@ -3,6 +3,7 @@ import { jsx, css } from '@emotion/core';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import React from 'react';
 
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
@@ -48,15 +49,16 @@ function SubredditPage(props) {
         margin-bottom: 20px;
         display: block;
         height: 100px;
-        background-color: red;
-        color: white;
+        background-color: lightgrey;
+        color: black;
         line-height: 20px;
+        padding: 10px;
     }
     .comments-area{
         display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
     }
   `;
 
@@ -65,7 +67,7 @@ function SubredditPage(props) {
             let responseBody = {};
             // setLoadingUser(true);
             const response = await fetch(
-                ("https://oauth.reddit.com/r/" + subreddit + "/comments/fcy4bj" + "?raw_json=1&?sort=confidence"),
+                ("https://oauth.reddit.com/r/" + subreddit + "/comments/" + post + "?raw_json=1&?sort=confidence"),
                 {
                     method: "GET",
                     headers: {
@@ -100,18 +102,29 @@ function SubredditPage(props) {
     function postParser() {
         //TODO: handle text vs image posts
         try {
-            var post = subredditPageData[0].data.children[0].data.selftext;
-            return post;
+            var selftext = subredditPageData[0].data.children[0].data.selftext;
+            var title = subredditPageData[0].data.children[0].data.title;
+            console.log("selftext is: " + selftext + " title is: " + title);
+            return (
+                <>
+                    <div>
+                        {title}
+                    </div>
+                    <div>
+                        {selftext}
+                    </div>
+                </>
+            );
         }
-        catch(e){
+        catch (e) {
             console.log("postParser error" + e);
             return null;
         }
     }
-    
+
     var postText = postParser();
     var commentElements = commentParser();
-    
+
 
     return (
         <div css={styling}>
