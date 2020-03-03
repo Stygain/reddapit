@@ -113,7 +113,7 @@ function SubredditSidebar(props) {
       // setLoadingUser(false)
     }
     fetchSubredditSidebar()
-  }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+  }, [subreddit, cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
 
 // display_name
 // display_name_prefixed

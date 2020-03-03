@@ -93,7 +93,7 @@ function VoteContainer(props) {
         }
       );
       responseBody = await response.json();
-      // console.log(responseBody);
+      console.log(responseBody);
     }
     makeVotePost()
   }

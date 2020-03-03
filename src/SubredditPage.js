@@ -4,12 +4,17 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
+import { useDispatch } from 'react-redux';
+import { setTitle } from './redux/actions.js';
+
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
 
 
 function SubredditPage(props) {
   const { subreddit } = useParams();
+
+  const dispatch = useDispatch();
 
   const [ open, setOpen ] = useState(false);
   const [ subredditPageData, setSubredditPageData ] = useState({data:{children:[]}});
@@ -44,7 +49,7 @@ function SubredditPage(props) {
       let responseBody = {};
       // setLoadingUser(true);
       const response = await fetch(
-        ("https://oauth.reddit.com/r/" + subreddit + "?raw_json=1&limit=2"),
+        ("https://oauth.reddit.com/r/" + subreddit + "?raw_json=1"),
         {
           method: "GET",
           headers: {
@@ -62,6 +67,10 @@ function SubredditPage(props) {
     }
     fetchSubredditPage()
   }, [subreddit, cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+
+  useEffect(() => {
+    dispatch(setTitle("/r/" + subreddit));
+  }, [dispatch, subreddit]);
 
   return (
     <div css={styling}>
