@@ -17,20 +17,77 @@ function RedditLink(props) {
     justify-content: center;
     align-items: center;
 
+
     a {
       color: rgb(37, 37, 37);
       text-decoration: none;
-      background: linear-gradient(to bottom, rgb(255, 152, 0) 0%, rgb(255, 152, 0) 100%);
-    	background-position: 0 100%;
+      ${'' /* background: linear-gradient(to bottom, rgb(5, 135, 163) 0%, rgb(5, 135, 163) 100%); */}
+      ${'' /* background-position: 0 100%;
     	background-repeat: repeat-x;
-    	background-size: 2px 2px;
+    	background-size: 2px 2px; */}
       transition: color 0.2s ease-in-out;
     }
 
     a:hover {
       color: rgb(0, 0, 0);
-      background: linear-gradient(to bottom, rgb(204, 122, 0) 0%, rgb(204, 122, 0) 100%);
-    	background-position: 0 100%;
+      ${'' /* background: linear-gradient(to bottom, rgb(0, 209, 255) 0%, rgb(0, 209, 255) 100%); */}
+    	${'' /* background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px; */}
+    }
+
+    a.title {
+      background: linear-gradient(to bottom, rgb(5, 135, 163) 0%, rgb(5, 135, 163) 100%);
+      background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    a.title:hover {
+      background: linear-gradient(to bottom, rgb(0, 209, 255) 0%, rgb(0, 209, 255) 100%);
+      background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    a.user {
+      background: linear-gradient(to bottom, rgb(181, 101, 27) 0%, rgb(181, 101, 27) 100%);
+      background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    a.user:hover {
+      background: linear-gradient(to bottom, rgb(255, 124, 4) 0%, rgb(255, 124, 4) 100%);
+      background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    a.subreddit {
+      background: linear-gradient(to bottom, rgb(75, 124, 69) 0%, rgb(75, 124, 69) 100%);
+      background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    a.subreddit:hover {
+      background: linear-gradient(to bottom, rgb(72, 190, 58) 0%, rgb(72, 190, 58) 100%);
+      background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    a.comments {
+      background: linear-gradient(to bottom, rgb(115, 115, 115) 0%, rgb(115, 115, 115) 100%);
+      background-position: 0 100%;
+    	background-repeat: repeat-x;
+    	background-size: 2px 2px;
+    }
+
+    a.context {
+      background: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 100%);
+      background-position: 0 100%;
     	background-repeat: repeat-x;
     	background-size: 2px 2px;
     }
@@ -170,10 +227,10 @@ function RedditLink(props) {
       <div className="post-box">
         {console.log(props.data)}
         <div className="title">
-          <h3><a href={props.data.data.url}>{props.data.data.title}</a></h3>
+          <h3><a className="title" href={props.data.data.url}>{props.data.data.title}</a></h3>
           <div className="post-info">
-            <p>by <a href={"/user/" + props.data.data.author}>{props.data.data.author}</a></p>
-            <p>in <a href={"https://www.reddit.com/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
+            <p>by <a className="user" href={"/user/" + props.data.data.author}>{props.data.data.author}</a></p>
+            <p>in <a className="subreddit" href={"https://www.reddit.com/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
           </div>
         </div>
         {
@@ -182,13 +239,13 @@ function RedditLink(props) {
             props.data.data.post_hint === "link"
             ?
               <div className="body">
-                <img src={props.data.data.thumbnail} alt={props.data.data.title} />
+                <img src={props.data.data.thumbnail} />
               </div>
             :
               props.data.data.post_hint === "image"
               ?
                 <div className="body">
-                  <img src={props.data.data.url} alt={props.data.data.title} />
+                  <img src={props.data.data.url} />
                 </div>
               :
                 props.data.data.post_hint === "rich:video"
@@ -209,8 +266,8 @@ function RedditLink(props) {
         <div className="actions">
           <VoteContainer data={props.data} dir="horizontal" />
           <div className="stretch"></div>
-          <p><a href={props.data.data.url}>Comments ({props.data.data.num_comments})</a></p>
-          <p><a href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p>
+          <p><a className="comments" href={props.data.data.url}>Comments ({props.data.data.num_comments})</a></p>
+          <p><a className="context" href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p>
         </div>
       </div>
     </div>
