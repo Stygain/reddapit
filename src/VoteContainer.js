@@ -57,23 +57,27 @@ function VoteContainer(props) {
     }
 
     .score-box .upvote {
-      color: rgb(235, 103, 29);
-      transition: text-shadow 0.3s ease;
+      color: rgb(156, 122, 103);
+      transition: color 0.3s ease,
+                  text-shadow 0.3s ease;
       user-select: none;
     }
 
     .score-box .upvote.active {
-      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.77);
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.77);
+      color: rgb(235, 103, 29);
     }
 
     .score-box .downvote {
-      color: rgb(17, 121, 166);
-      transition: text-shadow 0.3s ease;
+      color: rgb(110, 138, 149);
+      transition: color 0.3s ease,
+                  text-shadow 0.3s ease;
       user-select: none;
     }
 
     .score-box .downvote.active {
-      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.77);
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.77);
+      color: rgb(17, 121, 166);
     }
   `;
 
@@ -102,6 +106,7 @@ function VoteContainer(props) {
     if (props.data.data.archived) {
       // TODO turn this into a modal
       alert('archived');
+      return;
     }
     var direction;
     if (score === origScore) {
