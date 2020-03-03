@@ -12,6 +12,7 @@ function ListingParser(props) {
   return (
     <div css={styling} className="listing">
       {
+        //eslint-disable-next-line
         props.listing.data.children.map((item) => {
           // console.log(item)
           if (item["kind"] === "t1") {
