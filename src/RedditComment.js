@@ -20,19 +20,11 @@ function RedditComment(props) {
     a {
       color: rgb(37, 37, 37);
       text-decoration: none;
-      ${'' /* background: linear-gradient(to bottom, rgb(5, 135, 163) 0%, rgb(5, 135, 163) 100%); */}
-      ${'' /* background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px; */}
       transition: color 0.2s ease-in-out;
     }
 
     a:hover {
       color: rgb(0, 0, 0);
-      ${'' /* background: linear-gradient(to bottom, rgb(0, 209, 255) 0%, rgb(0, 209, 255) 100%); */}
-    	${'' /* background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px; */}
     }
 
     a.title {
