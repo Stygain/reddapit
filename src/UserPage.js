@@ -1,7 +1,11 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+
+import { useDispatch } from 'react-redux';
+import { setTitle } from './redux/actions.js';
 
 import UserHeader from './UserHeader.js';
 import Trophy from './Trophy.js';
@@ -11,6 +15,8 @@ import UserOverview from './UserOverview.js';
 function UserPage(props) {
   const { userAccount } = useParams();
 
+  const dispatch = useDispatch();
+
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
 
@@ -18,6 +24,11 @@ function UserPage(props) {
     ${'' /* border: 1px solid red; */}
 
   `;
+
+  useEffect(() => {
+    dispatch(setTitle("u/" + userAccount));
+  }, [dispatch, userAccount]);
+
   return (
     <div css={styling}>
       {

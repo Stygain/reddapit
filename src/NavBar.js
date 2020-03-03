@@ -3,13 +3,18 @@ import { jsx, css } from '@emotion/core';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+import { getTitle } from './redux/selectors.js';
+
 import HamburgerButton from './HamburgerButton.js';
 
 import pages from './data/pages.json'
 
 function NavBar(props) {
   const [ open, setOpen ] = useState(false);
-  
+
+  const title = useSelector(getTitle);
+
   const styling = css`
     & {
       @import url('https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap');
@@ -140,7 +145,7 @@ function NavBar(props) {
 
   return (
     <div css={styling} className='navbar'>
-      <NavLink className="title" to="/">Reddapit</NavLink>
+      <NavLink className="title" to="/">{title === "" ? "Reddapit" : "Reddapit/" + title}</NavLink>
       <HamburgerButton action={open} setAction={setOpen} dir="up" />
       <div className={open ? "navlist open" : "navlist"}>
         <ul>
