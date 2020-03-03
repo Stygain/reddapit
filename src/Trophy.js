@@ -35,8 +35,8 @@ function Trophy(props) {
       padding: 5px;
       text-align: center;
       border-radius: 10px;
+      background-color: rgb(241, 241, 241);
       box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
-
 
       opacity: 0%;
       animation: 0.8s fade-in 1.5s forwards;
@@ -102,7 +102,7 @@ function Trophy(props) {
             {
               trophyData["data"]["trophies"].map((item) => {
                 // console.log(item)
-                return(<img className="trophy-icon" src={item["data"]["icon_70"]} key={item["data"]["icon_70"]} alt={item["data"]["name"]} />)
+                return(<img className="trophy-icon" src={item["data"]["icon_70"]} key={item["data"]["icon_70"]} />)
               })
             }
           </div>
