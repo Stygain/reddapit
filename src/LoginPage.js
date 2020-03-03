@@ -175,7 +175,8 @@ function LoginPage(props) {
         setAppName('')
         setAppVersion('')
       }
-      fetchAccessToken()
+      fetchAccessToken();
+      window.location.href = "/";
     }
   }
 
