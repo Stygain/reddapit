@@ -231,13 +231,13 @@ function RedditLink(props) {
             props.data.data.post_hint === "link"
             ?
               <div className="body">
-                <img src={props.data.data.thumbnail} />
+                <img src={props.data.data.thumbnail} alt={props.data.data.title} />
               </div>
             :
               props.data.data.post_hint === "image"
               ?
                 <div className="body">
-                  <img src={props.data.data.url} />
+                  <img src={props.data.data.url} alt={props.data.data.title} />
                 </div>
               :
                 props.data.data.post_hint === "rich:video"
