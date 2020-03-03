@@ -15,16 +15,11 @@ function SubredditPage(props) {
 
     // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies();
-
-    alert("post page!");
-
     const styling = css`
     ${'' /* border: 1px solid red; */}
 
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-end;
+    
+    position: relative;
 
     .subreddit-stretch {
       ${'' /* border: 1px solid red; */}
@@ -46,6 +41,22 @@ function SubredditPage(props) {
         margin-top: 10px;
         border-radius: 10px;
         margin-left: 20px;
+        max-width: 900px;
+    }
+    .post-container{
+        min-width: 600px;
+        margin-bottom: 20px;
+        display: block;
+        height: 100px;
+        background-color: red;
+        color: white;
+        line-height: 20px;
+    }
+    .comments-area{
+        display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
     }
   `;
 
@@ -89,10 +100,11 @@ function SubredditPage(props) {
     function postParser() {
         //TODO: handle text vs image posts
         try {
-            var post = subredditPageData[0].data.title;
+            var post = subredditPageData[0].data.children[0].data.selftext;
             return post;
         }
-        catch{
+        catch(e){
+            console.log("postParser error" + e);
             return null;
         }
     }
@@ -103,8 +115,8 @@ function SubredditPage(props) {
 
     return (
         <div css={styling}>
-            <div>{postText}</div>
-            <div>{commentElements}</div>
+            <div className="post-container">{postText}</div>
+            <div className="comments-area">{commentElements}</div>
             <div className="subreddit-stretch"></div>
             <SubredditSidebar open={open} setOpen={setOpen} />
         </div>
