@@ -69,7 +69,7 @@ function SubredditPage(props) {
   }, [subreddit, cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
 
   useEffect(() => {
-    dispatch(setTitle("r/" + subreddit));
+    dispatch(setTitle("/r/" + subreddit));
   }, [dispatch, subreddit]);
 
   return (

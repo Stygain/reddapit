@@ -1,7 +1,10 @@
 /** @jsx jsx */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/core';
 import { useCookies } from 'react-cookie';
+
+import { useDispatch } from 'react-redux';
+import { clearTitle } from './redux/actions.js';
 
 import CircleRotate from './Loaders/CircleRotate.js';
 
@@ -16,6 +19,8 @@ function LoginPage(props) {
 
   const [ submitLoading, setSubmitLoading ] = useState(false);
   const [ disableInputs, setDisableInputs ] = useState(false);
+
+  const dispatch = useDispatch();
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -183,6 +188,10 @@ function LoginPage(props) {
     // console.log("Input change: " + event.target.value)
     setter(event.target.value)
   }
+
+  useEffect(() => {
+    dispatch(clearTitle());
+  }, [dispatch]);
 
   return (
     <div css={styling}>

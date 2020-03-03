@@ -3,11 +3,16 @@ import { jsx, css } from '@emotion/core';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
+import { useDispatch } from 'react-redux';
+import { clearTitle } from './redux/actions.js';
+
 import ListingParser from './ListingParser.js';
 
 
 function FrontPage(props) {
   const [ frontPageData, setFrontPageData ] = useState({data:{children:[]}});
+
+  const dispatch = useDispatch();
 
   // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -40,6 +45,10 @@ function FrontPage(props) {
     }
     fetchFrontPage()
   }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+
+  useEffect(() => {
+    dispatch(clearTitle());
+  }, [dispatch]);
 
   return (
     <div css={styling}>

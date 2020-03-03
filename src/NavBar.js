@@ -40,14 +40,32 @@ function NavBar(props) {
       color: #000;
     }
 
+    .title-container {
+      ${'' /* border: 1px solid red; */}
+
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: baseline;
+    }
+
     & .title {
+      ${'' /* border: 1px solid green; */}
+
       margin: 0;
       padding-left: 10px;
 
-      width: 250px;
+      ${'' /* width: 250px; */}
       font-size: 40px;
       text-align: left;
       font-weight: 500;
+    }
+
+    .title-container h1 {
+      font-size: 24px;
+      text-align: left;
+      font-weight: 500;
+      color: rgb(149, 149, 149);
     }
 
     & .navlist {
@@ -93,9 +111,9 @@ function NavBar(props) {
     }
 
     @media (max-width: 1300px) {
-      & .title {
+      ${'' /* & .title {
         width: 200px;
-      }
+      } */}
 
       .navlist {
         width: 100%;
@@ -133,7 +151,7 @@ function NavBar(props) {
 
     @media (max-width: 768px) {
       & .title {
-        width: 160px;
+        ${'' /* width: 160px; */}
         font-size: 32px;
       }
 
@@ -145,7 +163,10 @@ function NavBar(props) {
 
   return (
     <div css={styling} className='navbar'>
-      <NavLink className="title" to="/">{title === "" ? "Reddapit" : "Reddapit/" + title}</NavLink>
+      <div className="title-container">
+        <NavLink className="title" to="/">Reddapit</NavLink>
+        <h1>{title === "" ? "" : title}</h1>
+      </div>
       <HamburgerButton action={open} setAction={setOpen} dir="up" />
       <div className={open ? "navlist open" : "navlist"}>
         <ul>
