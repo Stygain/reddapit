@@ -222,7 +222,7 @@ function RedditLink(props) {
           <h3><a className="title" href={props.data.data.url}>{props.data.data.title}</a></h3>
           <div className="post-info">
             <p>by <a className="user" href={"/user/" + props.data.data.author}>{props.data.data.author}</a></p>
-            <p>in <a className="subreddit" href={"https://www.reddit.com/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
+            <p>in <a className="subreddit" href={"/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
           </div>
         </div>
         {

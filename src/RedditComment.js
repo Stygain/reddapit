@@ -190,7 +190,7 @@ function RedditComment(props) {
           <h3><a className="title" href={props.data.data.link_url}>{props.data.data.link_title}</a></h3>
           <div className="post-info">
             <p>by <a className="user" href={"/user/" + props.data.data.link_author}>{props.data.data.link_author}</a></p>
-            <p>in <a className="subreddit" href={"https://www.reddit.com/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
+            <p>in <a className="subreddit" href={"/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>
           </div>
         </div>
         <div className="body">
