@@ -1,15 +1,17 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
+import VoteContainer from './VoteContainer';
+
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
 
-function SubredditPage(props) {
+function PostPage(props) {
     const { subreddit, post } = useParams();
 
     const [loadingPost, setLoadingPost] = useState(true);
@@ -30,16 +32,24 @@ function SubredditPage(props) {
         max-width: 900px;
     }
     .post-container{
-        min-width: 600px;
         margin-bottom: 20px;
         display: block;
         height: auto;
         background-color: lightgrey;
         color: black;
         line-height: 20px;
-        padding: 15px;
+        padding: 20px;
         margin-left: 20px;
         margin-right: 20px;
+        word-wrap: break-word
+        border-radius: 10px;
+        width: 80%;
+        background-color: rgb(242,242,242);
+        box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
+        -webkit-transition: box-shadow 0.5s ease;
+        transition: box-shadow 0.5s ease;
+        word-wrap: break-word;
+        margin: auto;
     }
     .post-title{
         font-size: 22px;
@@ -50,12 +60,30 @@ function SubredditPage(props) {
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-end;
+        width: 80%;
+        margin: auto;
     }
     .bubble-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+      }
+      a{
+        margin-top: 10;
+        float: right;
+        color: rgb(37,37,37);
+        -webkit-text-decoration: none;
+        text-decoration: none;
+        background: linear-gradient(to bottom,rgb(255,152,0) 0%,rgb(255,152,0) 100%);
+        background-position: 0 100%;
+        background-repeat: repeat-x;
+        background-size: 2px 2px;
+        -webkit-transition: color 0.2s ease-in-out;
+        transition: color 0.2s ease-in-out;
+      }
+      a:hover{
+
       }
   `;
 
@@ -86,7 +114,12 @@ function SubredditPage(props) {
     function simpleCommentParser() {
         try {
             var comments = postPageData[1].data.children.map(comment =>
-                <div className="comment-box" key={comment.data.id}>{comment.data.body}</div>
+                <div className="comment-box" key={comment.data.id}>
+                    <VoteContainer data={comment}/>
+                    {comment.data.body}
+            <Link to={"/user/" + comment.data.author}>{comment.data.author}</Link>
+                    
+                    </div>
             );
             return comments;
         }
@@ -121,19 +154,31 @@ function SubredditPage(props) {
     var postText = postParser();
     var commentElements = simpleCommentParser();
 
+    var post_author = null;
+
+    try{
+        post_author = postPageData[0].data.children[0].data.author;
+    }
+    catch(e){
+        console.log(e);
+    }
+    
+    
 
     return (
-
         <div css={styling}>
-
             {loadingPost ? (
                 <div className="bubble-container">
                     <PulseBubble />
                 </div>
             ) :
                 <div>
-                    <div className="post-container">{postText}</div>
-                    <div>Comments:</div>
+                    <div className="post-container">
+                        {postText}
+                        <Link to={"/user/" + post_author}>{post_author}</Link>
+                        <div>{postPageData[0].data.children[0].data.subreddit}</div>
+                        </div>
+                    <div></div>
                     <div className="comments-area">{commentElements}</div>
                     <div className="subreddit-stretch"></div>
                 </div>
@@ -143,4 +188,4 @@ function SubredditPage(props) {
 }
 
 
-export default SubredditPage;
+export default PostPage;
