@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
-import VoteContainer from './VoteContainer';
+import CommentVoteContainer from './CommentVoteContainer';
 
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
@@ -25,7 +25,7 @@ function PostPage(props) {
         position: relative;
         padding: 15px;
         height: auto;
-        min-width: 200px;
+        min-width: 250px;
         margin-bottom: 10px;
         margin-top: 10px;
         border-radius: 10px;
@@ -89,11 +89,7 @@ function PostPage(props) {
         margin-top: 10px;   
       }
       .score-box{
-        display: flex;
-        justify-content: flex-start;
-        align-items: start;
-        justify-content: left;
-        -webkit-justify-content: left;
+        text-align: left;
       }
   `;
 
@@ -128,7 +124,7 @@ function PostPage(props) {
                     
                     <div>{comment.data.body}</div>
                     <div className="comment-info">
-                    <VoteContainer data={comment} />
+                    <CommentVoteContainer data={comment} />
                         <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
                     </div>
                 </div>
@@ -174,8 +170,6 @@ function PostPage(props) {
     catch (e) {
         console.log(e);
     }
-
-
 
     return (
         <div css={styling}>
