@@ -22,34 +22,33 @@ function PostPage(props) {
     const styling = css`
     position: relative;
     .comment-box{
+        position: relative;
         padding: 15px;
         height: auto;
-        border: 1px solid black;
+        min-width: 200px;
         margin-bottom: 10px;
         margin-top: 10px;
         border-radius: 10px;
         margin-left: 20px;
-        max-width: 900px;
+        background-color: rgb(242,242,242);
+        box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
+        -webkit-transition: box-shadow 0.5s ease;
+        transition: box-shadow 0.5s ease;
     }
     .post-container{
-        margin-bottom: 20px;
+        
         display: block;
         height: auto;
-        background-color: lightgrey;
-        color: black;
         line-height: 20px;
         padding: 20px;
-        margin-left: 20px;
-        margin-right: 20px;
         word-wrap: break-word
         border-radius: 10px;
         width: 80%;
         background-color: rgb(242,242,242);
         box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
-        -webkit-transition: box-shadow 0.5s ease;
-        transition: box-shadow 0.5s ease;
         word-wrap: break-word;
         margin: auto;
+        margin-bottom: 30px;
     }
     .post-title{
         font-size: 22px;
@@ -63,6 +62,7 @@ function PostPage(props) {
         width: 80%;
         margin: auto;
     }
+
     .bubble-container {
         display: flex;
         flex-direction: column;
@@ -71,7 +71,6 @@ function PostPage(props) {
       }
       a{
         margin-top: 10;
-        float: right;
         color: rgb(37,37,37);
         -webkit-text-decoration: none;
         text-decoration: none;
@@ -84,6 +83,17 @@ function PostPage(props) {
       }
       a:hover{
 
+      }
+      .comment-info{
+        text-align: right;
+        margin-top: 10px;   
+      }
+      .score-box{
+        display: flex;
+        justify-content: flex-start;
+        align-items: start;
+        justify-content: left;
+        -webkit-justify-content: left;
       }
   `;
 
@@ -115,11 +125,13 @@ function PostPage(props) {
         try {
             var comments = postPageData[1].data.children.map(comment =>
                 <div className="comment-box" key={comment.data.id}>
-                    <VoteContainer data={comment}/>
-                    {comment.data.body}
-            <Link to={"/user/" + comment.data.author}>{comment.data.author}</Link>
                     
+                    <div>{comment.data.body}</div>
+                    <div className="comment-info">
+                    <VoteContainer data={comment} />
+                        <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
                     </div>
+                </div>
             );
             return comments;
         }
@@ -156,14 +168,14 @@ function PostPage(props) {
 
     var post_author = null;
 
-    try{
+    try {
         post_author = postPageData[0].data.children[0].data.author;
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
-    
-    
+
+
 
     return (
         <div css={styling}>
@@ -175,9 +187,9 @@ function PostPage(props) {
                 <div>
                     <div className="post-container">
                         {postText}
-                        <Link to={"/user/" + post_author}>{post_author}</Link>
+                        <Link to={"/user/" + post_author} >{post_author}</Link>
                         <div>{postPageData[0].data.children[0].data.subreddit}</div>
-                        </div>
+                    </div>
                     <div></div>
                     <div className="comments-area">{commentElements}</div>
                     <div className="subreddit-stretch"></div>
