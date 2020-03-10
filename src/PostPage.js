@@ -21,6 +21,7 @@ function PostPage(props) {
     const [cookies, setCookie, removeCookie] = useCookies();
     const styling = css`
     position: relative;
+
     .comment-box{
         position: relative;
         padding: 15px;
@@ -36,7 +37,6 @@ function PostPage(props) {
         transition: box-shadow 0.5s ease;
     }
     .post-container{
-        
         display: block;
         height: auto;
         line-height: 20px;
@@ -53,6 +53,14 @@ function PostPage(props) {
     .post-title{
         font-size: 22px;
         margin-bottom: 10px;
+    }
+
+    .post-data{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-end;
+        margin: auto;
     }
     .comments-area{
         display: flex;
@@ -121,10 +129,9 @@ function PostPage(props) {
         try {
             var comments = postPageData[1].data.children.map(comment =>
                 <div className="comment-box" key={comment.data.id}>
-                    
                     <div>{comment.data.body}</div>
                     <div className="comment-info">
-                    <CommentVoteContainer data={comment} />
+                        <CommentVoteContainer data={comment} />
                         <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
                     </div>
                 </div>
@@ -137,18 +144,36 @@ function PostPage(props) {
     }
 
     function postParser() {
-        //TODO: handle text vs image posts
+        var postContents = null;
         try {
-            var selftext = postPageData[0].data.children[0].data.selftext;
-            var title = postPageData[0].data.children[0].data.title;
-            console.log("selftext is: " + selftext + " title is: " + title);
+            var postObject = postPageData[0].data.children[0].data;
+            var selftext = postObject.selftext;
+            var title = postObject.title;
+
+            if( postObject.selftext === ""){
+                if(postObject.post_hint === "link"){
+                    postContents =
+                        <div>
+                           <a href={postObject.url}><img src={postObject.thumbnail} /></a> 
+                        </div>;
+                }
+                else if(postObject.post_hint === "image"){
+                    postContents =
+                        <div>
+                            <img src={postObject.url}/>
+                        </div>;
+                }
+            }
+            else{
+                postContents = selftext;
+            }
             return (
                 <>
                     <div className="post-title">
                         {title}
                     </div>
                     <div>
-                        {selftext}
+                        {postContents}
                     </div>
                 </>
             );
@@ -181,17 +206,20 @@ function PostPage(props) {
                 <div>
                     <div className="post-container">
                         {postText}
-                        <Link to={"/user/" + post_author} >{post_author}</Link>
-                        <div>{postPageData[0].data.children[0].data.subreddit}</div>
+                        <div className="post-data">
+                            <Link to={"/user/" + post_author} className="post-author">{post_author}</Link>
+                            <Link to={"/r/" + postPageData[0].data.children[0].data.subreddit}>{"r/" + postPageData[0].data.children[0].data.subreddit}</Link>
+                            
+                        </div>
+
                     </div>
                     <div></div>
                     <div className="comments-area">{commentElements}</div>
                     <div className="subreddit-stretch"></div>
                 </div>
-            }
+                }
         </div>
     );
 }
-
 
 export default PostPage;

@@ -46,14 +46,14 @@ function CommentVoteContainer(props) {
 
       padding: 0px;
       margin: 0;
-      font-size: 15px;
+      font-size: 24px;
       cursor: pointer;
     }
 
     .score-box p {
       user-select: none;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 16px;
     }
 
     .score-box .upvote {
