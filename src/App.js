@@ -8,6 +8,8 @@ import SubredditPage from './SubredditPage.js';
 import UserPage from './UserPage.js';
 import LoginPage from './LoginPage.js';
 import NavBar from './NavBar.js';
+import MySubreddits from './MySubreddits.js';
+import PostPage from './PostPage.js';
 import { ContentMargin, Center } from './Utils.js';
 
 function App(props) {
@@ -38,12 +40,25 @@ function App(props) {
         <Route path='/user'>
           <Redirect to={"/user/" + cookies.username} />
         </Route>
+        <Route path='/r/:subreddit/:post'>
+          <ContentMargin>
+            {/* <Center> */}
+              <PostPage />
+            {/* </Center> */}
+          </ContentMargin>
+        </Route>
         <Route path='/r/:subreddit'>
           <ContentMargin>
             {/* <Center> */}
               <SubredditPage />
             {/* </Center> */}
           </ContentMargin>
+        </Route>
+        <Route path="/subreddits">
+          <ContentMargin>
+            <MySubreddits />
+            </ContentMargin>
+
         </Route>
         <Route path='/r'>
           <Redirect to="/" />

@@ -10,7 +10,6 @@ import { setTitle } from './redux/actions.js';
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
 
-
 function SubredditPage(props) {
   const { subreddit } = useParams();
 

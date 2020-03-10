@@ -258,7 +258,7 @@ function RedditLink(props) {
         <div className="actions">
           <VoteContainer data={props.data} dir="horizontal" />
           <div className="stretch"></div>
-          <p><a className="comments" href={props.data.data.url}>Comments ({props.data.data.num_comments})</a></p>
+          <p><a href={"/r/" + props.data.data.subreddit + "/" + props.data.data.id}>Comments ({props.data.data.num_comments})</a></p>
           <p><a className="context" href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p>
         </div>
       </div>
