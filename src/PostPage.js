@@ -6,12 +6,17 @@ import { useCookies } from 'react-cookie';
 import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
+import { useDispatch } from 'react-redux';
+import { clearTitle } from './redux/actions.js';
+
 import CommentVoteContainer from './CommentVoteContainer';
 
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
 
 function PostPage(props) {
+    const dispatch = useDispatch();
+
     const { subreddit, post } = useParams();
 
     const [loadingPost, setLoadingPost] = useState(true);
@@ -94,7 +99,7 @@ function PostPage(props) {
       }
       .comment-info{
         text-align: right;
-        margin-top: 10px;   
+        margin-top: 10px;
       }
       .score-box{
         text-align: left;
@@ -124,6 +129,10 @@ function PostPage(props) {
         }
         fetchSubredditPage()
     }, [subreddit, post, cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+    
+    useEffect(() => {
+      dispatch(clearTitle());
+    }, [dispatch]);
 
     function simpleCommentParser() {
         try {
@@ -154,7 +163,7 @@ function PostPage(props) {
                 if(postObject.post_hint === "link"){
                     postContents =
                         <div>
-                           <a href={postObject.url}><img src={postObject.thumbnail} /></a> 
+                           <a href={postObject.url}><img src={postObject.thumbnail} /></a>
                         </div>;
                 }
                 else if(postObject.post_hint === "image"){
@@ -209,7 +218,7 @@ function PostPage(props) {
                         <div className="post-data">
                             <Link to={"/user/" + post_author} className="post-author">{post_author}</Link>
                             <Link to={"/r/" + postPageData[0].data.children[0].data.subreddit}>{"r/" + postPageData[0].data.children[0].data.subreddit}</Link>
-                            
+
                         </div>
 
                     </div>

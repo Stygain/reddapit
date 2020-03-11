@@ -4,10 +4,14 @@ import { useParams, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { clearTitle } from './redux/actions.js';
+
 import PulseBubble from './Loaders/PulseBubble.js';
 
 function MySubreddits(props) {
-    
+    const dispatch = useDispatch();
+
     const [mySubredditsData, setMySubredditsData] = useState({ data: { children: [] } });
 
     const [loadingUser, setLoadingUser] = useState(false);
@@ -138,6 +142,10 @@ function MySubreddits(props) {
         fetchMineData()
     }, [cookies.accessToken, props.username, cookies.username, cookies.redditApp, cookies.redditVersion]);
 
+    useEffect(() => {
+      dispatch(clearTitle());
+    }, [dispatch]);
+
 
     const colorSet = ["red", "blue", "green", "yellow", "orange", "cyan"];
 
@@ -157,11 +165,11 @@ function MySubreddits(props) {
 
     var mineSubreddits;
     if(mySubredditsData.children !== undefined){
-      mySubredditsData.children.sort((a, b) => 
+      mySubredditsData.children.sort((a, b) =>
         ((a.data.display_name.toLowerCase() > b.data.display_name.toLowerCase()) ? 1 : -1));
         mineSubreddits = mySubredditsData.children.map((child) =>
           (<Link to={child.data.url} key={child.data.display_name}>
-          <div key={child.data.display_name} 
+          <div key={child.data.display_name}
           className={"subreddit-listing " + colorPicker() + " " + fontSizeSet(child.data.display_name) }>{child.data.display_name_prefixed}</div>
           </Link>
           ))
@@ -186,5 +194,3 @@ function MySubreddits(props) {
 }
 
 export default MySubreddits;
-
-

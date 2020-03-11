@@ -5,12 +5,12 @@
       "url": "/user"
     },
     {
-      "name": "Login",
-      "url": "/login"
-    },
-    {
       "name": "Subreddits",
       "url": "/subreddits"
+    },
+    {
+      "name": "Login",
+      "url": "/login"
     }
   ]
 }

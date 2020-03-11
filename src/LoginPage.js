@@ -138,7 +138,6 @@ function LoginPage(props) {
         appVersion === '') {
       alert("An argument is empty!")
     } else {
-
       async function fetchAccessToken() {
         let responseBody = {};
         setSubmitLoading(true);
@@ -160,13 +159,13 @@ function LoginPage(props) {
         console.log(responseBody);
 
         // Set cookies for our login information
-        setCookie('accessToken', responseBody.access_token, {maxAge: 3600})
-        setCookie('username', username, {maxAge: 3600})
-        setCookie('appName', appName, {maxAge: 3600})
-        setCookie('appVersion', appVersion, {maxAge: 3600})
-        console.log(cookies)
+        setCookie('accessToken', responseBody.access_token);
+        setCookie('username', username);
+        setCookie('appName', appName);
+        setCookie('appVersion', appVersion);
+        console.log(cookies);
 
-        setSubmitLoading(false)
+        setSubmitLoading(false);
         setDisableInputs(false);
         setUsername('')
         setPassword('')
@@ -176,7 +175,7 @@ function LoginPage(props) {
         setAppVersion('')
       }
       fetchAccessToken();
-      window.location.href = "/";
+      // window.location.href = "/";
     }
   }
 
