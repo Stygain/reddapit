@@ -199,7 +199,7 @@ function RedditComment(props) {
         </div>
         <div className="actions">
           <p><a className="comments" href={props.data.data.link_url}>Comments ({props.data.data.num_comments})</a></p>
-          <p><a className="context" href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p>
+          {/* <p><a className="context" href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p> */}
         </div>
       </div>
     </div>

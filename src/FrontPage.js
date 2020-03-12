@@ -8,9 +8,12 @@ import { clearTitle } from './redux/actions.js';
 
 import ListingParser from './ListingParser.js';
 
+import PulseBubble from './Loaders/PulseBubble.js';
+
 
 function FrontPage(props) {
   const [ frontPageData, setFrontPageData ] = useState({data:{children:[]}});
+  const [ loadingFrontPage, setLoadingFrontPage ] = useState({data:{children:[]}});
 
   const dispatch = useDispatch();
 
@@ -20,12 +23,21 @@ function FrontPage(props) {
   const styling = css`
     ${'' /* border: 1px solid red; */}
 
+    .centerer {
+      ${'' /* border: 1px solid green; */}
+
+      width: 100%;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
   `;
 
   useEffect(() => {
     async function fetchFrontPage() {
       let responseBody = {};
-      // setLoadingUser(true);
+      setLoadingFrontPage(true);
       const response = await fetch(
         ("https://oauth.reddit.com/?raw_json=1"),
         {
@@ -41,7 +53,7 @@ function FrontPage(props) {
       console.log(responseBody);
 
       setFrontPageData(responseBody)
-      // setLoadingUser(false)
+      setLoadingFrontPage(false)
     }
     fetchFrontPage()
   }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
@@ -52,7 +64,13 @@ function FrontPage(props) {
 
   return (
     <div css={styling}>
-      <ListingParser listing={frontPageData} />
+      {loadingFrontPage ?
+        <div className="centerer">
+          <PulseBubble />
+        </div>
+      :
+        <ListingParser listing={frontPageData} />
+      }
     </div>
   );
 }
