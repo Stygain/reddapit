@@ -145,6 +145,9 @@ function UserHeader(props) {
       );
       responseBody = await response.json();
       console.log(responseBody);
+      if (responseBody.error) {
+        window.location.href = "/login";
+      }
 
       setUserData(responseBody["data"])
       setLoadingUser(false)

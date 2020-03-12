@@ -98,6 +98,9 @@ function VoteContainer(props) {
       );
       responseBody = await response.json();
       console.log(responseBody);
+      if (responseBody.error) {
+        window.location.href = "/login";
+      }
     }
     makeVotePost()
   }

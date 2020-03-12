@@ -44,23 +44,23 @@ function CommentParser(props) {
     }
 
     .depth-1 {
-      margin-left: 15px;
+      margin-left: 10px;
     }
 
     .depth-2 {
-      margin-left: 30px;
+      margin-left: 15px;
     }
 
     .depth-3 {
-      margin-left: 45px;
+      margin-left: 20px;
     }
 
     .depth-4 {
-      margin-left: 60px;
+      margin-left: 25px;
     }
 
     .depth-5 {
-      margin-left: 75px;
+      margin-left: 30px;
     }
   `;
 
@@ -264,6 +264,9 @@ function PostPage(props) {
             );
             responseBody = await response.json();
             console.log("POST DATA:", responseBody);
+            if (responseBody.error) {
+              window.location.href = "/login";
+            }
 
             setPostPageData(responseBody)
             setLoadingPost(false)
