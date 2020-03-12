@@ -110,10 +110,11 @@ function NavBar(props) {
       color: #444;
     }
 
-    @media (max-width: 1300px) {
-      ${'' /* & .title {
-        width: 200px;
-      } */}
+    @media (max-width: 768px) {
+      & .title {
+        ${'' /* width: 160px; */}
+        font-size: 32px;
+      }
 
       .navlist {
         width: 100%;
@@ -146,17 +147,6 @@ function NavBar(props) {
       .navlist ul li a {
         padding: 0;
         display: block;
-      }
-    }
-
-    @media (max-width: 768px) {
-      & .title {
-        ${'' /* width: 160px; */}
-        font-size: 32px;
-      }
-
-      .navlist {
-        top: 47px;
       }
     }
   `;

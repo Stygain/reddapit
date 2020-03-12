@@ -7,8 +7,7 @@ function HamburgerButton(props) {
       display: none;
     }
 
-
-    @media (max-width: 1300px) {
+    @media (max-width: 768px) {
       & .button-container {
         background-color: rgb(244, 244, 244);
         border-radius: 5px;

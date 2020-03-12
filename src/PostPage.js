@@ -71,21 +71,9 @@ function CommentParser(props) {
       console.log("COMMENT PARSER GIVEN: ", props.data);
       if (props.data.data.children) {
         comments = props.data.data.children.map((comment) => {
-          // console.log("CHILD:", comment)
-
           var replies = [];
           if (comment.data.replies) {
-            // console.log("REPLIES EXIST")
             replies = comment.data.replies.data.children.map((reply) => {
-              // return (
-              //   <div className={"comment-box depth-" + (props.index + 1)} key={reply.data.id}>
-              //     <div>{reply.data.body}</div>
-              //     <div className="reply-info">
-              //       <CommentVoteContainer data={reply} />
-              //       <Link to={"/user/" + reply.data.author} className="reply-author">{reply.data.author}</Link>
-              //     </div>
-              //   </div>
-              // )
               return (
                 <CommentParser data={reply} index={props.index + 1} />
               );
