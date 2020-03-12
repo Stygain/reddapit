@@ -14,6 +14,120 @@ import CommentVoteContainer from './CommentVoteContainer';
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
 
+
+function CommentParser(props) {
+  const styling = css`
+    ${'' /* border: 1px solid red; */}
+
+    .comment-box {
+    }
+
+    .depth-0 {
+      margin-left: 0px;
+    }
+
+    .depth-1 {
+      margin-left: 15px;
+    }
+
+    .depth-2 {
+      margin-left: 30px;
+    }
+
+    .depth-3 {
+      margin-left: 45px;
+    }
+
+    .depth-4 {
+      margin-left: 60px;
+    }
+
+    .depth-5 {
+      margin-left: 75px;
+    }
+  `;
+
+  function parser() {
+    var comments = []
+    try {
+      console.log("INDEX:", props.index)
+      console.log("COMMENT PARSER GIVEN: ", props.data);
+      if (props.data.data.children) {
+        comments = props.data.data.children.map((comment) => {
+          // console.log("CHILD:", comment)
+
+          var replies = [];
+          if (comment.data.replies) {
+            // console.log("REPLIES EXIST")
+            replies = comment.data.replies.data.children.map((reply) => {
+              // return (
+              //   <div className={"comment-box depth-" + (props.index + 1)} key={reply.data.id}>
+              //     <div>{reply.data.body}</div>
+              //     <div className="reply-info">
+              //       <CommentVoteContainer data={reply} />
+              //       <Link to={"/user/" + reply.data.author} className="reply-author">{reply.data.author}</Link>
+              //     </div>
+              //   </div>
+              // )
+              return (
+                <CommentParser data={reply} index={props.index + 1} />
+              );
+            })
+          }
+
+          return (
+            <>
+              <div className={"comment-box depth-" + props.index} key={comment.data.id}>
+                <div>{comment.data.body}</div>
+                <div className="comment-info">
+                  <CommentVoteContainer data={comment} />
+                  <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
+                </div>
+              </div>
+              {replies}
+            </>
+          );
+        });
+      } else {
+        console.log("ELSE:", props.data);
+        var replies = [];
+        if (props.data.data.replies) {
+          replies = props.data.data.replies.data.children.map((reply) => {
+            return (
+              <CommentParser data={reply} index={props.index + 1} />
+            );
+          })
+        }
+
+        return (
+          <>
+            <div className={"comment-box depth-" + props.index} key={props.data.data.id}>
+              <div>{props.data.data.body}</div>
+              <div className="comment-info">
+                <CommentVoteContainer data={props.data} />
+                <Link to={"/user/" + props.data.data.author} className="comment-author">{props.data.data.author}</Link>
+              </div>
+            </div>
+            {replies}
+          </>
+        );
+      }
+      return comments;
+    } catch {
+      return null;
+    }
+  }
+
+  var replyElements = parser();
+
+  return (
+    <div css={styling}>
+      {replyElements}
+    </div>
+  );
+}
+
+
 function PostPage(props) {
     const dispatch = useDispatch();
 
@@ -25,7 +139,7 @@ function PostPage(props) {
     // eslint-disable-next-line
     const [cookies, setCookie, removeCookie] = useCookies();
     const styling = css`
-    position: relative;
+      position: relative;
 
     .comment-box{
         position: relative;
@@ -42,6 +156,8 @@ function PostPage(props) {
         transition: box-shadow 0.5s ease;
     }
     .post-container{
+      ${'' /* border: 1px solid red; */}
+
         display: block;
         height: auto;
         line-height: 20px;
@@ -60,7 +176,15 @@ function PostPage(props) {
         margin-bottom: 10px;
     }
 
+    .image-type img {
+      ${'' /* border: 1px solid black; */}
+
+      max-width: 100%;
+    }
+
     .post-data{
+      ${'' /* border: 1px solid green; */}
+
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -122,35 +246,17 @@ function PostPage(props) {
                 }
             );
             responseBody = await response.json();
-            console.log(responseBody);
+            console.log("POST DATA:", responseBody);
 
             setPostPageData(responseBody)
             setLoadingPost(false)
         }
         fetchSubredditPage()
     }, [subreddit, post, cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
-    
+
     useEffect(() => {
       dispatch(clearTitle());
     }, [dispatch]);
-
-    function simpleCommentParser() {
-        try {
-            var comments = postPageData[1].data.children.map(comment =>
-                <div className="comment-box" key={comment.data.id}>
-                    <div>{comment.data.body}</div>
-                    <div className="comment-info">
-                        <CommentVoteContainer data={comment} />
-                        <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
-                    </div>
-                </div>
-            );
-            return comments;
-        }
-        catch{
-            return null;
-        }
-    }
 
     function postParser() {
         var postContents = null;
@@ -162,13 +268,13 @@ function PostPage(props) {
             if( postObject.selftext === ""){
                 if(postObject.post_hint === "link"){
                     postContents =
-                        <div>
+                        <div className="link-type">
                            <a href={postObject.url}><img src={postObject.thumbnail} /></a>
                         </div>;
                 }
                 else if(postObject.post_hint === "image"){
                     postContents =
-                        <div>
+                        <div className="image-type">
                             <img src={postObject.url}/>
                         </div>;
                 }
@@ -194,7 +300,7 @@ function PostPage(props) {
     }
 
     var postText = postParser();
-    var commentElements = simpleCommentParser();
+    // var commentElements = simpleCommentParser();
 
     var post_author = null;
 
@@ -223,7 +329,7 @@ function PostPage(props) {
 
                     </div>
                     <div></div>
-                    <div className="comments-area">{commentElements}</div>
+                    <div className="comments-area"><CommentParser data={postPageData[1]} index={0} /></div>
                     <div className="subreddit-stretch"></div>
                 </div>
                 }
