@@ -49,7 +49,7 @@ function NavBar(props) {
       align-items: baseline;
     }
 
-    & .title {
+    & .navtitle {
       ${'' /* border: 1px solid green; */}
 
       margin: 0;
@@ -111,7 +111,7 @@ function NavBar(props) {
     }
 
     @media (max-width: 768px) {
-      & .title {
+      & .navtitle {
         ${'' /* width: 160px; */}
         font-size: 32px;
       }
@@ -154,7 +154,7 @@ function NavBar(props) {
   return (
     <div css={styling} className='navbar'>
       <div className="title-container">
-        <NavLink className="title" to="/">Reddapit</NavLink>
+        <NavLink className="navtitle" to="/">Reddapit</NavLink>
         <h1>{title === "" ? "" : title}</h1>
       </div>
       <HamburgerButton action={open} setAction={setOpen} dir="up" />

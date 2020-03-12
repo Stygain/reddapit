@@ -18,7 +18,7 @@ function RedditLink(props) {
     align-items: center;
 
 
-    a {
+    ${'' /* a {
       color: rgb(37, 37, 37);
       text-decoration: none;
       transition: color 0.2s ease-in-out;
@@ -82,7 +82,7 @@ function RedditLink(props) {
       background-position: 0 100%;
     	background-repeat: repeat-x;
     	background-size: 2px 2px;
-    }
+    } */}
 
     .post-box {
       ${'' /* border: 1px solid white; */}
