@@ -7,13 +7,241 @@ import { useCookies } from 'react-cookie';
 import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
-import { useDispatch } from 'react-redux';
-import { clearTitle } from './redux/actions.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearTitle, setModalShow, setParentComment } from './redux/actions.js';
+import { getModalShow, getParentComment } from './redux/selectors.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
 
+import CircleRotate from './Loaders/CircleRotate.js';
+
+
+function CommentModal(props) {
+  const dispatch = useDispatch();
+
+  const modalShow = useSelector(getModalShow);
+  const parentComment = useSelector(getParentComment);
+
+  const [ submitLoading, setSubmitLoading ] = useState(false);
+  const [ message, setMessage ] = useState("");
+
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  const styling = css`
+    ${'' /* border: 4px solid red; */}
+
+    position: fixed;
+    z-index: 5;
+    opacity: 0%;
+    text-align: center;
+    margin: 0;
+
+    top: -100%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.8s ease-in-out;
+
+    &.open {
+      opacity: 100%;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .background {
+      ${'' /* border: 1px solid blue; */}
+
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+
+      background-color: rgba(171, 171, 171, 0.52);
+
+      cursor: pointer;
+
+      transition: 0.8s ease-in-out;
+    }
+
+    .menu {
+      ${'' /* border: 1px solid red; */}
+
+      min-width: 35%;
+      max-height: 0;
+      margin-bottom: 200%;
+      border-radius: 10px;
+      padding: 0px 10px;
+
+      box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.49);
+
+      background-color: rgb(255, 255, 255);
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+      overflow: hidden;
+
+      transition: 0.8s ease-in-out;
+    }
+
+    .menu.open {
+      margin-bottom: 0;
+      min-height: 30%;
+      max-height: 50%;
+    }
+
+    .menu h3 {
+      @import url('https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap');
+      font-family: 'Odibee Sans', cursive;
+      font-weight: 500;
+      margin-top: 20px;
+      font-size: 32px;
+    }
+
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      ${'' /* justify-content: center; */}
+      align-items: center;
+    }
+
+    .comment-form textarea {
+      ${'' /* width: 100%; */}
+      min-width: 250px;
+      min-height: 60px;
+      margin-top: 15px;
+    }
+
+    .loader-wrapper {
+      margin-top: 20px;
+      padding: 6px;
+    	border: none;
+    	border-radius: 4px;
+      width: 83px;
+      height: 39px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+    	background: rgb(119, 171, 255);
+    	background: linear-gradient(to bottom left, rgb(119, 171, 255), rgb(40, 122, 255));
+    	box-shadow: 0px 2px 20px rgba(50, 50, 50, 0.5);
+    }
+
+    button {
+      font-family: 'Odibee Sans', cursive;
+      font-size: 22px;
+    	font-weight: 500;
+      letter-spacing: 1px;
+
+      margin-top: 20px;
+      margin-bottom: 10px;
+      padding: 6px;
+    	text-transform: uppercase;
+    	border: none;
+    	cursor: pointer;
+    	border-radius: 4px;
+    	background: rgb(119, 171, 255);
+    	background: linear-gradient(to bottom left, rgb(119, 171, 255), rgb(40, 122, 255));
+    	box-shadow: 0px 2px 20px rgba(50, 50, 50, 0.5);
+    	transition: 0.3s ease-in-out all;
+    }
+
+    button:hover {
+      box-shadow: 0px 2px 15px rgba(10, 10, 10, 0.5);
+    }
+  `;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    // Make POST request for comment
+    if (message !== "") {
+      async function makeCommentPost() {
+        let responseBody = {};
+        setSubmitLoading(true);
+        var payloadStr = ("?parent=" + parentComment + "&text=" + message)
+        const response = await fetch(
+          `https://oauth.reddit.com/api/comment${payloadStr}`,
+          {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              "Authorization": ("bearer " + cookies.accessToken),
+              "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
+            }
+          }
+        );
+        responseBody = await response.json();
+        console.log(responseBody);
+        if (responseBody.error) {
+          window.location.href = "/login";
+        }
+        if (responseBody.success) {
+          console.log("RELOAD")
+          await new Promise(r => setTimeout(r, 1200));
+          setSubmitLoading(false);
+          await new Promise(r => setTimeout(r, 100));
+          document.location.reload();
+        }
+      }
+      makeCommentPost()
+    }
+  }
+
+  function handleInputChange(event, setter) {
+    console.log("Input change: " + event.target.value)
+    setter(event.target.value);
+  }
+
+  return (
+    <div css={styling} className={modalShow === true ? "open" : ""}>
+      <div className="background" onClick={
+        () => {
+          dispatch(setModalShow(false));
+          setMessage("");
+        }
+      }></div>
+      <div className={modalShow === true ? "menu open" : "menu"}>
+        <h3>Comment</h3>
+        <form className="comment-form" onSubmit={handleSubmit}>
+          <textarea
+            type="text"
+            name="message"
+            placeholder="Message"
+            value={message}
+            onChange={(event) => handleInputChange(event, setMessage)}
+            />
+          {submitLoading ?
+            <div className="loader-wrapper">
+              <CircleRotate />
+            </div>
+          :
+            <button type="action" className="action">Submit</button>
+          }
+        </form>
+      </div>
+  	</div>
+  );
+}
 
 function CommentParser(props) {
+  const dispatch = useDispatch();
+
   const styling = css`
     ${'' /* border: 1px solid red; */}
 
@@ -60,6 +288,23 @@ function CommentParser(props) {
     .depth-5 {
       margin-left: 30px;
     }
+
+    .comment-actions {
+      ${'' /* border: 2px solid red; */}
+
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    .comment-button-container {
+      margin-right: 10px;
+    }
+
+    .comment-button {
+
+    }
   `;
 
   function parser() {
@@ -82,9 +327,23 @@ function CommentParser(props) {
             <div className={"comment-container depth-" + props.index}>
               <div className={"comment-box depth-" + props.index} key={comment.data.id}>
                 <div>{comment.data.body}</div>
-                <div className="comment-info">
-                  <CommentVoteContainer data={comment} />
-                  <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
+                <div className="comment-actions">
+                  <div className="comment-button-container">
+                    <p className="comment-button" onClick={
+                      () => {
+                        if (!comment.data.archived) {
+                          dispatch(setModalShow(true));
+                          dispatch(setParentComment(comment.data.name));
+                        } else {
+                          alert("This post is archived, commenting is not allowed.");
+                        }
+                      }
+                    }>Comment</p>
+                  </div>
+                  <div className="comment-info">
+                    <CommentVoteContainer data={comment} />
+                    <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
+                  </div>
                 </div>
               </div>
               {replies}
@@ -106,9 +365,23 @@ function CommentParser(props) {
           <div className={"comment-container depth-" + props.index}>
             <div className={"comment-box depth-" + props.index} key={props.data.data.id}>
               <div>{props.data.data.body}</div>
-              <div className="comment-info">
-                <CommentVoteContainer data={props.data} />
-                <Link to={"/user/" + props.data.data.author} className="comment-author">{props.data.data.author}</Link>
+              <div className="comment-actions">
+                <div className="comment-button-container">
+                  <p className="comment-button" onClick={
+                    () => {
+                      if (!props.data.data.archived) {
+                        dispatch(setModalShow(true));
+                        dispatch(setParentComment(props.data.data.name));
+                      } else {
+                        alert("This post is archived, commenting is not allowed.");
+                      }
+                    }
+                  }>Comment</p>
+                </div>
+                <div className="comment-info">
+                  <CommentVoteContainer data={props.data} />
+                  <Link to={"/user/" + props.data.data.author} className="comment-author">{props.data.data.author}</Link>
+                </div>
               </div>
             </div>
             {replies}
@@ -192,8 +465,34 @@ function PostPage(props) {
       flex-direction: column;
       align-items: flex-end;
       justify-content: flex-end;
-      margin: auto;
+
+      margin-left: 15px;
     }
+
+    .post-actions {
+      ${'' /* border: 2px solid red; */}
+
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    .comment-button-container {
+      ${'' /* border: 1px solid blue; */}
+
+    }
+
+    p.comment-button {
+      cursor: pointer;
+
+      background: linear-gradient(to bottom, rgb(115, 115, 115) 0%, rgb(115, 115, 115) 100%);
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+      background-size: 2px 2px;
+    }
+
+
     .comments-area{
       display: flex;
       flex-direction: column;
@@ -306,6 +605,7 @@ function PostPage(props) {
 
   return (
     <div css={styling}>
+      <CommentModal />
       {loadingPost ? (
         <div className="bubble-container">
           <PulseBubble />
@@ -314,13 +614,27 @@ function PostPage(props) {
         <div>
           <div className="post-container">
             {postText}
-            <div className="post-data">
-              <Link to={"/user/" + post_author} className="user post-author">
-                {post_author}
-              </Link>
-              <Link to={"/r/" + postPageData[0].data.children[0].data.subreddit} className="subreddit">
-                {"r/" + postPageData[0].data.children[0].data.subreddit}
-              </Link>
+            <div className="post-actions">
+              <div className="comment-button-container">
+                <p className="comment-button" onClick={
+                  () => {
+                    if (!postPageData[0].data.children[0].data.archived) {
+                      dispatch(setModalShow(true));
+                      dispatch(setParentComment(postPageData[0].data.children[0].data.name));
+                    } else {
+                      alert("This post is archived, commenting is not allowed.");
+                    }
+                  }
+                }>Comment</p>
+              </div>
+              <div className="post-data">
+                <Link to={"/user/" + post_author} className="user post-author">
+                  {post_author}
+                </Link>
+                <Link to={"/r/" + postPageData[0].data.children[0].data.subreddit} className="subreddit">
+                  {"r/" + postPageData[0].data.children[0].data.subreddit}
+                </Link>
+              </div>
             </div>
           </div>
           <div></div>
