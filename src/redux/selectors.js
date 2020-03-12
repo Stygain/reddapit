@@ -5,3 +5,7 @@ export function getTitle(state) {
 export function getModalShow(state) {
   return state.modalShow;
 }
+
+export function getParentComment(state) {
+  return state.parentComment;
+}

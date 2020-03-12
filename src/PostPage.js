@@ -8,18 +8,25 @@ import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { clearTitle, setModalShow } from './redux/actions.js';
-import { getModalShow } from './redux/selectors.js';
+import { clearTitle, setModalShow, setParentComment } from './redux/actions.js';
+import { getModalShow, getParentComment } from './redux/selectors.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
+
+import CircleRotate from './Loaders/CircleRotate.js';
 
 
 function CommentModal(props) {
   const dispatch = useDispatch();
 
   const modalShow = useSelector(getModalShow);
+  const parentComment = useSelector(getParentComment);
 
+  const [ submitLoading, setSubmitLoading ] = useState(false);
   const [ message, setMessage ] = useState("");
+
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
     ${'' /* border: 4px solid red; */}
@@ -97,6 +104,9 @@ function CommentModal(props) {
     }
 
     .menu h3 {
+      @import url('https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap');
+      font-family: 'Odibee Sans', cursive;
+      font-weight: 500;
       margin-top: 20px;
       font-size: 32px;
     }
@@ -115,15 +125,82 @@ function CommentModal(props) {
       margin-top: 15px;
     }
 
-    .comment-form button {
-      margin-top: 15px;
-      width: 30%;
+    .loader-wrapper {
+      margin-top: 20px;
+      padding: 6px;
+    	border: none;
+    	border-radius: 4px;
+      width: 83px;
+      height: 39px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+    	background: rgb(119, 171, 255);
+    	background: linear-gradient(to bottom left, rgb(119, 171, 255), rgb(40, 122, 255));
+    	box-shadow: 0px 2px 20px rgba(50, 50, 50, 0.5);
+    }
+
+    button {
+      font-family: 'Odibee Sans', cursive;
+      font-size: 22px;
+    	font-weight: 500;
+      letter-spacing: 1px;
+
+      margin-top: 20px;
+      margin-bottom: 10px;
+      padding: 6px;
+    	text-transform: uppercase;
+    	border: none;
+    	cursor: pointer;
+    	border-radius: 4px;
+    	background: rgb(119, 171, 255);
+    	background: linear-gradient(to bottom left, rgb(119, 171, 255), rgb(40, 122, 255));
+    	box-shadow: 0px 2px 20px rgba(50, 50, 50, 0.5);
+    	transition: 0.3s ease-in-out all;
+    }
+
+    button:hover {
+      box-shadow: 0px 2px 15px rgba(10, 10, 10, 0.5);
     }
   `;
 
   function handleSubmit(event) {
     event.preventDefault();
     // Make POST request for comment
+    if (message !== "") {
+      async function makeCommentPost() {
+        let responseBody = {};
+        setSubmitLoading(true);
+        var payloadStr = ("?parent=" + parentComment + "&text=" + message)
+        const response = await fetch(
+          `https://oauth.reddit.com/api/comment${payloadStr}`,
+          {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              "Authorization": ("bearer " + cookies.accessToken),
+              "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
+            }
+          }
+        );
+        responseBody = await response.json();
+        console.log(responseBody);
+        if (responseBody.error) {
+          window.location.href = "/login";
+        }
+        if (responseBody.success) {
+          console.log("RELOAD")
+          await new Promise(r => setTimeout(r, 1200));
+          setSubmitLoading(false);
+          await new Promise(r => setTimeout(r, 100));
+          document.location.reload();
+        }
+      }
+      makeCommentPost()
+    }
   }
 
   function handleInputChange(event, setter) {
@@ -133,7 +210,12 @@ function CommentModal(props) {
 
   return (
     <div css={styling} className={modalShow === true ? "open" : ""}>
-      <div className="background" onClick={() => dispatch(setModalShow(false))}></div>
+      <div className="background" onClick={
+        () => {
+          dispatch(setModalShow(false));
+          setMessage("");
+        }
+      }></div>
       <div className={modalShow === true ? "menu open" : "menu"}>
         <h3>Comment</h3>
         <form className="comment-form" onSubmit={handleSubmit}>
@@ -144,7 +226,13 @@ function CommentModal(props) {
             value={message}
             onChange={(event) => handleInputChange(event, setMessage)}
             />
-          <button>Submit</button>
+          {submitLoading ?
+            <div className="loader-wrapper">
+              <CircleRotate />
+            </div>
+          :
+            <button type="action" className="action">Submit</button>
+          }
         </form>
       </div>
   	</div>
@@ -152,6 +240,8 @@ function CommentModal(props) {
 }
 
 function CommentParser(props) {
+  const dispatch = useDispatch();
+
   const styling = css`
     ${'' /* border: 1px solid red; */}
 
@@ -198,6 +288,23 @@ function CommentParser(props) {
     .depth-5 {
       margin-left: 30px;
     }
+
+    .comment-actions {
+      ${'' /* border: 2px solid red; */}
+
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    .comment-button-container {
+      margin-right: 10px;
+    }
+
+    .comment-button {
+
+    }
   `;
 
   function parser() {
@@ -220,9 +327,23 @@ function CommentParser(props) {
             <div className={"comment-container depth-" + props.index}>
               <div className={"comment-box depth-" + props.index} key={comment.data.id}>
                 <div>{comment.data.body}</div>
-                <div className="comment-info">
-                  <CommentVoteContainer data={comment} />
-                  <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
+                <div className="comment-actions">
+                  <div className="comment-button-container">
+                    <p className="comment-button" onClick={
+                      () => {
+                        if (!comment.data.archived) {
+                          dispatch(setModalShow(true));
+                          dispatch(setParentComment(comment.data.name));
+                        } else {
+                          alert("This post is archived, commenting is not allowed.");
+                        }
+                      }
+                    }>Comment</p>
+                  </div>
+                  <div className="comment-info">
+                    <CommentVoteContainer data={comment} />
+                    <Link to={"/user/" + comment.data.author} className="comment-author">{comment.data.author}</Link>
+                  </div>
                 </div>
               </div>
               {replies}
@@ -244,9 +365,23 @@ function CommentParser(props) {
           <div className={"comment-container depth-" + props.index}>
             <div className={"comment-box depth-" + props.index} key={props.data.data.id}>
               <div>{props.data.data.body}</div>
-              <div className="comment-info">
-                <CommentVoteContainer data={props.data} />
-                <Link to={"/user/" + props.data.data.author} className="comment-author">{props.data.data.author}</Link>
+              <div className="comment-actions">
+                <div className="comment-button-container">
+                  <p className="comment-button" onClick={
+                    () => {
+                      if (!props.data.data.archived) {
+                        dispatch(setModalShow(true));
+                        dispatch(setParentComment(props.data.data.name));
+                      } else {
+                        alert("This post is archived, commenting is not allowed.");
+                      }
+                    }
+                  }>Comment</p>
+                </div>
+                <div className="comment-info">
+                  <CommentVoteContainer data={props.data} />
+                  <Link to={"/user/" + props.data.data.author} className="comment-author">{props.data.data.author}</Link>
+                </div>
               </div>
             </div>
             {replies}
@@ -483,7 +618,12 @@ function PostPage(props) {
               <div className="comment-button-container">
                 <p className="comment-button" onClick={
                   () => {
-                    dispatch(setModalShow(true));
+                    if (!postPageData[0].data.children[0].data.archived) {
+                      dispatch(setModalShow(true));
+                      dispatch(setParentComment(postPageData[0].data.children[0].data.name));
+                    } else {
+                      alert("This post is archived, commenting is not allowed.");
+                    }
                   }
                 }>Comment</p>
               </div>
