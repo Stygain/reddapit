@@ -219,7 +219,7 @@ function RedditLink(props) {
       <div className="post-box">
         {console.log(props.data)}
         <div className="title">
-          <h3><a className="title" href={props.data.data.url}>{props.data.data.title}</a></h3>
+          <h3><a className="title" href={props.data.data.is_self ? "/" + props.data.data.subreddit_name_prefixed + "/" + props.data.data.id : props.data.data.url}>{props.data.data.title}</a></h3>
           <div className="post-info">
             <p>by <a className="user" href={"/user/" + props.data.data.author}>{props.data.data.author}</a></p>
             <p>in <a className="subreddit" href={"/r/" + props.data.data.subreddit}>{props.data.data.subreddit}</a></p>

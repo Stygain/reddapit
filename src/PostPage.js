@@ -19,7 +19,24 @@ function CommentParser(props) {
   const styling = css`
     ${'' /* border: 1px solid red; */}
 
-    .comment-box {
+    .comment-container.depth-1 {
+      border-left: 2px solid rgb(233, 233, 233);
+    }
+
+    .comment-container.depth-2 {
+      border-left: 2px solid rgb(209, 209, 209);
+    }
+
+    .comment-container.depth-3 {
+      border-left: 2px solid rgb(181, 181, 181);
+    }
+
+    .comment-container.depth-4 {
+      border-left: 2px solid rgb(162, 162, 162);
+    }
+
+    .comment-container.depth-5 {
+      border-left: 2px solid rgb(136, 136, 136);
     }
 
     .depth-0 {
@@ -76,7 +93,7 @@ function CommentParser(props) {
           }
 
           return (
-            <>
+            <div className={"comment-container depth-" + props.index}>
               <div className={"comment-box depth-" + props.index} key={comment.data.id}>
                 <div>{comment.data.body}</div>
                 <div className="comment-info">
@@ -85,7 +102,7 @@ function CommentParser(props) {
                 </div>
               </div>
               {replies}
-            </>
+            </div>
           );
         });
       } else {
@@ -100,7 +117,7 @@ function CommentParser(props) {
         }
 
         return (
-          <>
+          <div className={"comment-container depth-" + props.index}>
             <div className={"comment-box depth-" + props.index} key={props.data.data.id}>
               <div>{props.data.data.body}</div>
               <div className="comment-info">
@@ -109,7 +126,7 @@ function CommentParser(props) {
               </div>
             </div>
             {replies}
-          </>
+          </div>
         );
       }
       return comments;
