@@ -7,11 +7,149 @@ import { useCookies } from 'react-cookie';
 import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
-import { useDispatch } from 'react-redux';
-import { clearTitle } from './redux/actions.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearTitle, setModalShow } from './redux/actions.js';
+import { getModalShow } from './redux/selectors.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
 
+
+function CommentModal(props) {
+  const dispatch = useDispatch();
+
+  const modalShow = useSelector(getModalShow);
+
+  const [ message, setMessage ] = useState("");
+
+  const styling = css`
+    ${'' /* border: 4px solid red; */}
+
+    position: fixed;
+    z-index: 5;
+    opacity: 0%;
+    text-align: center;
+    margin: 0;
+
+    top: -100%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.8s ease-in-out;
+
+    &.open {
+      opacity: 100%;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .background {
+      ${'' /* border: 1px solid blue; */}
+
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+
+      background-color: rgba(171, 171, 171, 0.52);
+
+      cursor: pointer;
+
+      transition: 0.8s ease-in-out;
+    }
+
+    .menu {
+      ${'' /* border: 1px solid red; */}
+
+      min-width: 35%;
+      max-height: 0;
+      margin-bottom: 200%;
+      border-radius: 10px;
+      padding: 0px 10px;
+
+      box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.49);
+
+      background-color: rgb(255, 255, 255);
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+      overflow: hidden;
+
+      transition: 0.8s ease-in-out;
+    }
+
+    .menu.open {
+      margin-bottom: 0;
+      min-height: 30%;
+      max-height: 50%;
+    }
+
+    .menu h3 {
+      margin-top: 20px;
+      font-size: 32px;
+    }
+
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      ${'' /* justify-content: center; */}
+      align-items: center;
+    }
+
+    .comment-form textarea {
+      ${'' /* width: 100%; */}
+      min-width: 250px;
+      min-height: 60px;
+      margin-top: 15px;
+    }
+
+    .comment-form button {
+      margin-top: 15px;
+      width: 30%;
+    }
+  `;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    // Make POST request for comment
+  }
+
+  function handleInputChange(event, setter) {
+    console.log("Input change: " + event.target.value)
+    setter(event.target.value);
+  }
+
+  return (
+    <div css={styling} className={modalShow === true ? "open" : ""}>
+      <div className="background" onClick={() => dispatch(setModalShow(false))}></div>
+      <div className={modalShow === true ? "menu open" : "menu"}>
+        <h3>Comment</h3>
+        <form className="comment-form" onSubmit={handleSubmit}>
+          <textarea
+            type="text"
+            name="message"
+            placeholder="Message"
+            value={message}
+            onChange={(event) => handleInputChange(event, setMessage)}
+            />
+          <button>Submit</button>
+        </form>
+      </div>
+  	</div>
+  );
+}
 
 function CommentParser(props) {
   const styling = css`
@@ -192,8 +330,34 @@ function PostPage(props) {
       flex-direction: column;
       align-items: flex-end;
       justify-content: flex-end;
-      margin: auto;
+
+      margin-left: 15px;
     }
+
+    .post-actions {
+      ${'' /* border: 2px solid red; */}
+
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    .comment-button-container {
+      ${'' /* border: 1px solid blue; */}
+
+    }
+
+    p.comment-button {
+      cursor: pointer;
+
+      background: linear-gradient(to bottom, rgb(115, 115, 115) 0%, rgb(115, 115, 115) 100%);
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+      background-size: 2px 2px;
+    }
+
+
     .comments-area{
       display: flex;
       flex-direction: column;
@@ -306,6 +470,7 @@ function PostPage(props) {
 
   return (
     <div css={styling}>
+      <CommentModal />
       {loadingPost ? (
         <div className="bubble-container">
           <PulseBubble />
@@ -314,13 +479,22 @@ function PostPage(props) {
         <div>
           <div className="post-container">
             {postText}
-            <div className="post-data">
-              <Link to={"/user/" + post_author} className="user post-author">
-                {post_author}
-              </Link>
-              <Link to={"/r/" + postPageData[0].data.children[0].data.subreddit} className="subreddit">
-                {"r/" + postPageData[0].data.children[0].data.subreddit}
-              </Link>
+            <div className="post-actions">
+              <div className="comment-button-container">
+                <p className="comment-button" onClick={
+                  () => {
+                    dispatch(setModalShow(true));
+                  }
+                }>Comment</p>
+              </div>
+              <div className="post-data">
+                <Link to={"/user/" + post_author} className="user post-author">
+                  {post_author}
+                </Link>
+                <Link to={"/r/" + postPageData[0].data.children[0].data.subreddit} className="subreddit">
+                  {"r/" + postPageData[0].data.children[0].data.subreddit}
+                </Link>
+              </div>
             </div>
           </div>
           <div></div>
