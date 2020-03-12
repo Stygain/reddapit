@@ -3,6 +3,7 @@ import { jsx, css } from '@emotion/core';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+//eslint-disable-next-line
 import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
@@ -10,9 +11,6 @@ import { useDispatch } from 'react-redux';
 import { clearTitle } from './redux/actions.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
-
-import ListingParser from './ListingParser.js';
-import SubredditSidebar from './SubredditSidebar.js';
 
 
 function CommentParser(props) {
@@ -277,13 +275,13 @@ function PostPage(props) {
                 if(postObject.post_hint === "link"){
                     postContents =
                         <div className="link-type">
-                           <a href={postObject.url}><img src={postObject.thumbnail} /></a>
+                           <a href={postObject.url}><img src={postObject.thumbnail} alt={postObject.title} /></a>
                         </div>;
                 }
                 else if(postObject.post_hint === "image"){
                     postContents =
                         <div className="image-type">
-                            <img src={postObject.url}/>
+                            <img src={postObject.url} alt={postObject.title} />
                         </div>;
                 }
             }

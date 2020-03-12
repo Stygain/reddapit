@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 
@@ -123,7 +123,7 @@ function MySubreddits(props) {
             let responseBody = {};
             setLoadingUser(true);
             const response = await fetch(
-                ("https://oauth.reddit.com/subreddits/mine/" + "subscriber" + "?raw_json=1&limit=100"),
+                ("https://oauth.reddit.com/subreddits/mine/subscriber?raw_json=1&limit=100"),
                 {
                     method: "GET",
                     headers: {
