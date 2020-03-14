@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import { useDispatch } from 'react-redux';
-import { setTitle } from './redux/actions.js';
+import { setTitle, setPage } from './redux/actions.js';
 
 import ListingParser from './ListingParser.js';
 import SubredditSidebar from './SubredditSidebar.js';
@@ -72,6 +72,7 @@ function SubredditPage(props) {
 
   useEffect(() => {
     dispatch(setTitle("/r/" + subreddit));
+    dispatch(setPage("subreddit"));
   }, [dispatch, subreddit]);
 
   return (

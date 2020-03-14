@@ -4,7 +4,8 @@ import {
   SET_TITLE,
   CLEAR_TITLE,
   SET_MODAL_SHOW,
-  SET_PARENT_COMMENT
+  SET_PARENT_COMMENT,
+  SET_PAGE,
 } from './actions.js';
 
 
@@ -41,11 +42,22 @@ function parentCommentReducer(state = "", action) {
   }
 }
 
+function pageReducer(state = "home", action) {
+  switch (action.type) {
+    case SET_PAGE:
+      return action.page;
+
+    default:
+      return state;
+  }
+}
+
 
 const rootReducer = combineReducers({
   title: titleReducer,
   modalShow: modalShowReducer,
   parentComment: parentCommentReducer,
+  page: pageReducer,
 });
 
 export default rootReducer;

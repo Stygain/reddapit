@@ -9,3 +9,7 @@ export function getModalShow(state) {
 export function getParentComment(state) {
   return state.parentComment;
 }
+
+export function getPage(state) {
+  return state.page;
+}

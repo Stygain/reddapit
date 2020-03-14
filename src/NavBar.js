@@ -1,19 +1,27 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
-import { useSelector } from 'react-redux';
-import { getTitle } from './redux/selectors.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTitle, getPage } from './redux/selectors.js';
 
 import HamburgerButton from './HamburgerButton.js';
 
 import pages from './data/pages.json'
 
 function NavBar(props) {
+  const dispatch = useDispatch();
+
+  const page = useSelector(getPage);
+  const title = useSelector(getTitle);
+
+  const [ search, setSearch ] = useState("");
   const [ open, setOpen ] = useState(false);
 
-  const title = useSelector(getTitle);
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
     & {
@@ -110,6 +118,26 @@ function NavBar(props) {
       color: #444;
     }
 
+    form {
+      ${'' /* border: 1px solid red; */}
+
+      width: 160px;
+      margin: 0px 10px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    input {
+      ${'' /* border: 1px solid blue; */}
+
+      width: 100%;
+
+      font-size: 18px;
+      font-weight: 500;
+    }
+
     @media (max-width: 768px) {
       & .navtitle {
         ${'' /* width: 160px; */}
@@ -148,8 +176,53 @@ function NavBar(props) {
         padding: 0;
         display: block;
       }
+
+      form {
+        margin: 0;
+      }
     }
   `;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    // Make POST request for comment
+    // if (search !== "") {
+    //   async function makeCommentPost() {
+    //     let responseBody = {};
+    //     setSubmitLoading(true);
+    //     var payloadStr = ("?parent=" + parentComment + "&text=" + search)
+    //     const response = await fetch(
+    //       `https://oauth.reddit.com/api/comment${payloadStr}`,
+    //       {
+    //         method: "POST",
+    //         headers: {
+    //           'Content-Type': 'application/x-www-form-urlencoded',
+    //           "Authorization": ("bearer " + cookies.accessToken),
+    //           "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
+    //         }
+    //       }
+    //     );
+    //     responseBody = await response.json();
+    //     console.log(responseBody);
+    //     if (responseBody.error) {
+    //       window.location.href = "/login";
+    //     }
+    //     if (responseBody.success) {
+    //       console.log("RELOAD")
+    //       await new Promise(r => setTimeout(r, 1200));
+    //       setSubmitLoading(false);
+    //       await new Promise(r => setTimeout(r, 100));
+    //       document.location.reload();
+    //     }
+    //   }
+    //   makeCommentPost()
+    // }
+  }
+
+  function handleInputChange(event, setter) {
+    console.log("Input change: " + event.target.value)
+    setter(event.target.value);
+  }
 
   return (
     <div css={styling} className='navbar'>
@@ -176,6 +249,19 @@ function NavBar(props) {
               </NavLink>
             </li>);
           })}
+          {page === "subreddit" ?
+            <form className="search-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="search"
+                placeholder="Search"
+                value={search}
+                onChange={(event) => handleInputChange(event, setSearch)}
+                />
+            </form>
+          :
+            <></>
+          }
         </ul>
       </div>
     </div>

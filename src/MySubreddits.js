@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { clearTitle } from './redux/actions.js';
+import { clearTitle, setPage } from './redux/actions.js';
 
 import PulseBubble from './Loaders/PulseBubble.js';
 
@@ -147,6 +147,7 @@ function MySubreddits(props) {
 
     useEffect(() => {
       dispatch(clearTitle());
+      dispatch(setPage("mysubreddits"));
     }, [dispatch]);
 
 
