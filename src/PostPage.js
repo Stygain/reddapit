@@ -12,9 +12,7 @@ import { clearTitle, setModalShow, setParentComment, setPage, setArchiveModalSho
 import { getModalShow, getParentComment, getArchiveModalShow } from './redux/selectors.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
-
 import CircleRotate from './Loaders/CircleRotate.js';
-
 
 function CommentModal(props) {
   const dispatch = useDispatch();
@@ -334,8 +332,7 @@ function ArchiveModal(props){
       }
     }></div>
     <div className={archiveModalShow === true ? "menu open" : "menu"}>
-      <h3>This post is archived, commenting is not allowed.</h3>
- 
+      <h3>This post is archived, voting and commenting are not allowed.</h3>
     </div>
   </div>
 
