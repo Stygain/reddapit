@@ -546,7 +546,7 @@ function PostPage(props) {
 
   useEffect(() => {
     dispatch(clearTitle());
-    dispatch(setPage("post"));
+    dispatch(setPage("post", ""));
   }, [dispatch]);
 
   function postParser() {

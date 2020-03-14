@@ -27,7 +27,7 @@ function UserPage(props) {
 
   useEffect(() => {
     dispatch(setTitle("/u/" + userAccount));
-    dispatch(setPage("user"));
+    dispatch(setPage("user", ""));
   }, [dispatch, userAccount]);
 
   return (

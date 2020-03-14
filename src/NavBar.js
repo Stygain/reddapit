@@ -186,37 +186,31 @@ function NavBar(props) {
   function handleSubmit(event) {
     event.preventDefault();
     // Make POST request for comment
-    // if (search !== "") {
-    //   async function makeCommentPost() {
-    //     let responseBody = {};
-    //     setSubmitLoading(true);
-    //     var payloadStr = ("?parent=" + parentComment + "&text=" + search)
-    //     const response = await fetch(
-    //       `https://oauth.reddit.com/api/comment${payloadStr}`,
-    //       {
-    //         method: "POST",
-    //         headers: {
-    //           'Content-Type': 'application/x-www-form-urlencoded',
-    //           "Authorization": ("bearer " + cookies.accessToken),
-    //           "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
-    //         }
-    //       }
-    //     );
-    //     responseBody = await response.json();
-    //     console.log(responseBody);
-    //     if (responseBody.error) {
-    //       window.location.href = "/login";
-    //     }
-    //     if (responseBody.success) {
-    //       console.log("RELOAD")
-    //       await new Promise(r => setTimeout(r, 1200));
-    //       setSubmitLoading(false);
-    //       await new Promise(r => setTimeout(r, 100));
-    //       document.location.reload();
-    //     }
-    //   }
-    //   makeCommentPost()
-    // }
+    if (search !== "") {
+      // async function makeSearch() {
+      //   let responseBody = {};
+      //   // setSubmitLoading(true);
+      //   var payloadStr = ("?q=" + search)
+      //   const response = await fetch(
+      //     `https://oauth.reddit.com/r/${page.page}/search${payloadStr}`,
+      //     {
+      //       method: "GET",
+      //       headers: {
+      //         'Content-Type': 'application/x-www-form-urlencoded',
+      //         "Authorization": ("bearer " + cookies.accessToken),
+      //         "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
+      //       }
+      //     }
+      //   );
+      //   responseBody = await response.json();
+      //   console.log(responseBody);
+      //   // if (responseBody.error) {
+      //   //   window.location.href = "/login";
+      //   // }
+      // }
+      // makeSearch()
+      window.location.href = "/search/" + "r/" + page.page + "/" + search;
+    }
   }
 
   function handleInputChange(event, setter) {
@@ -249,7 +243,7 @@ function NavBar(props) {
               </NavLink>
             </li>);
           })}
-          {page === "subreddit" ?
+          {page.pageType === "subreddit" ?
             <form className="search-form" onSubmit={handleSubmit}>
               <input
                 type="text"

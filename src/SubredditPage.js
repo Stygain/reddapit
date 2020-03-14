@@ -72,7 +72,7 @@ function SubredditPage(props) {
 
   useEffect(() => {
     dispatch(setTitle("/r/" + subreddit));
-    dispatch(setPage("subreddit"));
+    dispatch(setPage("subreddit", subreddit));
   }, [dispatch, subreddit]);
 
   return (

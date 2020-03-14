@@ -25,7 +25,7 @@ export function setParentComment(id) {
   return { type: SET_PARENT_COMMENT, id };
 }
 
-export function setPage(page) {
+export function setPage(pageType, page) {
   console.log("Set page");
-  return { type: SET_PAGE, page };
+  return { type: SET_PAGE, pageType, page };
 }

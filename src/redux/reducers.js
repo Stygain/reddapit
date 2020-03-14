@@ -42,10 +42,13 @@ function parentCommentReducer(state = "", action) {
   }
 }
 
-function pageReducer(state = "home", action) {
+function pageReducer(state = {pageType: "home", page: ""}, action) {
   switch (action.type) {
     case SET_PAGE:
-      return action.page;
+      return {
+        pageType: action.pageType,
+        page: action.page
+      };
 
     default:
       return state;

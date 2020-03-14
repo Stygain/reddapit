@@ -1,12 +1,17 @@
 /** @jsx jsx */
-import { useState } from 'react';
 import { jsx, css } from '@emotion/core';
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+
+import { useDispatch } from 'react-redux';
+import { clearTitle, setPage } from './redux/actions.js';
 
 import CircleRotate from './Loaders/CircleRotate.js';
 
 
 function LoginPage(props) {
+  const dispatch = useDispatch();
+
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ secret, setSecret ] = useState("");
@@ -183,6 +188,11 @@ function LoginPage(props) {
     // console.log("Input change: " + event.target.value)
     setter(event.target.value)
   }
+
+  useEffect(() => {
+    dispatch(clearTitle());
+    dispatch(setPage("login", ""));
+  }, [dispatch]);
 
   return (
     <div css={styling}>

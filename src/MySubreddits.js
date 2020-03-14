@@ -147,7 +147,7 @@ function MySubreddits(props) {
 
     useEffect(() => {
       dispatch(clearTitle());
-      dispatch(setPage("mysubreddits"));
+      dispatch(setPage("mysubreddits", ""));
     }, [dispatch]);
 
 
