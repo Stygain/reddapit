@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { useCookies, withCookies } from 'react-cookie';
 
 import FrontPage from './FrontPage.js';
+import SearchPage from './SearchPage.js';
 import SubredditPage from './SubredditPage.js';
 import UserPage from './UserPage.js';
 import LoginPage from './LoginPage.js';
@@ -32,9 +33,7 @@ function App(props) {
         </Route>
         <Route path='/user/:userAccount'>
           <ContentMargin>
-            {/* <Center> */}
-              <UserPage />
-            {/* </Center> */}
+            <UserPage />
           </ContentMargin>
         </Route>
         <Route path='/user'>
@@ -42,26 +41,28 @@ function App(props) {
         </Route>
         <Route path='/r/:subreddit/:post'>
           <ContentMargin>
-            {/* <Center> */}
-              <PostPage />
-            {/* </Center> */}
+            <PostPage />
           </ContentMargin>
         </Route>
         <Route path='/r/:subreddit'>
           <ContentMargin>
-            {/* <Center> */}
-              <SubredditPage />
-            {/* </Center> */}
+            <SubredditPage />
           </ContentMargin>
         </Route>
         <Route path="/subreddits">
           <ContentMargin>
             <MySubreddits />
-            </ContentMargin>
-
+          </ContentMargin>
         </Route>
         <Route path='/r'>
           <Redirect to="/" />
+        </Route>
+        <Route path='/search/:query'>
+          <ContentMargin>
+            <Center>
+              <SearchPage />
+            </Center>
+          </ContentMargin>
         </Route>
         <Route path='/login'>
           <Center>

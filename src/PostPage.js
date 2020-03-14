@@ -8,7 +8,7 @@ import React from 'react';
 import PulseBubble from './Loaders/PulseBubble';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { clearTitle, setModalShow, setParentComment } from './redux/actions.js';
+import { clearTitle, setModalShow, setParentComment, setPage } from './redux/actions.js';
 import { getModalShow, getParentComment } from './redux/selectors.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
@@ -546,6 +546,7 @@ function PostPage(props) {
 
   useEffect(() => {
     dispatch(clearTitle());
+    dispatch(setPage("post", ""));
   }, [dispatch]);
 
   function postParser() {

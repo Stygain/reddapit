@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import { useDispatch } from 'react-redux';
-import { setTitle } from './redux/actions.js';
+import { setTitle, setPage } from './redux/actions.js';
 
 import UserHeader from './UserHeader.js';
 import Trophy from './Trophy.js';
@@ -27,6 +27,7 @@ function UserPage(props) {
 
   useEffect(() => {
     dispatch(setTitle("/u/" + userAccount));
+    dispatch(setPage("user", ""));
   }, [dispatch, userAccount]);
 
   return (

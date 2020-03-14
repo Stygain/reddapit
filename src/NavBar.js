@@ -1,19 +1,27 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { useState } from 'react';
+
+//eslint-disable-next-line
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 import { useSelector } from 'react-redux';
-import { getTitle } from './redux/selectors.js';
+import { getTitle, getPage } from './redux/selectors.js';
 
 import HamburgerButton from './HamburgerButton.js';
 
 import pages from './data/pages.json'
 
 function NavBar(props) {
+  const page = useSelector(getPage);
+  const title = useSelector(getTitle);
+
+  const [ search, setSearch ] = useState("");
   const [ open, setOpen ] = useState(false);
 
-  const title = useSelector(getTitle);
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const styling = css`
     & {
@@ -110,6 +118,26 @@ function NavBar(props) {
       color: #444;
     }
 
+    form {
+      ${'' /* border: 1px solid red; */}
+
+      width: 160px;
+      margin: 0px 10px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    input {
+      ${'' /* border: 1px solid blue; */}
+
+      width: 100%;
+
+      font-size: 18px;
+      font-weight: 500;
+    }
+
     @media (max-width: 768px) {
       & .navtitle {
         ${'' /* width: 160px; */}
@@ -148,8 +176,24 @@ function NavBar(props) {
         padding: 0;
         display: block;
       }
+
+      form {
+        margin: 0;
+      }
     }
   `;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (search !== "") {
+      window.location.href = "/search/" + search;
+    }
+  }
+
+  function handleInputChange(event, setter) {
+    console.log("Input change: " + event.target.value)
+    setter(event.target.value);
+  }
 
   return (
     <div css={styling} className='navbar'>
@@ -176,6 +220,19 @@ function NavBar(props) {
               </NavLink>
             </li>);
           })}
+          {page.pageType !== "login" ?
+            <form className="search-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="search"
+                placeholder="Search"
+                value={search}
+                onChange={(event) => handleInputChange(event, setSearch)}
+                />
+            </form>
+          :
+            <></>
+          }
         </ul>
       </div>
     </div>
