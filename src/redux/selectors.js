@@ -6,6 +6,10 @@ export function getModalShow(state) {
   return state.modalShow;
 }
 
+export function getArchiveModalShow(state){
+  return state.archiveModalShow;
+}
+
 export function getParentComment(state) {
   return state.parentComment;
 }
