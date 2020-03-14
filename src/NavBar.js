@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+
+//eslint-disable-next-line
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getTitle, getPage } from './redux/selectors.js';
 
 import HamburgerButton from './HamburgerButton.js';
@@ -12,8 +14,6 @@ import HamburgerButton from './HamburgerButton.js';
 import pages from './data/pages.json'
 
 function NavBar(props) {
-  const dispatch = useDispatch();
-
   const page = useSelector(getPage);
   const title = useSelector(getTitle);
 
@@ -185,31 +185,8 @@ function NavBar(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // Make POST request for comment
     if (search !== "") {
-      // async function makeSearch() {
-      //   let responseBody = {};
-      //   // setSubmitLoading(true);
-      //   var payloadStr = ("?q=" + search)
-      //   const response = await fetch(
-      //     `https://oauth.reddit.com/r/${page.page}/search${payloadStr}`,
-      //     {
-      //       method: "GET",
-      //       headers: {
-      //         'Content-Type': 'application/x-www-form-urlencoded',
-      //         "Authorization": ("bearer " + cookies.accessToken),
-      //         "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
-      //       }
-      //     }
-      //   );
-      //   responseBody = await response.json();
-      //   console.log(responseBody);
-      //   // if (responseBody.error) {
-      //   //   window.location.href = "/login";
-      //   // }
-      // }
-      // makeSearch()
-      window.location.href = "/search/" + "r/" + page.page + "/" + search;
+      window.location.href = "/search/" + search;
     }
   }
 
@@ -243,7 +220,7 @@ function NavBar(props) {
               </NavLink>
             </li>);
           })}
-          {page.pageType === "subreddit" ?
+          {page.pageType !== "login" ?
             <form className="search-form" onSubmit={handleSubmit}>
               <input
                 type="text"

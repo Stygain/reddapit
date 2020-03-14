@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useDispatch } from 'react-redux';
-import { clearTitle } from './redux/actions.js';
+import { clearTitle, setPage } from './redux/actions.js';
 
 import ListingParser from './ListingParser.js';
 
@@ -63,6 +63,7 @@ function FrontPage(props) {
 
   useEffect(() => {
     dispatch(clearTitle());
+    dispatch(setPage("frontpage", ""));
   }, [dispatch]);
 
   return (

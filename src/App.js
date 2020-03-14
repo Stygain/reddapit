@@ -57,10 +57,12 @@ function App(props) {
         <Route path='/r'>
           <Redirect to="/" />
         </Route>
-        <Route path='/search'>
-          <Center>
-            <SearchPage />
-          </Center>
+        <Route path='/search/:query'>
+          <ContentMargin>
+            <Center>
+              <SearchPage />
+            </Center>
+          </ContentMargin>
         </Route>
         <Route path='/login'>
           <Center>

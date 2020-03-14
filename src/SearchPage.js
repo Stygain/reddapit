@@ -1,19 +1,23 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import { useDispatch } from 'react-redux';
-import { clearTitle } from './redux/actions.js';
+import { clearTitle, setPage } from './redux/actions.js';
 
 import ListingParser from './ListingParser.js';
 
 import PulseBubble from './Loaders/PulseBubble.js';
 
 
-function FrontPage(props) {
-  const [ frontPageData, setFrontPageData ] = useState({data:{children:[]}});
-  const [ loadingFrontPage, setLoadingFrontPage ] = useState({data:{children:[]}});
+function SearchPage(props) {
+  const { query } = useParams();
+  // console.log("QUERY: " + query);
+
+  const [ searchPageData, setSearchPageData ] = useState({data:{children:[]}});
+  const [ loadingSearchPage, setLoadingSearchPage ] = useState({data:{children:[]}});
 
   const dispatch = useDispatch();
 
@@ -35,15 +39,17 @@ function FrontPage(props) {
   `;
 
   useEffect(() => {
-    async function fetchFrontPage() {
+    async function fetchSearchContent() {
       let responseBody = {};
-      setLoadingFrontPage(true);
+      setLoadingSearchPage(true);
+      var payloadStr = "/search?q=" + query;
+      console.log("PAYLOAD STR", payloadStr);
       const response = await fetch(
-        ("https://oauth.reddit.com/?raw_json=1"),
+        `https://oauth.reddit.com${payloadStr}`,
         {
           method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
             "Authorization": ("bearer " + cookies.accessToken),
             "User-Agent": (cookies.redditApp + "/" + cookies.redditVersion + " by " + cookies.username)
           }
@@ -55,28 +61,29 @@ function FrontPage(props) {
         window.location.href = "/login";
       }
 
-      setFrontPageData(responseBody)
-      setLoadingFrontPage(false)
+      setSearchPageData(responseBody)
+      setLoadingSearchPage(false)
     }
-    fetchFrontPage()
-  }, [cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
+    fetchSearchContent()
+  }, [query, cookies.accessToken, cookies.username, cookies.redditApp, cookies.redditVersion]);
 
   useEffect(() => {
     dispatch(clearTitle());
+    dispatch(setPage("search", ""));
   }, [dispatch]);
 
   return (
     <div css={styling}>
-      {loadingFrontPage ?
+      {loadingSearchPage ?
         <div className="centerer">
           <PulseBubble />
         </div>
       :
-        <ListingParser listing={frontPageData} />
+        <ListingParser listing={searchPageData} />
       }
     </div>
   );
 }
 
 
-export default FrontPage;
+export default SearchPage;
