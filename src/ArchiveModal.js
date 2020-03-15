@@ -2,8 +2,8 @@
 import { jsx, css } from '@emotion/core';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { clearTitle, setModalShow, setParentComment, setPage, setArchiveModalShow } from './redux/actions.js';
-import { getModalShow, getParentComment, getArchiveModalShow } from './redux/selectors.js';
+import { setArchiveModalShow } from './redux/actions.js';
+import { getArchiveModalShow } from './redux/selectors.js';
 
 
 function ArchiveModal(props){

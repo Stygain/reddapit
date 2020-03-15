@@ -87,9 +87,9 @@ function Trophy(props) {
       console.log(responseBody);
 
       if (responseBody.error) {
-        if (responseBody.error == 401) {
+        if (responseBody.error === 401) {
           window.location.href = "/login";
-        } else if (responseBody.error == 404) {
+        } else if (responseBody.error === 404) {
           window.location.href = "/404";
         }
       }

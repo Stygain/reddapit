@@ -77,7 +77,7 @@ function App(props) {
               <h1>404 Page not found</h1>
               <br />
               <br />
-              <img src="https://i.imgur.com/23ySV.png" />
+              <img src="https://i.imgur.com/23ySV.png" alt="sad reddit" />
             </Center>
           </ContentMargin>
         </Route>

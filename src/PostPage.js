@@ -9,7 +9,7 @@ import PulseBubble from './Loaders/PulseBubble';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { clearTitle, setModalShow, setParentComment, setPage, setArchiveModalShow } from './redux/actions.js';
-import { getModalShow, getParentComment, getArchiveModalShow } from './redux/selectors.js';
+import { getModalShow, getParentComment } from './redux/selectors.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
 import CircleRotate from './Loaders/CircleRotate.js';
@@ -544,9 +544,9 @@ function PostPage(props) {
       console.log("POST DATA:", responseBody);
 
       if (responseBody.error) {
-        if (responseBody.error == 401) {
+        if (responseBody.error === 401) {
           window.location.href = "/login";
-        } else if (responseBody.error == 404) {
+        } else if (responseBody.error === 404) {
           window.location.href = "/404";
         }
       }
