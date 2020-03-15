@@ -11,6 +11,7 @@ import LoginPage from './LoginPage.js';
 import NavBar from './NavBar.js';
 import MySubreddits from './MySubreddits.js';
 import PostPage from './PostPage.js';
+import ArchiveModal from './ArchiveModal.js';
 import { ContentMargin, Center } from './Utils.js';
 
 function App(props) {
@@ -23,6 +24,7 @@ function App(props) {
   return (
     <div css={styling}>
       <NavBar />
+      <ArchiveModal />
       <Switch>
         <Route exact path='/'>
           <ContentMargin>
@@ -72,8 +74,10 @@ function App(props) {
         <Route path='/'>
           <ContentMargin>
             <Center>
-              {/* <Redirect to="/404" /> */}
-              <p>404!!!</p>
+              <h1>404 Page not found</h1>
+              <br />
+              <br />
+              <img src="https://i.imgur.com/23ySV.png" />
             </Center>
           </ContentMargin>
         </Route>

@@ -60,8 +60,13 @@ function SubredditPage(props) {
       );
       responseBody = await response.json();
       console.log(responseBody);
+
       if (responseBody.error) {
-        window.location.href = "/login";
+        if (responseBody.error == 401) {
+          window.location.href = "/login";
+        } else if (responseBody.error == 404) {
+          window.location.href = "/404";
+        }
       }
 
       setSubredditPageData(responseBody)

@@ -17,72 +17,6 @@ function RedditComment(props) {
     justify-content: center;
     align-items: center;
 
-    ${'' /* a {
-      color: rgb(37, 37, 37);
-      text-decoration: none;
-      transition: color 0.2s ease-in-out;
-    }
-
-    a:hover {
-      color: rgb(0, 0, 0);
-    }
-
-    a.title {
-      background: linear-gradient(to bottom, rgb(5, 135, 163) 0%, rgb(5, 135, 163) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    }
-
-    a.title:hover {
-      background: linear-gradient(to bottom, rgb(0, 209, 255) 0%, rgb(0, 209, 255) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    }
-
-    a.user {
-      background: linear-gradient(to bottom, rgb(181, 101, 27) 0%, rgb(181, 101, 27) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    }
-
-    a.user:hover {
-      background: linear-gradient(to bottom, rgb(255, 124, 4) 0%, rgb(255, 124, 4) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    }
-
-    a.subreddit {
-      background: linear-gradient(to bottom, rgb(75, 124, 69) 0%, rgb(75, 124, 69) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    }
-
-    a.subreddit:hover {
-      background: linear-gradient(to bottom, rgb(72, 190, 58) 0%, rgb(72, 190, 58) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    }
-
-    a.comments {
-      background: linear-gradient(to bottom, rgb(115, 115, 115) 0%, rgb(115, 115, 115) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    }
-
-    a.context {
-      background: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 100%);
-      background-position: 0 100%;
-    	background-repeat: repeat-x;
-    	background-size: 2px 2px;
-    } */}
-
     .comment-box {
       ${'' /* border: 1px solid white; */}
 
@@ -198,7 +132,7 @@ function RedditComment(props) {
           <p className="content">{props.data.data.body}</p>
         </div>
         <div className="actions">
-          <p><a className="comments" href={props.data.data.link_url}>Comments ({props.data.data.num_comments})</a></p>
+          <p><a className="comments" href={"/r/" + props.data.data.subreddit + "/" + props.data.data.id}>Comments ({props.data.data.num_comments})</a></p>
           {/* <p><a className="context" href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p> */}
         </div>
       </div>
