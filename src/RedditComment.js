@@ -132,8 +132,11 @@ function RedditComment(props) {
           <p className="content">{props.data.data.body}</p>
         </div>
         <div className="actions">
-          <p><a className="comments" href={"/r/" + props.data.data.subreddit + "/" + props.data.data.id}>Comments ({props.data.data.num_comments})</a></p>
-          {/* <p><a className="context" href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p> */}
+          {props.data.data.link_id ?
+          <p><a href={"/r/" + props.data.data.subreddit + "/" + props.data.data.link_id.substring(3)}>Comments ({props.data.data.num_comments})</a></p>
+            :
+            <p>undef</p>
+          }
         </div>
       </div>
     </div>
