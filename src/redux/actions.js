@@ -3,6 +3,7 @@ export const CLEAR_TITLE = 'CLEAR_TITLE';
 export const SET_MODAL_SHOW = 'SET_MODAL_SHOW';
 export const SET_PARENT_COMMENT = 'SET_PARENT_COMMENT';
 export const SET_PAGE = 'SET_PAGE';
+export const SET_ARCHIVE_MODAL_SHOW = "SET_ARCHIVE_MODAL_SHOW";
 
 
 export function setTitle(title) {
@@ -18,6 +19,11 @@ export function clearTitle() {
 export function setModalShow(show) {
   console.log("Set modal show");
   return { type: SET_MODAL_SHOW, show };
+}
+
+export function setArchiveModalShow(show){
+  console.log("Set archive modal show");
+  return {type: SET_ARCHIVE_MODAL_SHOW, show};
 }
 
 export function setParentComment(id) {

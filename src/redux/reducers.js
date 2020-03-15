@@ -6,6 +6,7 @@ import {
   SET_MODAL_SHOW,
   SET_PARENT_COMMENT,
   SET_PAGE,
+  SET_ARCHIVE_MODAL_SHOW,
 } from './actions.js';
 
 
@@ -27,6 +28,15 @@ function modalShowReducer(state = false, action) {
     case SET_MODAL_SHOW:
       return action.show;
 
+    default:
+      return state;
+  }
+}
+
+function archiveModalShowReducer(state = false, action){
+  switch(action.type){
+    case SET_ARCHIVE_MODAL_SHOW:
+      return action.show;
     default:
       return state;
   }
@@ -59,6 +69,7 @@ function pageReducer(state = {pageType: "home", page: ""}, action) {
 const rootReducer = combineReducers({
   title: titleReducer,
   modalShow: modalShowReducer,
+  archiveModalShow: archiveModalShowReducer,
   parentComment: parentCommentReducer,
   page: pageReducer,
 });
