@@ -3,9 +3,14 @@ import { jsx, css } from '@emotion/core';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
+import { useDispatch } from 'react-redux';
+import { setArchiveModalShow } from './redux/actions.js';
+
 
 function VoteContainer(props) {
   const [ score, setScore ] = useState(props.data.data.score);
+  const dispatch = useDispatch();
+
   var origScore = props.data.data.score;
   if (props.data.data.likes) {
     origScore = props.data.data.score - 1;
@@ -82,6 +87,7 @@ function VoteContainer(props) {
   `;
 
   function vote(direction) {
+    console.log("GOING TO MAKE POST TO VOTE")
     async function makeVotePost() {
       let responseBody = {};
       var payloadStr = ("?dir=" + direction + "&id=" + props.data.data.name)
@@ -98,8 +104,13 @@ function VoteContainer(props) {
       );
       responseBody = await response.json();
       console.log(responseBody);
+
       if (responseBody.error) {
-        window.location.href = "/login";
+        if (responseBody.error === 401) {
+          window.location.href = "/login";
+        } else if (responseBody.error === 404) {
+          window.location.href = "/404";
+        }
       }
     }
     makeVotePost()
@@ -107,8 +118,7 @@ function VoteContainer(props) {
 
   function upvote() {
     if (props.data.data.archived) {
-      // TODO turn this into a modal
-      alert('archived');
+      dispatch(setArchiveModalShow(true));
       return;
     }
     var direction;
@@ -129,8 +139,8 @@ function VoteContainer(props) {
 
   function downvote() {
     if (props.data.data.archived) {
-      // TODO turn this into a modal
-      alert('archived');
+      dispatch(setArchiveModalShow(true));
+      return;
     }
     var direction;
     if (score === origScore) {

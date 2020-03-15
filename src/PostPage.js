@@ -9,7 +9,7 @@ import PulseBubble from './Loaders/PulseBubble';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { clearTitle, setModalShow, setParentComment, setPage, setArchiveModalShow } from './redux/actions.js';
-import { getModalShow, getParentComment, getArchiveModalShow } from './redux/selectors.js';
+import { getModalShow, getParentComment } from './redux/selectors.js';
 
 import CommentVoteContainer from './CommentVoteContainer';
 import CircleRotate from './Loaders/CircleRotate.js';
@@ -19,7 +19,7 @@ function CommentModal(props) {
 
   const modalShow = useSelector(getModalShow);
   const parentComment = useSelector(getParentComment);
-  
+
   const [ submitLoading, setSubmitLoading ] = useState(false);
   const [ message, setMessage ] = useState("");
 
@@ -237,113 +237,13 @@ function CommentModal(props) {
   );
 }
 
-function ArchiveModal(props){
-  const dispatch = useDispatch();
-  const archiveModalShow = useSelector(getArchiveModalShow);
-  const styling = css`
-    ${'' /* border: 4px solid red; */}
-
-    position: fixed;
-    z-index: 5;
-    opacity: 0%;
-    text-align: center;
-    margin: 0;
-
-    top: -100%;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    transition: 0.8s ease-in-out;
-
-    &.open {
-      opacity: 100%;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-    }
-
-    .background {
-      ${'' /* border: 1px solid blue; */}
-
-      position: absolute;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-
-      background-color: rgba(171, 171, 171, 0.52);
-
-      cursor: pointer;
-
-      transition: 0.8s ease-in-out;
-    }
-
-    .menu {
-      ${'' /* border: 1px solid red; */}
-
-      min-width: 35%;
-      max-height: 0;
-      margin-bottom: 200%;
-      border-radius: 10px;
-      padding: 0px 10px;
-
-      box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.49);
-
-      background-color: rgb(255, 255, 255);
-      z-index: 2;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-
-      overflow: hidden;
-
-      transition: 0.8s ease-in-out;
-    }
-
-    .menu.open {
-      margin-bottom: 0;
-      min-height: 100px;
-    }
-
-    .menu h3 {
-      @import url('https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap');
-      font-family: 'Odibee Sans', cursive;
-      font-weight: 500;
-      font-size: 24px;
-      color: red;
-      line-height: 100px;
-      vertical-align: center;
-    }`;
-
-  return(
-    <div css={styling} className={archiveModalShow === true ? "open" : ""}>
-    <div className="background" onClick={
-      () => {
-        dispatch(setArchiveModalShow(false));
-      }
-    }></div>
-    <div className={archiveModalShow === true ? "menu open" : "menu"}>
-      <h3>This post is archived, voting and commenting are not allowed.</h3>
-    </div>
-  </div>
-
-  );
-}
-
 function CommentParser(props) {
   const dispatch = useDispatch();
 
   const styling = css`
-    ${'' /* border: 1px solid red; */}
+    ${'' /* border: 3px solid red; */}
+
+    width: 100%;
 
     .comment-container.depth-1 {
       border-left: 2px solid rgb(233, 233, 233);
@@ -390,7 +290,7 @@ function CommentParser(props) {
     }
 
     .comment-actions {
-      ${'' /* border: 2px solid red; */}
+      ${'' /* border: 2px solid blue; */}
 
       display: flex;
       flex-direction: row;
@@ -404,6 +304,26 @@ function CommentParser(props) {
 
     .comment-button {
 
+    }
+
+    .comment-container {
+      ${'' /* border: 1px solid green; */}
+
+      ${'' /* width: 70%; */}
+    }
+
+    .comment-box{
+      ${'' /* border: 2px solid black; */}
+
+      padding: 15px;
+      margin: 10px 0px;
+      margin-left: 10px;
+      border-radius: 10px;
+
+      background-color: rgb(242,242,242);
+      box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
+
+      transition: box-shadow 0.5s ease;
     }
   `;
 
@@ -517,20 +437,6 @@ function PostPage(props) {
   const styling = css`
     position: relative;
 
-    .comment-box{
-      position: relative;
-      padding: 15px;
-      height: auto;
-      min-width: 250px;
-      margin-bottom: 10px;
-      margin-top: 10px;
-      border-radius: 10px;
-      margin-left: 20px;
-      background-color: rgb(242,242,242);
-      box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.4);
-      -webkit-transition: box-shadow 0.5s ease;
-      transition: box-shadow 0.5s ease;
-    }
     .post-container{
       ${'' /* border: 1px solid red; */}
 
@@ -594,11 +500,13 @@ function PostPage(props) {
 
 
     .comments-area{
+      ${'' /* border: 1px solid red; */}
+
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-end;
-      width: 80%;
+      align-items: center;
+      ${'' /* justify-content: flex-end; */}
+      width: 90%;
       margin: auto;
     }
 
@@ -634,8 +542,13 @@ function PostPage(props) {
       );
       responseBody = await response.json();
       console.log("POST DATA:", responseBody);
+
       if (responseBody.error) {
-        window.location.href = "/login";
+        if (responseBody.error === 401) {
+          window.location.href = "/login";
+        } else if (responseBody.error === 404) {
+          window.location.href = "/404";
+        }
       }
 
       setPostPageData(responseBody)
@@ -707,7 +620,6 @@ function PostPage(props) {
   return (
     <div css={styling}>
       <CommentModal />
-      <ArchiveModal />
       {loadingPost ? (
         <div className="bubble-container">
           <PulseBubble />

@@ -86,6 +86,14 @@ function Trophy(props) {
       responseBody = await response.json();
       console.log(responseBody);
 
+      if (responseBody.error) {
+        if (responseBody.error === 401) {
+          window.location.href = "/login";
+        } else if (responseBody.error === 404) {
+          window.location.href = "/404";
+        }
+      }
+
       setTrophyData(responseBody)
       setLoadingTrophies(false)
     }
