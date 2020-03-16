@@ -50,15 +50,16 @@ function RedditLink(props) {
       margin: 0px;
     }
 
-    .post-box .title {
-      ${'' /* border: 1px solid black; */}
+    .post-box .title-container {
+      ${'' /* border: 1px solid red; */}
 
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
 
-    .post-box .title h3 {
+    .post-box .title-container h3 {
       margin: 0px 3px;
 
       text-align: left;
@@ -75,7 +76,7 @@ function RedditLink(props) {
       justify-content: flex-end;
     }
 
-    .post-box .title p {
+    .post-box .title-container p {
       margin: 0px 3px;
 
       text-align: left;
@@ -119,13 +120,22 @@ function RedditLink(props) {
 
     .actions .stretch {
       flex-grow: 10;
-    }
+    }row
 
     .post-box .actions p {
       ${'' /* border: 1px solid black; */}
 
       margin: 0px 5px;
     }
+
+
+    ${'' /* @media (max-width: 900px) {
+      .post-box .title-container {
+        border: 1px solid green;
+
+        flex-direction: column;
+      }
+    } */}
   `;
 
 // archived
@@ -151,7 +161,7 @@ function RedditLink(props) {
     <div css={styling}>
       <div className="post-box">
         {console.log(props.data)}
-        <div className="title">
+        <div className="title-container">
           <h3><a className="title" href={props.data.data.is_self ? "/" + props.data.data.subreddit_name_prefixed + "/" + props.data.data.id : props.data.data.url}>{props.data.data.title}</a></h3>
           <div className="post-info">
             <p>by <a className="user" href={"/user/" + props.data.data.author}>{props.data.data.author}</a></p>
@@ -192,7 +202,6 @@ function RedditLink(props) {
           <VoteContainer data={props.data} dir="horizontal" />
           <div className="stretch"></div>
           <p><a href={"/r/" + props.data.data.subreddit + "/" + props.data.data.id}>Comments ({props.data.data.num_comments})</a></p>
-          {/* <p><a className="context" href={"https://www.reddit.com/" + props.data.data.permalink}>Context</a></p> */}
         </div>
       </div>
     </div>

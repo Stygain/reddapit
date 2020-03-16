@@ -12,6 +12,8 @@ import CircleRotate from './Loaders/CircleRotate.js';
 function LoginPage(props) {
   const dispatch = useDispatch();
 
+  const [ buttonText, setButtonText ] = useState("Enter");
+
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ secret, setSecret ] = useState("");
@@ -159,9 +161,22 @@ function LoginPage(props) {
             body: ("grant_type=password&username=" + username + "&password=" + password)
           }
         );
-        // TODO add error handling
         responseBody = await response.json();
         console.log(responseBody);
+        if (responseBody.error) {
+          setSubmitLoading(false);
+          setDisableInputs(false);
+          setButtonText("Failed");
+          await new Promise(r => setTimeout(r, 2000));
+          setButtonText("Enter");
+          setUsername('')
+          setPassword('')
+          setSecret('')
+          setClientId('')
+          setAppName('')
+          setAppVersion('')
+          return;
+        }
 
         // Set cookies for our login information
         setCookie('accessToken', responseBody.access_token);
@@ -170,6 +185,8 @@ function LoginPage(props) {
         setCookie('appVersion', appVersion);
         console.log(cookies);
 
+        await new Promise(r => setTimeout(r, 2000));
+        setButtonText("Enter");
         setSubmitLoading(false);
         setDisableInputs(false);
         setUsername('')
@@ -178,9 +195,9 @@ function LoginPage(props) {
         setClientId('')
         setAppName('')
         setAppVersion('')
+        window.location.href = "/";
       }
       fetchAccessToken();
-      // window.location.href = "/";
     }
   }
 
@@ -248,7 +265,7 @@ function LoginPage(props) {
               <CircleRotate />
             </div>
           :
-            <button type="action" className="action">Enter</button>
+            <button type="action" className="action">{buttonText}</button>
           }
         </form>
       </div>
